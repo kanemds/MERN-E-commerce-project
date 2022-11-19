@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const path = require('path')
 require('dotenv').config()
 const { logger } = require('./middleware/logger')
+const errorHandler = require('./middleware/errorHandler')
 
 const PORK = 3002
 const DB = process.env.MONGODB_URL
@@ -17,6 +18,7 @@ mongoose
     })
   })
 
+//logger needs to at the beginning
 app.use(logger)
 app.use(express.json())
 app.use('/', require('./routes/root'))
@@ -32,3 +34,6 @@ app.all('*', (req, res) => {
     res.type('txt').send('404 Not Found')
   }
 })
+
+// errorHandler needs to at the end
+app.use(errorHandler)
