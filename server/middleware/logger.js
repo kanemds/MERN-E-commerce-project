@@ -7,7 +7,7 @@ const { is } = require('date-fns/locale')
 
 const logEvents = async (message, logFileName) => {
   const dateTime = `${format(new Date(), 'yyyMMdd\thh:mm:ss')}`
-  const logItem = `${dateTime}\t{uuid()}\t${message}\n`
+  const logItem = `${dateTime}\t${uuid()}\t${message}\n`
 
   try {
     if (!fs.existsSync(path.join(__dirname, '..', 'logs'))) {
