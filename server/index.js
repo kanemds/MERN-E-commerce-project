@@ -16,9 +16,5 @@ mongoose
     })
   })
 
-app.get('/', (req, res) => {
-  res.send('Hello World')
-})
-
-app.use('/', require('routes/root'))
+app.use('/', require('./routes/root'))
 app.use('/', express.static(path.join(__dirname, '/public')))
