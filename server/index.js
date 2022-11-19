@@ -5,22 +5,19 @@ const path = require('path')
 require('dotenv').config()
 const { logger } = require('./middleware/logger')
 const errorHandler = require('./middleware/errorHandler')
+const cookieParser = require('cookie-parser')
+const cors = require('cors')
+const corsOptions = require('./config/corsOptions')
 
 const PORK = 3002
 const DB = process.env.MONGODB_URL
 
-mongoose
-  .connect(DB)
-  .then(() => {
-    console.log('Connected to MongoDB')
-    app.listen(PORK, () => {
-      console.log(`connected to server: ${PORK}`)
-    })
-  })
 
 //logger needs to at the beginning
 app.use(logger)
+app.use(cors(corsOptions))
 app.use(express.json())
+app.use(cookieParser())
 app.use('/', require('./routes/root'))
 // app.use(express.static('public'))
 app.use('/', express.static(path.join(__dirname, 'public')))
@@ -37,3 +34,12 @@ app.all('*', (req, res) => {
 
 // errorHandler needs to at the end
 app.use(errorHandler)
+
+mongoose
+  .connect(DB)
+  .then(() => {
+    console.log('Connected to MongoDB')
+    app.listen(PORK, () => {
+      console.log(`connected to server: ${PORK}`)
+    })
+  })
