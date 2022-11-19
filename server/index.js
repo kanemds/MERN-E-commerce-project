@@ -3,6 +3,7 @@ const app = express()
 const mongoose = require('mongoose')
 const path = require('path')
 require('dotenv').config()
+const { logger } = require('./middleware/logger')
 
 const PORK = 3002
 const DB = process.env.MONGODB_URL
@@ -16,8 +17,11 @@ mongoose
     })
   })
 
+app.use(logger)
+app.use(express.json())
 app.use('/', require('./routes/root'))
-app.use('/', express.static(path.join(__dirname, '/public')))
+// app.use(express.static('public'))
+app.use('/', express.static(path.join(__dirname, 'public')))
 app.all('*', (req, res) => {
   res.status(404)
   if (req.accepts('html')) {
