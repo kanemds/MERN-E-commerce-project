@@ -3,15 +3,19 @@ const app = express()
 const mongoose = require('mongoose')
 const path = require('path')
 require('dotenv').config()
-const { logger } = require('./middleware/logger')
+const { logger, logEvents } = require('./middleware/logger')
 const errorHandler = require('./middleware/errorHandler')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const corsOptions = require('./config/corsOptions')
+const connectDB = require('./config/dbConnection')
+const mongoose = require('mongoose')
+
 
 const PORK = 3002
 const DB = process.env.MONGODB_URL
 
+connectDB()
 
 //logger needs to at the beginning
 app.use(logger)
@@ -35,11 +39,14 @@ app.all('*', (req, res) => {
 // errorHandler needs to at the end
 app.use(errorHandler)
 
-mongoose
-  .connect(DB)
-  .then(() => {
-    console.log('Connected to MongoDB')
-    app.listen(PORK, () => {
-      console.log(`connected to server: ${PORK}`)
-    })
+mongoose.connection.once('open', () => {
+  console.log('Connected to MongoDB')
+  app.listen(PORK, () => {
+    console.log(`Server is running on: ${PORK}`)
   })
+})
+
+mongoose.connection.on('error', error => {
+  console.log(error)
+  logEvents(`${error.no}: ${error.code}\t${error.syscall}\t${error.hostname}`, 'mongoErrorLog.log')
+})
