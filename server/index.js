@@ -13,7 +13,7 @@ const mongoose = require('mongoose')
 
 
 const PORK = 3002
-const DB = process.env.MONGODB_URL
+
 
 connectDB()
 
