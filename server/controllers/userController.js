@@ -41,6 +41,38 @@ const createUser = asynceHandler(async (req, res) => {
 })
 
 const updateUser = asynceHandler(async (req, res) => {
+  const { id, username, roles, active, password } = req.body
+
+  if (!id || !username || !Array.isArray(roles) || !roles.length || typeof active !== 'boolean') {
+    return res.status(400).json({ message: 'All fields are required' })
+  }
+
+  const user = await User.findById(id).exec()
+
+  if (!user) {
+    return res.status(400).json({ message: 'User not Found' })
+  }
+
+  // check if user already exist
+  const duplicate = await User.findOne({ username }).lean().exec()
+
+  // make sure duplicate function is finish
+  // if update username's id is not equal to current edit id means username already exist on other id  
+  if (duplicate && duplicate?._id.toString() !== id) {
+    return res.status(409).json({ message: 'User already exist, please try another one' })
+  }
+
+  user.username = username
+  user.roles = roles
+  user.active = active
+
+  if (password) {
+    user.password = await bcrypt.hash(password, 10)
+  }
+
+  const update = await user.save()
+
+  res.json({ message: `${update.username} updated` })
 
 })
 
