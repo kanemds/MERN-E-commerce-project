@@ -9,7 +9,7 @@ const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const corsOptions = require('./config/corsOptions')
 const connectDB = require('./config/dbConnection')
-const mongoose = require('mongoose')
+
 
 
 const PORK = 3002

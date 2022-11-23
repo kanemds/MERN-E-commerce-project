@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt')
 const getAllUsers = asynceHandler(async (req, res) => {
   //  lean() returns a JavaScript object instead of a Mongoose document.
   const users = await User.find().select('-password').lean()
-  if (!users) {
+  if (!users?.length) {
     return res.status(400).json({ message: 'No users found' })
   }
   res.json(users)
@@ -83,9 +83,9 @@ const deleteUser = asynceHandler(async (req, res) => {
     return res.status(400).json({ message: 'user ID required ' })
   }
 
-  const notes = await Note.findOne({ user: id }).lean().exec()
+  const note = await Note.findOne({ user: id }).lean().exec()
 
-  if (notes?.length) {
+  if (note) {
     return res.status(400).json({ message: 'user has assigned notes' })
   }
 
