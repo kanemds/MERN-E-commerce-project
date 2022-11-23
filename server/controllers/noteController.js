@@ -66,6 +66,25 @@ const updateNote = asynceHandler(async (req, res) => {
 
 })
 
-const deleteNote = asynceHandler(async (req, res) => { })
+const deleteNote = asynceHandler(async (req, res) => {
+  const { id } = req.body
+
+  if (!id) {
+    return res.status(400).json({ message: 'note Id required' })
+  }
+
+  const note = await Note.findById(id).exec()
+
+  if (!note) {
+    return res.status(400).json({ message: 'Note not Found' })
+  }
+
+  const result = await note.deleteOne()
+
+  const reply = `Note ${result.title} with ID ${result._id} deleted`
+
+  res.json(reply)
+
+})
 
 module.exports = { getAllNotes, createNote, updateNote, deleteNote }
