@@ -14,7 +14,10 @@ const getAllNotes = asynceHandler(async (req, res) => {
 const createNote = asynceHandler(async (req, res) => {
   const { user, title, text } = req.body
 
-  if (!user || !title || !text) {
+  const existUser = await User.findById(user).exec()
+  if (!existUser) return res.status(400).json({ message: 'User not Found' })
+
+  if (!existUser || !title || !text) {
     return res.status(400).json({ message: 'All fields are required' })
   }
 
@@ -24,7 +27,7 @@ const createNote = asynceHandler(async (req, res) => {
     return res.status(409).json({ message: 'Title already exist, please try again' })
   }
 
-  const noteObject = { user, title, text }
+  const noteObject = { user: existUser, title, text }
 
   const note = await Note.create(noteObject)
 
@@ -39,7 +42,10 @@ const createNote = asynceHandler(async (req, res) => {
 const updateNote = asynceHandler(async (req, res) => {
   const { id, user, title, text, completed } = req.body
 
-  if (!id || !user || !title || !text || typeof completed !== 'boolean') {
+  const existUser = await User.findById(user).exec()
+  if (!existUser) return res.status(400).json({ message: 'User not Found' })
+
+  if (!id || !existUser || !title || !text || typeof completed !== 'boolean') {
     return res.status(400).json({ message: 'All fields are required' })
   }
 
@@ -55,7 +61,7 @@ const updateNote = asynceHandler(async (req, res) => {
     return res.status(409).json({ message: 'Note already exist, please try another one' })
   }
 
-  note.user = user
+  note.user = existUser
   note.title = title
   note.text = text
   note.completed = completed
