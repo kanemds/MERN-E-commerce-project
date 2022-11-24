@@ -57,7 +57,7 @@ const updateNote = asynceHandler(async (req, res) => {
 
   const duplicate = await Note.findOne({ title }).lean().exec()
 
-  if (duplicate && duplicate?._id.toHexString() !== id) {
+  if (duplicate && duplicate?._id.toString() !== id) {
     return res.status(409).json({ message: 'Note already exist, please try another one' })
   }
 
