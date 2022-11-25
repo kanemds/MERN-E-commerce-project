@@ -12,18 +12,14 @@ const Navbar = () => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link href='/' underline='none' color='white'>K Reparis</Link>
-          </Typography>
+          <Box sx={{ flexGrow: 1, display: 'flex' }}>
+            <Typography variant="h6" component="div">
+              <Link href='/' underline='none' color='white'>K Reparis</Link>
+            </Typography>
+            <Typography variant="h6" component="div" sx={{ ml: 2 }} >
+              <Link href='/dash' underline='none' color='white'> Dash Board</Link>
+            </Typography>
+          </Box>
           <Button color="inherit" onClick={() => navigate('/login')}>Login</Button>
           <Button color="inherit" onClick={() => navigate('/register')}>Register</Button>
         </Toolbar>
