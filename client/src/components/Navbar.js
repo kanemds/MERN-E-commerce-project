@@ -1,15 +1,15 @@
 import React from 'react'
 import AppBar from '@mui/material/AppBar'
-import Box from '@mui/material/Box'
-import Toolbar from '@mui/material/Toolbar'
-import Typography from '@mui/material/Typography'
-import Button from '@mui/material/Button'
-import IconButton from '@mui/material/IconButton'
+import { Box, Toolbar, Typography, Button, IconButton } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
+import { useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
+
+  const navigate = useNavigate()
+
   return (
-    <Box sx={{ flexGrow: 1, height: '5vh' }}>
+    <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
           <IconButton
@@ -24,8 +24,8 @@ const Navbar = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             K Reparis
           </Typography>
-          <Button color="inherit">Login</Button>
-          <Button color="inherit">Register</Button>
+          <Button color="inherit" onClick={() => navigate('/login')}>Login</Button>
+          <Button color="inherit" onClick={() => navigate('/register')}>Register</Button>
         </Toolbar>
       </AppBar>
     </Box>
