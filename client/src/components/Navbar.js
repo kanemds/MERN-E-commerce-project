@@ -1,6 +1,6 @@
 import React from 'react'
 import AppBar from '@mui/material/AppBar'
-import { Box, Toolbar, Typography, Button, IconButton } from '@mui/material'
+import { Box, Toolbar, Typography, Button, IconButton, Link } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import { useNavigate } from 'react-router-dom'
 
@@ -22,7 +22,7 @@ const Navbar = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            K Reparis
+            <Link href='/' underline='none' color='white'>K Reparis</Link>
           </Typography>
           <Button color="inherit" onClick={() => navigate('/login')}>Login</Button>
           <Button color="inherit" onClick={() => navigate('/register')}>Register</Button>
