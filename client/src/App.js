@@ -1,17 +1,18 @@
-import './App.css'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Layout from './components/Layout'
+import Public from './pages/Public'
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Layout />}>
+        <Route path='/' element={<Layout />} >
+          <Route index element={<Public />} />
 
         </Route>
       </Routes>
 
-    </Router>
+    </BrowserRouter >
   )
 }
 
