@@ -1,8 +1,12 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Layout from './components/Layout'
-import Login from './components/Login'
-import Register from './components/Register'
+import Login from './pages/Login'
+import Register from './pages/Register'
 import Public from './pages/Public'
+import DashBoard from './pages/DashBoard'
+import UserList from './pages/UserList'
+import NoteList from './pages/NoteList'
+import DashBoardLayout from './components/DashBoardLayout'
 
 
 function App() {
@@ -13,6 +17,20 @@ function App() {
           <Route index element={<Public />} />
           <Route path='login' element={<Login />} />
           <Route path='register' element={<Register />} />
+
+          <Route path='dash' element={<DashBoardLayout />}>
+
+            <Route index element={<DashBoard />} />
+
+            <Route path='users'>
+              <Route index element={<UserList />} />
+            </Route>
+
+            <Route path='notes'>
+              <Route index element={<NoteList />} />
+            </Route>
+
+          </Route>
         </Route>
       </Routes>
 
