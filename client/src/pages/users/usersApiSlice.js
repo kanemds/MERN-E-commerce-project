@@ -1,10 +1,10 @@
 import { createSelector, createEntityAdapter } from "@reduxjs/toolkit"
 import { apiSlice } from "../../app/api/apiSlice"
 
-const userAdapter = createEntityAdapter({})
+const usersAdapter = createEntityAdapter({})
 
 //Returns a new entity state object like {ids: [], entities: {}}
-const initialState = userAdapter.getInitialState()
+const initialState = usersAdapter.getInitialState()
 
 export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
@@ -22,7 +22,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
           user.id = user._id
           return user
         })
-        return userAdapter.setAll(initialState, loadedUsers)
+        return usersAdapter.setAll(initialState, loadedUsers)
       },
       providesTags: (result, error, arg) => {
         if (result?.ids) {
@@ -52,7 +52,7 @@ export const {
   selectAll: selectAllUsers,
   selectById: selectUserById,
   selectIds: selectUserIds
-} = userAdapter.getSelectors(state => selectUsersData(state) ?? initialState)
+} = usersAdapter.getSelectors(state => selectUsersData(state) ?? initialState)
 // The Nullish Coalescing Operator
 // returns the first argument if it is not nullish (null or undefined)
 
