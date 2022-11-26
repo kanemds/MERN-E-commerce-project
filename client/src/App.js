@@ -4,8 +4,8 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Public from './pages/Public'
 import DashBoard from './pages/DashBoard'
-import UserList from './pages/users/UserList'
-import NoteList from './pages/notes/NoteList'
+import UsersList from './pages/users/UsersList'
+import NotesList from './pages/notes/NotesList'
 import DashBoardLayout from './components/DashBoardLayout'
 
 
@@ -23,11 +23,11 @@ function App() {
             <Route index element={<DashBoard />} />
 
             <Route path='users'>
-              <Route index element={<UserList />} />
+              <Route index element={<UsersList />} />
             </Route>
 
             <Route path='notes'>
-              <Route index element={<NoteList />} />
+              <Route index element={<NotesList />} />
             </Route>
 
           </Route>
