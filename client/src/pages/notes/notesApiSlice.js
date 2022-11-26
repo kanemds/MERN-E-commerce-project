@@ -1,16 +1,15 @@
 import { createSelector, createEntityAdapter } from "@reduxjs/toolkit"
-import { response } from "express"
 import { apiSlice } from "../../app/api/apiSlice"
 
-const userAdapter = createEntityAdapter({})
+const notesAdapter = createEntityAdapter({})
 
 //Returns a new entity state object like {ids: [], entities: {}}
-const initialState = userAdapter.getInitialState()
+const initialState = notesAdapter.getInitialState()
 
-export const usersApiSlice = apiSlice.injectEndpoints({
+export const notesApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
-    getUsers: builder.query({
-      query: () => '/users',
+    getNotes: builder.query({
+      query: () => '/notes',
       validateStatus: (response, result) => {
         // need to added in !result.isError, by default always 200
         return response.status === 200 && !result.isError
@@ -18,41 +17,45 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       //default 60s
       keepUnusedDataFor: 5,
       transformResponse: responseData => {
-        const loadedUsers = responseData.map(user => {
-          user.id = user._id
-          return user
+        const loadedNotes = responseData.map(note => {
+          // since our backend mongodb ._id
+          note.id = note._id
+          return note
         })
-        return userAdapter.setAll(initialState, loadedUsers)
+        return notesAdapter.setAll(initialState, loadedNotes)
       },
       providesTags: (result, error, arg) => {
         if (result?.ids) {
           return [
-            { type: 'User', id: 'LIST' },
-            ...result.ids.map(id => ({ type: 'User', id }))
+            { type: 'note', id: 'LIST' },
+            ...result.ids.map(id => ({ type: 'note', id }))
           ]
-        } else return [{ type: 'User', id: 'LIST' }]
+        } else return [{ type: 'note', id: 'LIST' }]
       }
     })
   })
 })
 
-export const { useGetUsersQuery } = usersApiSlice
+export const { useGetNotesQuery } = notesApiSlice
 
 // selector function without arg api.endpoints.getPosts.select({ page: 5 })
 // then called as selector(state) or passed into useSelector(selector)
 // altogether end up with api.endpoints.getPosts.select()(state)
-export const selectUsersResult = usersApiSlice.endpoints.getUsers.select()
+export const selectNotesResult = notesApiSlice.endpoints.getnotes.select()
 
-const selectUsersData = createSelector(
-  selectUsersResult,
-  state => state.data
+const selectNotesData = createSelector(
+  selectNotesResult,
+  state => state.data // normalized state object with ids & entities
 )
 
 export const {
-  selectAll: selectAllUsers,
-  selectById: selectUserById,
-  selectIds: selectUserIds
-} = userAdapter.getSelectors(state => selectUsersData(state) ?? initialState)
+  selectAll: selectAllNotes,
+  selectById: selectNoteById,
+  selectIds: selectNoteIds
+} = notesAdapter.getSelectors(state => selectNotesData(state) ?? initialState)
+// The Nullish Coalescing Operator
+// returns the first argument if it is not nullish (null or undefined)
+
 
 // exsample
 // const store = configureStore({
