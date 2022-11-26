@@ -4,8 +4,8 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Public from './pages/Public'
 import DashBoard from './pages/DashBoard'
-import UserList from './pages/UserList'
-import NoteList from './pages/NoteList'
+import UserList from './pages/users/UserList'
+import NoteList from './pages/notes/NoteList'
 import DashBoardLayout from './components/DashBoardLayout'
 
 
