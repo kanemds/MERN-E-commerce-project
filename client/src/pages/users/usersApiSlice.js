@@ -43,11 +43,12 @@ export const { useGetUsersQuery } = usersApiSlice
 // altogether end up with api.endpoints.getPosts.select()(state)
 export const selectUsersResult = usersApiSlice.endpoints.getUsers.select()
 
+
 const selectUsersData = createSelector(
   selectUsersResult,
   state => state.data // normalized state object with ids & entities
 )
-
+console.log(selectUsersData)
 export const {
   selectAll: selectAllUsers,
   selectById: selectUserById,
