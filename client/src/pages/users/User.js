@@ -8,33 +8,35 @@ import EditIcon from '@mui/icons-material/Edit'
 const User = ({ userId }) => {
 
   const user = useSelector(state => selectUserById(state, userId))
-  console.log(user)
 
   const navigate = useNavigate()
 
   if (user) {
+    const handleEdit = () => navigate(`/dash/users/${userId}`)
+    // replaceAll(a, to b)
+    const userRolesString = user.roles.toString().replaceAll(',', ', ')
 
+
+    return (
+      <TableBody>
+
+        <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+          <TableCell component="th" scope="row">
+            {user.username}
+          </TableCell>
+          <TableCell align="left">{userRolesString}</TableCell>
+          <TableCell align="center">
+            <Button onClick={handleEdit}>
+              <EditIcon />
+            </Button>
+          </TableCell>
+        </TableRow>
+
+      </TableBody>
+    )
   } else {
     return null
   }
-
-  return (
-    <TableBody>
-
-      <TableRow
-
-        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-      >
-        <TableCell component="th" scope="row">
-          {user.username}
-        </TableCell>
-        <TableCell align="left">{user.roles}</TableCell>
-        <TableCell align="center"><Button><EditIcon /></Button></TableCell>
-
-      </TableRow>
-
-    </TableBody>
-  )
 }
 
 export default User 
