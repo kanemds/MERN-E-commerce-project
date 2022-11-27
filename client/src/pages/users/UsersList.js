@@ -1,7 +1,7 @@
 import React from 'react'
 import { useGetUsersQuery } from './usersApiSlice'
 import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material'
-
+import User from './User'
 
 function createData(
   name: string,
@@ -52,27 +52,23 @@ const UserList = () => {
     console.log(users)
     console.log(ids)
 
-    // const tableContent = ids?.length ?
-    //   ids.map(userId => <User key={userId} userId={userId} />)
-    //   : null
+    const tableContent = ids?.length ?
+      ids.map(userId => <User key={userId} userId={userId} />)
+      : null
 
 
-
-  }
-
-  return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
+    content = (
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>User Name</TableCell>
+              <TableCell align="left">Role</TableCell>
+              <TableCell align="center">Edit</TableCell>
+            </TableRow>
+          </TableHead>
+          {tableContent}
+          {/* <TableBody>
           {rows.map((row) => (
             <TableRow
               key={row.name}
@@ -87,10 +83,16 @@ const UserList = () => {
               <TableCell align="right">{row.protein}</TableCell>
             </TableRow>
           ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  )
+        </TableBody> */}
+        </Table>
+      </TableContainer>
+    )
+  }
+
+
+  return content
+
+
 }
 
 export default UserList
