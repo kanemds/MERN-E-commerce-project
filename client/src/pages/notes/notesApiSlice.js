@@ -41,7 +41,7 @@ export const { useGetNotesQuery } = notesApiSlice
 // selector function without arg api.endpoints.getPosts.select({ page: 5 })
 // then called as selector(state) or passed into useSelector(selector)
 // altogether end up with api.endpoints.getPosts.select()(state)
-export const selectNotesResult = notesApiSlice.endpoints.getnotes.select()
+export const selectNotesResult = notesApiSlice.endpoints.getNotes.select()
 
 const selectNotesData = createSelector(
   selectNotesResult,
