@@ -32,10 +32,10 @@ const Note = ({ noteId }) => {
               <Typography>Open</Typography>
             }
           </TableCell>
-          <TableCell align="left">{note.createdAt}</TableCell>
-          <TableCell align="left">{note.updatedAt}</TableCell>
+          <TableCell align="left">{createdAt}</TableCell>
+          <TableCell align="left">{updatedAt}</TableCell>
           <TableCell align="left">{note.title}</TableCell>
-          <TableCell align="left">{note.username}</TableCell>
+          <TableCell align="left">{note.user}</TableCell>
           <TableCell align="center">
             <Button onClick={handleEdit}>
               <EditIcon />
