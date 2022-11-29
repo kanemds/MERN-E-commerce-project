@@ -7,6 +7,10 @@ import DashBoard from './pages/DashBoard'
 import UsersList from './pages/users/UsersList'
 import NotesList from './pages/notes/NotesList'
 import DashBoardLayout from './components/DashBoardLayout'
+import EditUser from './pages/users/EditUser'
+import NewUserForm from './pages/users/NewUserForm'
+import EditNote from './pages/notes/EditNote'
+import NewNote from './pages/notes/NewNote'
 
 
 function App() {
@@ -24,10 +28,14 @@ function App() {
 
             <Route path='users'>
               <Route index element={<UsersList />} />
+              <Route path=':id' element={<EditUser />} />
+              <Route path='new' element={<NewUserForm />} />
             </Route>
 
             <Route path='notes'>
               <Route index element={<NotesList />} />
+              <Route path=':id' element={<EditNote />} />
+              <Route path='new' element={<NewNote />} />
             </Route>
 
           </Route>
