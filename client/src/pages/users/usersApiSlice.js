@@ -32,11 +32,43 @@ export const usersApiSlice = apiSlice.injectEndpoints({
           ]
         } else return [{ type: 'User', id: 'LIST' }]
       }
+    }),
+    addNewUser: builder.mutation({
+      query: newUserData => ({
+        url: '/users',
+        method: 'POST',
+        body: newUserData
+      }),
+      // after this mutation, the invalidatesTags data will be invalidate and this will cause re-fetch data
+      invalidatesTags: [
+        { type: 'User', id: 'LIST' }
+      ]
+    }),
+    updateUser: builder.mutation({
+      query: updateUserData => ({
+        url: '/users',
+        method: 'PATCH',
+        body: updateUserData
+      }),
+      invalidatesTags: (result, error, arg) => [
+        { type: 'User', id: arg.id }
+      ]
+    }),
+    deleteUser: builder.mutation({
+      query: ({ id }) => ({
+        url: '/users',
+        method: 'DELETE',
+        body: { id }
+      }),
+      invalidatesTags: (result, error, arg) => [
+        { type: 'User', id: arg.id }
+      ]
     })
   })
 })
 
-export const { useGetUsersQuery } = usersApiSlice
+
+export const { useGetUsersQuery, useAddNewUserMutation, useUpdateUserMutation, useDeleteUserMutation } = usersApiSlice
 
 // selector function without arg api.endpoints.getPosts.select({ page: 5 })
 // then called as selector(state) or passed into useSelector(selector)
@@ -48,7 +80,7 @@ const selectUsersData = createSelector(
   selectUsersResult,
   state => state.data // normalized state object with ids & entities
 )
-console.log(selectUsersData)
+
 export const {
   selectAll: selectAllUsers,
   selectById: selectUserById,

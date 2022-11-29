@@ -45,7 +45,7 @@ const NotesList = () => {
               <TableCell align="left">Created</TableCell>
               <TableCell align="left">Updated</TableCell>
               <TableCell align="left">Title</TableCell>
-              <TableCell align="left">Owner</TableCell>
+              <TableCell align="left">Creater</TableCell>
               <TableCell align="center">Edit</TableCell>
             </TableRow>
           </TableHead>
