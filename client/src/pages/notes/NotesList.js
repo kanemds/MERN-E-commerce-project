@@ -41,8 +41,11 @@ const NotesList = () => {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>User Name</TableCell>
-              <TableCell align="left">Role</TableCell>
+              <TableCell>Ticket Status</TableCell>
+              <TableCell align="left">Created</TableCell>
+              <TableCell align="left">Updated</TableCell>
+              <TableCell align="left">Title</TableCell>
+              <TableCell align="left">Owner</TableCell>
               <TableCell align="center">Edit</TableCell>
             </TableRow>
           </TableHead>
