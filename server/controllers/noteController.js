@@ -1,7 +1,7 @@
 const User = require('../models/User')
 const Note = require('../models/Note')
 const asynceHandler = require('express-async-handler')
-const { json } = require('express')
+
 
 const getAllNotes = asynceHandler(async (req, res) => {
   const allNotes = await Note.find().lean()
