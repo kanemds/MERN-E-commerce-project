@@ -2,12 +2,16 @@ import React, { useState, useEffect } from 'react'
 import { useAddNewUserMutation } from '../users/usersApiSlice'
 import { useNavigate } from 'react-router-dom'
 import { ROLES } from '../../config/roles'
-import { Paper, Box, Button, TextField, Typography, Link, Radio, RadioGroup, FormControl, FormControlLabel, FormLabel, Select } from '@mui/material'
-import InputAdornment from '@mui/material/InputAdornment'
-import OutlinedInput from '@mui/material/OutlinedInput'
-import InputLabel from '@mui/material/InputLabel'
-import MenuItem from '@mui/material/MenuItem'
-import JobPosition from '../../components/JobPosition'
+import { Paper, Box, Button, TextField, Typography, Link, Checkbox } from '@mui/material'
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked'
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked'
+import { styled } from '@mui/material/styles'
+
+const SelectedPosition = styled(Box)(() => ({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center'
+}))
 
 
 
@@ -71,10 +75,11 @@ const NewUserForm = () => {
 
   const options = Object.values(ROLES).map(role => {
     return (
-      <MenuItem
+      <option
         key={role}
         value={role}
-      > {role}</MenuItem>
+
+      > {role}</option >
     )
   })
 
@@ -104,15 +109,29 @@ const NewUserForm = () => {
           <TextField fullWidth autoComplete='off' type='password' label='Password' variant='outlined' required sx={{ m: 3 }}
             onChange={e => setPassword(e.target.value)}
           />
+          <Typography variant='h8' >Password required at least: one number and one "!@#$%" special charater </Typography>
           {validPassword || password.length === 0 ? "" : <Typography>Invalided Password</Typography>}
           <TextField fullWidth autoComplete='off' type='password' label='Password Comfirm' variant='outlined' required sx={{ m: 3 }}
             onChange={e => setComfirm(e.target.value)}
           />
           {isMatch || comfirm.length === 0 ? "" : <Typography>Please match with password</Typography>}
 
-          <Typography variant='h8' sx={{ m: 3 }}>Password must be 4 to 24 charaters and includes following: <br />
-            one number and one of "!@#$%" special charater</Typography>
-          <JobPosition />
+          <Typography> Assigned Position:</Typography>
+          <Box sx={{ display: 'flex', m: 2 }}>
+            <SelectedPosition>
+              <Typography>Employee</Typography>
+              <Checkbox icon={<RadioButtonUncheckedIcon />} checkedIcon={<RadioButtonCheckedIcon />} />
+            </SelectedPosition>
+            <SelectedPosition>
+              <Typography>Manager</Typography>
+              <Checkbox icon={<RadioButtonUncheckedIcon />} checkedIcon={<RadioButtonCheckedIcon />} />
+            </SelectedPosition>
+            <SelectedPosition>
+              <Typography>Owner</Typography>
+              <Checkbox icon={<RadioButtonUncheckedIcon />} checkedIcon={<RadioButtonCheckedIcon />} />
+            </SelectedPosition>
+          </Box>
+
           <Button disabled={!canSave} onClick={handleSubmit}>Submit</Button>
           <Button><Link href='/' underline="none">Cancel</Link></Button>
         </Paper>
