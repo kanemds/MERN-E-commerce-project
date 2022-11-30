@@ -2,22 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { useAddNewUserMutation } from '../users/usersApiSlice'
 import { useNavigate } from 'react-router-dom'
 import { ROLES } from '../../config/roles'
-import { Paper, Box, Button, TextField, Typography, Link } from '@mui/material'
-import { useTheme } from '@mui/material/styles'
-import OutlinedInput from '@mui/material/OutlinedInput'
-import InputLabel from '@mui/material/InputLabel'
-import MenuItem from '@mui/material/MenuItem'
-import FormControl from '@mui/material/FormControl'
-import Select from '@mui/material/Select'
-
-
+import { Paper, Box, Button, TextField, Typography, Link, OutlinedInput, InputLabel, MenuItem, FormControl, Select } from '@mui/material'
+// included
+const USER_REGEX = /^[a-zA-Z0-9-_.]{3,24}$/
+// required type
+const PWD_REGEX = /^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%]).{4,24}$/
 
 const NewUserForm = () => {
-
-  // included
-  const USER_REGEX = /^[a-zA-Z0-9-_.]{3,24}$/
-  // required type
-  const PWD_REGEX = /^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%]).{4,24}$/
 
 
   const handleChange = (event) => {
@@ -42,8 +33,8 @@ const NewUserForm = () => {
 
   const navigate = useNavigate()
 
-  const [userName, setUserName] = useState('')
-  const [validUserName, setValidUserName] = useState(false)
+  const [username, setUsername] = useState('')
+  const [validUsername, setValidUsername] = useState(false)
   const [password, setPassword] = useState('')
   const [validPassword, setValidPassword] = useState(false)
   const [comfirm, setComfirm] = useState("")
@@ -53,8 +44,8 @@ const NewUserForm = () => {
 
 
   useEffect(() => {
-    setValidUserName(USER_REGEX.test(userName))
-  }, [userName])
+    setValidUsername(USER_REGEX.test(username))
+  }, [username])
 
   useEffect(() => {
     setValidPassword(PWD_REGEX.test(password))
@@ -71,7 +62,7 @@ const NewUserForm = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      setUserName('')
+      setUsername('')
       setPassword('')
       setRoles([])
       navigate('/dash/users')
@@ -82,17 +73,13 @@ const NewUserForm = () => {
   const options = (
 
     <FormControl sx={{ width: '600px', p: 3 }}>
-      <InputLabel id="demo-multiple-name-label" sx={{ m: 3 }}>Assigned Position</InputLabel>
+      <InputLabel sx={{ m: 3 }}>Assigned Position</InputLabel>
       <Select
-        labelId="demo-multiple-name-label"
-        id="demo-multiple-name"
         input={<OutlinedInput label="Assigned Position" />}
         multiple
         value={roles}
         onChange={handleChange}
-
       >
-
         {Object.values(ROLES).map((role) => (
           <MenuItem
             key={role}
@@ -106,12 +93,12 @@ const NewUserForm = () => {
   )
 
 
-  const canSave = [roles.length, validUserName, validPassword].every(Boolean) && !isLoading
+  const canSave = [roles.length, validUsername, validPassword].every(Boolean) && !isLoading
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (canSave) {
-      await addNewUser({ userName, password, roles })
+      await addNewUser({ username, password, roles })
     }
   }
 
@@ -122,13 +109,12 @@ const NewUserForm = () => {
           <Typography variant='h5' sx={{ mb: 5 }}>{error?.data?.message}</Typography>
         </Paper>
         :
-
         <Paper sx={{ width: '600px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', p: 3 }}>
-          <Typography variant='h5' sx={{ p: 3 }} >Register</Typography>
+          <Typography variant='h5' sx={{ p: 3 }} >Create New User</Typography>
           <TextField fullWidth autoComplete='off' type='text' label='User Name' variant='outlined' required sx={{ m: 3 }}
-            onChange={e => setUserName(e.target.value)}
+            onChange={e => setUsername(e.target.value)}
           />
-          {validUserName || userName.length === 0 ? "" : <Typography>User Name must be 3 to 24 characters(Letters and Numbers only) </Typography>}
+          {validUsername || username.length === 0 ? "" : <Typography>User Name must be 3 to 24 characters(Letters and Numbers only) </Typography>}
           <TextField fullWidth autoComplete='off' type='password' label='Password' variant='outlined' required sx={{ m: 3 }}
             onChange={e => setPassword(e.target.value)}
           />
