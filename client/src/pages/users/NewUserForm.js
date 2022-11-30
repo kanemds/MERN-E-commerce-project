@@ -2,16 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { useAddNewUserMutation } from '../users/usersApiSlice'
 import { useNavigate } from 'react-router-dom'
 import { ROLES } from '../../config/roles'
-import { Paper, Box, Button, TextField, Typography, Link, Checkbox } from '@mui/material'
-import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked'
-import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked'
-import { styled } from '@mui/material/styles'
-
-const SelectedPosition = styled(Box)(() => ({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center'
-}))
+import { Paper, Box, Button, TextField, Typography, Link } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
+import OutlinedInput from '@mui/material/OutlinedInput'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import FormControl from '@mui/material/FormControl'
+import Select from '@mui/material/Select'
 
 
 
@@ -21,6 +18,17 @@ const NewUserForm = () => {
   const USER_REGEX = /^[a-zA-Z0-9-_.]{3,24}$/
   // required type
   const PWD_REGEX = /^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%]).{4,24}$/
+
+
+  const handleChange = (event) => {
+    const {
+      target: { value },
+    } = event
+    setRoles(
+      // On autofill we get a stringified value.
+      typeof value === 'string' ? value.split(',') : value,
+    )
+  }
 
 
 
@@ -40,7 +48,9 @@ const NewUserForm = () => {
   const [validPassword, setValidPassword] = useState(false)
   const [comfirm, setComfirm] = useState("")
   const [isMatch, setIsMatch] = useState(false)
-  const [roles, setRoles] = useState(['Employee'])
+  const [roles, setRoles] = useState(["Employee"])
+
+
 
   useEffect(() => {
     setValidUserName(USER_REGEX.test(userName))
@@ -56,6 +66,10 @@ const NewUserForm = () => {
   }, [comfirm, password])
 
   useEffect(() => {
+    setRoles(roles)
+  }, [roles])
+
+  useEffect(() => {
     if (isSuccess) {
       setUserName('')
       setPassword('')
@@ -65,23 +79,32 @@ const NewUserForm = () => {
   }, [isSuccess, navigate])
 
 
-  const rolesChanged = e => {
-    const newRoles = Array.from(
-      e.target.selectedOptions,
-      (optioin) => optioin.value
-    )
-    setRoles(newRoles)
-  }
+  const options = (
 
-  const options = Object.values(ROLES).map(role => {
-    return (
-      <option
-        key={role}
-        value={role}
+    <FormControl sx={{ width: '600px', p: 3 }}>
+      <InputLabel id="demo-multiple-name-label" sx={{ m: 3 }}>Assigned Position</InputLabel>
+      <Select
+        labelId="demo-multiple-name-label"
+        id="demo-multiple-name"
+        input={<OutlinedInput label="Assigned Position" />}
+        multiple
+        value={roles}
+        onChange={handleChange}
 
-      > {role}</option >
-    )
-  })
+      >
+
+        {Object.values(ROLES).map((role) => (
+          <MenuItem
+            key={role}
+            value={role}
+          >
+            {role}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+  )
+
 
   const canSave = [roles.length, validUserName, validPassword].every(Boolean) && !isLoading
 
@@ -116,24 +139,12 @@ const NewUserForm = () => {
           />
           {isMatch || comfirm.length === 0 ? "" : <Typography>Please match with password</Typography>}
 
-          <Typography> Assigned Position:</Typography>
-          <Box sx={{ display: 'flex', m: 2 }}>
-            <SelectedPosition>
-              <Typography>Employee</Typography>
-              <Checkbox icon={<RadioButtonUncheckedIcon />} checkedIcon={<RadioButtonCheckedIcon />} />
-            </SelectedPosition>
-            <SelectedPosition>
-              <Typography>Manager</Typography>
-              <Checkbox icon={<RadioButtonUncheckedIcon />} checkedIcon={<RadioButtonCheckedIcon />} />
-            </SelectedPosition>
-            <SelectedPosition>
-              <Typography>Owner</Typography>
-              <Checkbox icon={<RadioButtonUncheckedIcon />} checkedIcon={<RadioButtonCheckedIcon />} />
-            </SelectedPosition>
+          {options}
+          {roles.length === 0 ? <Typography>Please select at least one position</Typography> : ""}
+          <Box sx={{ m: 3 }}>
+            <Button disabled={!canSave} onClick={handleSubmit} >Submit</Button>
+            <Button><Link href='/' underline="none" >Cancel</Link></Button>
           </Box>
-
-          <Button disabled={!canSave} onClick={handleSubmit}>Submit</Button>
-          <Button><Link href='/' underline="none">Cancel</Link></Button>
         </Paper>
       }
     </Box >
