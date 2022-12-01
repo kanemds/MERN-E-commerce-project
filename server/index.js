@@ -7,7 +7,7 @@ const { logger, logEvents } = require('./middleware/logger')
 const errorHandler = require('./middleware/errorHandler')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
-const corsOptions = require('./config/corsOptions')
+const { corsOptions, corsOptionsDelegate } = require('./config/corsOptions')
 const connectDB = require('./config/dbConnection')
 
 
@@ -20,9 +20,12 @@ connectDB()
 //logger needs to at the beginning
 app.use(logger)
 app.use(cors(corsOptions))
+// app.use(cors(corsOptionsDelegate))
+// app.use(cors())
 app.use(express.json())
 app.use(cookieParser())
 app.use('/', require('./routes/root'))
+
 // app.use(express.static('public'))
 app.use('/', express.static(path.join(__dirname, 'public')))
 app.all('*', (req, res) => {
