@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react'
-import { useAddNewUserMutation } from '../users/usersApiSlice'
-import { useNavigate } from 'react-router-dom'
-import { ROLES } from '../../config/roles'
+import { Typography } from '@mui/material'
+import { useSelector } from 'react-redux'
+import { selectAllUsers } from '../users/usersApiSlice'
+import NewNoteForm from './NewNoteForm'
 
 const NewNote = () => {
 
+  const users = useSelector(selectAllUsers)
 
-  return (
-    <div>NewNote</div>
-  )
+  const content = users ? <NewNoteForm users={users} /> :
+    <Typography>Loading...</Typography>
+
+  return content
 }
 
 export default NewNote
