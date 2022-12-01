@@ -15,7 +15,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         return response.status === 200 && !result.isError
       },
       //default 60s
-      keepUnusedDataFor: 5,
+      // keepUnusedDataFor: 5,
       transformResponse: responseData => {
         const loadedUsers = responseData.map(user => {
           // since our backend mongodb ._id
