@@ -21,6 +21,7 @@ function App() {
           <Route index element={<Public />} />
           <Route path='login' element={<Login />} />
           <Route path='register' element={<Register />} />
+
           {/* prevent default 60s unsubscribe */}
           <Route element={<Prefetch />}>
             <Route path='dash' element={<DashBoardLayout />}>

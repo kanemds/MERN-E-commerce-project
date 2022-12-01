@@ -19,9 +19,17 @@ connectDB()
 
 //logger needs to at the beginning
 app.use(logger)
-app.use(cors(corsOptions))
+// app.use(cors(corsOptions))
 // app.use(cors(corsOptionsDelegate))
-// app.use(cors())
+
+
+// https://www.youtube.com/watch?v=PNtFSVU-YTI 
+// about  cors
+app.use(cors({
+  origin: 'http://localhost:3000',
+  // methods:['GET','POST'] only accept
+  credentials: true // cookies
+}))
 app.use(express.json())
 app.use(cookieParser())
 app.use('/', require('./routes/root'))
