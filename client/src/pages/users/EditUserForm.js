@@ -93,7 +93,7 @@ const EditUserForm = ({ currentUser }) => {
   }
 
   const handleDelete = async () => {
-    await deleteUser({ id: current.id })
+    await deleteUser({ id: currentUser.id })
   }
 
   let canSave
@@ -153,7 +153,7 @@ const EditUserForm = ({ currentUser }) => {
           </Paper>
 
           <Button onClick={handleShow} sx={{ m: 1 }}>Password Update</Button>
-          {show ? '' :
+          {!show ? '' :
             <>
               <TextField fullWidth autoComplete='off' type='password' label='Password' variant='outlined' required sx={{ m: 3 }}
                 onChange={e => setPassword(e.target.value)}
