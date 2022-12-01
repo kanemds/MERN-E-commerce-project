@@ -11,7 +11,7 @@ import EditUser from './pages/users/EditUser'
 import NewUserForm from './pages/users/NewUserForm'
 import EditNote from './pages/notes/EditNote'
 import NewNote from './pages/notes/NewNote'
-
+import Prefetch from './redux/Prefetch'
 
 function App() {
   return (
@@ -21,23 +21,25 @@ function App() {
           <Route index element={<Public />} />
           <Route path='login' element={<Login />} />
           <Route path='register' element={<Register />} />
+          {/* prevent default 60s unsubscribe */}
+          <Route element={<Prefetch />}>
+            <Route path='dash' element={<DashBoardLayout />}>
 
-          <Route path='dash' element={<DashBoardLayout />}>
+              <Route index element={<DashBoard />} />
 
-            <Route index element={<DashBoard />} />
+              <Route path='users'>
+                <Route index element={<UsersList />} />
+                <Route path=':id' element={<EditUser />} />
+                <Route path='new' element={<NewUserForm />} />
+              </Route>
 
-            <Route path='users'>
-              <Route index element={<UsersList />} />
-              <Route path=':id' element={<EditUser />} />
-              <Route path='new' element={<NewUserForm />} />
+              <Route path='notes'>
+                <Route index element={<NotesList />} />
+                <Route path=':id' element={<EditNote />} />
+                <Route path='new' element={<NewNote />} />
+              </Route>
+
             </Route>
-
-            <Route path='notes'>
-              <Route index element={<NotesList />} />
-              <Route path=':id' element={<EditNote />} />
-              <Route path='new' element={<NewNote />} />
-            </Route>
-
           </Route>
         </Route>
       </Routes>
