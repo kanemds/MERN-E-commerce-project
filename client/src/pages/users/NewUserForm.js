@@ -22,7 +22,6 @@ const NewUserForm = () => {
   }
 
 
-
   const [addNewUser, {
     isLoading,
     isSuccess,
@@ -118,7 +117,7 @@ const NewUserForm = () => {
           <TextField fullWidth autoComplete='off' type='password' label='Password' variant='outlined' required sx={{ m: 3 }}
             onChange={e => setPassword(e.target.value)}
           />
-          <Typography variant='h8' >Password required at least: one number and one "!@#$%" special charater </Typography>
+
           {validPassword || password.length === 0 ? "" : <Typography>Invalided Password</Typography>}
           <TextField fullWidth autoComplete='off' type='password' label='Password Comfirm' variant='outlined' required sx={{ m: 3 }}
             onChange={e => setComfirm(e.target.value)}
@@ -131,8 +130,10 @@ const NewUserForm = () => {
             <Button disabled={!canSave} onClick={handleSubmit} >Submit</Button>
             <Button><Link href='/' underline="none" >Cancel</Link></Button>
           </Box>
+          <Typography variant='h8' >Note: Password required: one number and one "!,@,#,$,%" special charater </Typography>
         </Paper>
       }
+
     </Box >
   )
 

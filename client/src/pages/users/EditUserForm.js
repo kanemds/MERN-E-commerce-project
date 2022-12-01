@@ -143,7 +143,8 @@ const EditUserForm = ({ currentUser }) => {
 
 
           <Paper sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 1, m: 3 }}>
-            <Typography >User Status:   {active ? 'Activate' : 'Deactivate'}</Typography>
+            <Typography >User Status:   </Typography>
+            <Typography>{active ? 'Activate' : 'Deactivate'}</Typography>
             <Switch
               sx={{ ml: 6 }}
               checked={active}
@@ -157,7 +158,7 @@ const EditUserForm = ({ currentUser }) => {
               <TextField fullWidth autoComplete='off' type='password' label='Password' variant='outlined' required sx={{ m: 3 }}
                 onChange={e => setPassword(e.target.value)}
               />
-              <Typography variant='h8' >Password required at least: one number and one "!@#$%" special charater </Typography>
+
               {validPassword || password.length === 0 ? "" : <Typography>Invalided Password</Typography>}
               <TextField fullWidth autoComplete='off' type='password' label='Password Comfirm' variant='outlined' required sx={{ m: 3 }}
                 onChange={e => setComfirm(e.target.value)}
@@ -171,6 +172,8 @@ const EditUserForm = ({ currentUser }) => {
             <Button onClick={handleDelete}>Delete</Button>
             <Button><Link href='/' underline="none" >Cancel</Link></Button>
           </Box>
+          <Typography variant='h8' >Note: Password required: one number and one "!,@,#,$,%" special charater </Typography>
+
         </Paper>
       }
     </Box >
