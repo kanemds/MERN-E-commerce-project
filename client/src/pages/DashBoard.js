@@ -21,8 +21,12 @@ const DashBoard = () => {
   return (
     <Box>
       {currentTime}
-      <Link href='/dash/notes' underline='none'>View Notes</Link>
-      <Link href='/dash/users' underline='none'>View Users</Link>
+      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+        <Link href='/dash/notes' underline='none'>View Notes</Link>
+        <Link href='/dash/notes/new' underline='none'>create new note</Link>
+        <Link href='/dash/users' underline='none'>View Users</Link>
+        <Link href='/dash/users/new' underline='none'>create new user</Link>
+      </Box>
     </Box>
   )
 }
