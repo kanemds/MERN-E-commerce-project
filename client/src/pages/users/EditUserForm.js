@@ -3,6 +3,7 @@ import { useUpdateUserMutation, useDeleteUserMutation } from '../users/usersApiS
 import { Navigate, useNavigate } from 'react-router-dom'
 import { ROLES } from '../../config/roles'
 import { Paper, Box, Button, TextField, Typography, Link, OutlinedInput, InputLabel, MenuItem, FormControl, Select, Switch } from '@mui/material'
+import { current } from '@reduxjs/toolkit'
 
 // included
 const USER_REGEX = /^[a-zA-Z0-9-_.]{3,24}$/
@@ -11,8 +12,6 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%]).{4,24}$/
 
 
 const EditUserForm = ({ currentUser }) => {
-
-  console.log(currentUser)
 
   const navigate = useNavigate()
 
@@ -80,10 +79,31 @@ const EditUserForm = ({ currentUser }) => {
     setActive(event.target.checked)
   }
 
-  console.log(active)
+  const handleUpdate = async (e) => {
+    e.preventDefault()
+    if (canSave) {
+      await updateUser({ id: currentUser.id, username, password, roles, active })
+    } else {
+      await updateUser({ id: currentUser.id, username, roles, active })
+    }
+  }
+
+  const handleShow = () => {
+    setShow(prev => !prev)
+  }
+
+  const handleDelete = async () => {
+    await deleteUser({ id: current.id })
+  }
+
+  let canSave
+  if (password) {
+    canSave = [roles.length, validUsername, validPassword].every(Boolean) && !isLoading
+  } else {
+    canSave = [roles.length, validUsername].every(Boolean) && !isLoading
+  }
 
   const options = (
-
     <FormControl sx={{ width: '600px', p: 3 }}>
       <InputLabel sx={{ m: 3 }}>Assigned Position</InputLabel>
       <Select
@@ -103,21 +123,6 @@ const EditUserForm = ({ currentUser }) => {
       </Select>
     </FormControl>
   )
-
-
-  const canSave = [roles.length, validUsername, validPassword].every(Boolean) && !isLoading
-
-  const handleUpdate = async (e) => {
-    e.preventDefault()
-    if (canSave) {
-      await updateUser({ username, password, roles })
-    }
-  }
-
-  const handleShow = () => {
-    setShow(prev => !prev)
-  }
-
 
   const content = (
     <Box sx={{ height: '70vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
@@ -163,6 +168,7 @@ const EditUserForm = ({ currentUser }) => {
 
           <Box sx={{ m: 3 }}>
             <Button disabled={!canSave} onClick={handleUpdate} >Update</Button>
+            <Button onClick={handleDelete}>Delete</Button>
             <Button><Link href='/' underline="none" >Cancel</Link></Button>
           </Box>
         </Paper>
