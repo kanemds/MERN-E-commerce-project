@@ -54,9 +54,14 @@ const updateNote = asynceHandler(async (req, res) => {
   }
 
   const note = await Note.findById(id).exec()
+  const assignedUser = await User.findOne({ username: user }).exec()
 
   if (!note) {
     return res.status(400).json({ message: 'Note not Found' })
+  }
+
+  if (!assignedUser) {
+    return res.status(400).json({ message: 'Assigned User not exist' })
   }
 
   const duplicate = await Note.findOne({ title }).lean().exec()
@@ -65,7 +70,7 @@ const updateNote = asynceHandler(async (req, res) => {
     return res.status(409).json({ message: 'Note already exist, please try another one' })
   }
 
-  note.user = user
+  note.user = assignedUser
   note.title = title
   note.text = text
   note.completed = completed

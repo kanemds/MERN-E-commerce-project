@@ -142,7 +142,7 @@ const EditUserForm = ({ currentUser }) => {
           {roles.length === 0 ? <Typography>Please select at least one position</Typography> : ""}
 
 
-          <Paper sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 1, m: 3 }}>
+          <Paper sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 1, m: 2 }}>
             <Typography >User Status:   </Typography>
             <Typography>{active ? 'Activate' : 'Deactivate'}</Typography>
             <Switch
@@ -170,7 +170,7 @@ const EditUserForm = ({ currentUser }) => {
           <Box sx={{ m: 3 }}>
             <Button disabled={!canSave} onClick={handleUpdate} >Update</Button>
             <Button onClick={handleDelete}>Delete</Button>
-            <Button><Link href='/' underline="none" >Cancel</Link></Button>
+            <Button><Link href='/dash/users' underline="none" >Cancel</Link></Button>
           </Box>
           <Typography variant='h8' >Note: Password required: one number and one "!,@,#,$,%" special charater </Typography>
 
