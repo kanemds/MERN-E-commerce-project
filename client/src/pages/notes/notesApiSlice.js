@@ -84,8 +84,8 @@ const selectNotesData = createSelector(
 )
 
 export const {
-  selectAll: selectAllNotes, //  const currentUser = useSelector(state => selectUserById(state, id))
-  selectById: selectNoteById, //  const users = useSelector(selectAllUsers)
+  selectAll: selectAllNotes, //  const users = useSelector(selectAllUsers) 
+  selectById: selectNoteById, //  const currentUser = useSelector(state => selectUserById(state, id))
   selectIds: selectNoteIds
 } = notesAdapter.getSelectors(state => selectNotesData(state) ?? initialState)
 // The Nullish Coalescing Operator

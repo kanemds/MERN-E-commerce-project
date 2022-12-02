@@ -1,15 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAddNewNoteMutation } from './notesApiSlice'
 import { useNavigate } from 'react-router-dom'
 import { Paper, Box, Button, TextField, Typography, Link, OutlinedInput, InputLabel, MenuItem, FormControl, Select } from '@mui/material'
 
 
-const NewNoteForm = () => {
+const NewNoteForm = ({ users }) => {
 
-  const navigate = useNavigate()
-
-  const [title, setTitle] = useState('')
-  const [text, setText] = useState('')
 
   const [addNewNote, {
     isLoading,
@@ -18,16 +14,56 @@ const NewNoteForm = () => {
     error
   }] = useAddNewNoteMutation()
 
+  const navigate = useNavigate()
+
+  const [title, setTitle] = useState('')
+  const [text, setText] = useState('')
+  const [selectedUser, setSelectedUser] = useState('')
+
+  useEffect(() => {
+    if (isSuccess) {
+      setTitle('')
+      setText('')
+      navigate('/dash/notes')
+    }
+  }, [isSuccess, navigate])
+
+  const canSave = [title.length, text.length].every(Boolean) && !isLoading
+
+  const handleChange = e => {
+    setSelectedUser(e.target.value)
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (canSave) {
-      await addNewNote({ title, text })
+      await addNewNote({ user: selectedUser.id, title, text })
     }
   }
 
+  const options = (
 
+    <FormControl sx={{ width: '600px', p: 3 }}>
+      <InputLabel sx={{ m: 3 }}>Note Created By</InputLabel>
+      <Select
 
-  const canSave = [title.length, text.length].every(Boolean) && !isLoading
+        input={<OutlinedInput label="Note Created By" />}
+        // multiple
+        value={selectedUser} // multiple must set as []
+        onChange={handleChange}
+      >
+        {users.map((user) => (
+          <MenuItem
+            key={user.id}
+            value={user}
+          >
+            {user.username}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+  )
+
 
   const content = (
     <Box sx={{ height: '70vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
@@ -46,6 +82,8 @@ const NewNoteForm = () => {
             onChange={e => setText(e.target.value)}
           />
 
+          {options}
+
           <Box sx={{ m: 3 }}>
             <Button disabled={!canSave} onClick={handleSubmit} >Submit</Button>
             <Button><Link href='/' underline="none" >Cancel</Link></Button>
@@ -56,7 +94,6 @@ const NewNoteForm = () => {
 
     </Box >
   )
-
 
   return content
 }
