@@ -2,8 +2,16 @@ import React, { useEffect, useState } from 'react'
 import { useUpdateNoteMutation, useDeleteNoteMutation } from './notesApiSlice'
 import { useNavigate } from 'react-router-dom'
 import { Switch, Paper, Box, Button, TextField, Typography, Link, OutlinedInput, InputLabel, MenuItem, FormControl, Select } from '@mui/material'
+import TimeAgo from 'javascript-time-ago'
+
+// English.
+import en from 'javascript-time-ago/locale/en'
+
 
 const EditNoteForm = ({ note, users }) => {
+
+  TimeAgo.addDefaultLocale(en)
+  const timeAgo = new TimeAgo('en-US')
 
   console.log(note)
 
@@ -61,6 +69,9 @@ const EditNoteForm = ({ note, users }) => {
     await deleteNote({ id: note.id })
   }
 
+  const created = new Date(note.createdAt).toLocaleString('en-US', { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric' })
+  const updated = new Date(note.updatedAt).toLocaleString('en-US', { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric' })
+
   const options = (
 
     <FormControl sx={{ width: '600px', p: 3 }}>
@@ -95,6 +106,18 @@ const EditNoteForm = ({ note, users }) => {
         :
         <Paper sx={{ width: '600px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', p: 3 }}>
           <Typography variant='h5' sx={{ p: 3 }} >Edit Note</Typography>
+
+          <TextField fullWidth autoComplete='off' type='text' label='Created At:' variant='outlined' sx={{ m: 3 }}
+            value={created}
+          />
+
+
+          <TextField fullWidth autoComplete='off' type='text' label='Last Update:' variant='outlined' sx={{ m: 3 }}
+            value={updated === created ? 'None' : updated}
+          />
+
+
+
           <TextField fullWidth autoComplete='off' type='text' label='Title' variant='outlined' required sx={{ m: 3 }}
             value={title} onChange={e => setTitle(e.target.value)}
           />
@@ -114,6 +137,7 @@ const EditNoteForm = ({ note, users }) => {
               onChange={handleCompleted}
             />
           </Paper>
+
 
           <Box sx={{ m: 3 }}>
             <Button disabled={!canSave} onClick={handleUpdate} >Save</Button>
