@@ -44,10 +44,10 @@ const NewNoteForm = ({ users }) => {
   const options = (
 
     <FormControl sx={{ width: '600px', p: 3 }}>
-      <InputLabel sx={{ m: 3 }}>Note Created By</InputLabel>
+      <InputLabel sx={{ m: 3 }}>Assign To:</InputLabel>
       <Select
 
-        input={<OutlinedInput label="Note Created By" />}
+        input={<OutlinedInput label="Assign To:" />}
         // multiple
         value={selectedUser} // multiple must set as []
         onChange={handleChange}
@@ -73,12 +73,12 @@ const NewNoteForm = ({ users }) => {
         </Paper>
         :
         <Paper sx={{ width: '600px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', p: 3 }}>
-          <Typography variant='h5' sx={{ p: 3 }} >Create New Note</Typography>
+          <Typography variant='h5' sx={{ p: 3 }} >New Note</Typography>
           <TextField fullWidth autoComplete='off' type='text' label='Title' variant='outlined' required sx={{ m: 3 }}
             onChange={e => setTitle(e.target.value)}
           />
 
-          <TextField fullWidth autoComplete='off' type='text' label='text' variant='outlined' required sx={{ m: 3 }}
+          <TextField fullWidth rows={4} multiline autoComplete='off' type='text' label='text' variant='outlined' required sx={{ m: 3 }}
             onChange={e => setText(e.target.value)}
           />
 
