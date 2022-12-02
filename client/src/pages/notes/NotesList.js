@@ -32,8 +32,7 @@ const NotesList = () => {
 
   if (isSuccess) {
     const { ids } = notes
-    console.log(notes)
-    console.log(ids)
+
 
     const tableContent = ids?.length ?
       ids.map(noteId => <Note key={noteId} noteId={noteId} />)
