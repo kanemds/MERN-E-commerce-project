@@ -2,18 +2,21 @@ import React, { useEffect, useState } from 'react'
 import { useUpdateNoteMutation, useDeleteNoteMutation } from './notesApiSlice'
 import { useNavigate } from 'react-router-dom'
 import { Switch, Paper, Box, Button, TextField, Typography, Link, OutlinedInput, InputLabel, MenuItem, FormControl, Select } from '@mui/material'
-import TimeAgo from 'javascript-time-ago'
+import { styled } from '@mui/system'
 
-// English.
-import en from 'javascript-time-ago/locale/en'
+const CustomDisableInput = styled(TextField)(() => ({
+  ".MuiInputBase-input.Mui-disabled": {
+    WebkitTextFillColor: "#000",
+    color: "#000"
+  },
+  "& label.Mui-disabled": {
+    color: 'rgba(0, 0, 0, 0.6)'
+  }
+}))
 
 
 const EditNoteForm = ({ note, users }) => {
 
-  TimeAgo.addDefaultLocale(en)
-  const timeAgo = new TimeAgo('en-US')
-
-  console.log(note)
 
   const [updateNote, {
     isLoading,
@@ -107,13 +110,17 @@ const EditNoteForm = ({ note, users }) => {
         <Paper sx={{ width: '600px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', p: 3 }}>
           <Typography variant='h5' sx={{ p: 3 }} >Edit Note</Typography>
 
-          <TextField fullWidth autoComplete='off' type='text' label='Created At:' variant='outlined' sx={{ m: 3 }}
-            value={created}
+          <CustomDisableInput fullWidth autoComplete='off' type='text' label='Created At:' variant='outlined' sx={{ m: 3 }}
+            value={created} disabled
           />
 
 
-          <TextField fullWidth autoComplete='off' type='text' label='Last Update:' variant='outlined' sx={{ m: 3 }}
-            value={updated === created ? 'None' : updated}
+
+          <CustomDisableInput fullWidth autoComplete='off' type='text' label='Last Update:' variant='outlined'
+            sx={{
+              m: 3,
+            }}
+            value={updated === created ? 'None' : updated} disabled
           />
 
 
