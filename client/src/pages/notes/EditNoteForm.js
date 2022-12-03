@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { Switch, Paper, Box, Button, TextField, Typography, Link, OutlinedInput, InputLabel, MenuItem, FormControl, Select } from '@mui/material'
 import { styled } from '@mui/system'
 
-const CustomDisableInput = styled(TextField)(() => ({
+const DisabledTextField = styled(TextField)(() => ({
   ".MuiInputBase-input.Mui-disabled": {
     WebkitTextFillColor: "#000",
     color: "#000"
@@ -110,20 +110,12 @@ const EditNoteForm = ({ note, users }) => {
         <Paper sx={{ width: '600px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', p: 3 }}>
           <Typography variant='h5' sx={{ p: 3 }} >Edit Note</Typography>
 
-          <CustomDisableInput fullWidth autoComplete='off' type='text' label='Created At:' variant='outlined' sx={{ m: 3 }}
+          <DisabledTextField fullWidth autoComplete='off' type='text' label='Created At:' variant='outlined' sx={{ m: 3 }}
             value={created} disabled
           />
-
-
-
-          <CustomDisableInput fullWidth autoComplete='off' type='text' label='Last Update:' variant='outlined'
-            sx={{
-              m: 3,
-            }}
+          <DisabledTextField fullWidth autoComplete='off' type='text' label='Last Update:' variant='outlined' sx={{ m: 3 }}
             value={updated === created ? 'None' : updated} disabled
           />
-
-
 
           <TextField fullWidth autoComplete='off' type='text' label='Title' variant='outlined' required sx={{ m: 3 }}
             value={title} onChange={e => setTitle(e.target.value)}
@@ -151,10 +143,8 @@ const EditNoteForm = ({ note, users }) => {
             <Button onClick={handleDelete} >Delete</Button>
             <Button><Link href='/dash/notes' underline="none" >Cancel</Link></Button>
           </Box>
-
         </Paper>
       }
-
     </Box >
   )
 
