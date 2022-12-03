@@ -22,6 +22,32 @@ const login = asynceHandler(async (req, res) => {
 
   if (!match) return res.status(401).json({ message: 'Unauthorized' })
 
+  const accessToken = jwt.sign({
+    'UserInfo': {
+      'username': currentUser.username,
+      'roles': currentUser.roles
+    }
+  },
+    process.env.ACCESS_TOKEN_SECRET,
+    { expiresIn: '10s' }
+  )
+
+  const refreshToken = jwt.sign({
+    'username': currentUser.username
+  },
+    process.env.REFRESH_TOKEN_SECRET,
+    { expiresIn: '1d' }
+  )
+
+  res.cookie('jwt', refreshToken, {
+    httpOnly: true,
+    secure: true, // https
+    sameSite: 'None', // allow cross-site cookie
+    maxAge: 7 * 24 * 60 * 60 * 1000
+  })
+
+  // send accessToken username and roles
+  res.json({ accessToken })
 })
 
 const refresh = (req, res) => {
