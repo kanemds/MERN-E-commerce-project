@@ -13,7 +13,7 @@ router.get('^/$|/index(.html)?', (req, res) => {
 // routes
 router.use('/users', user)
 router.use('/notes', note)
-router.use('auth', auth)
+router.use('/auth', auth)
 
 
 module.exports = router
