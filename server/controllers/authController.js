@@ -80,7 +80,6 @@ const refresh = (req, res) => {
       res.json({ accessToken })
     })
   )
-
 }
 
 const logout = (req, res) => {
