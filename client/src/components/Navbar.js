@@ -1,12 +1,28 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import AppBar from '@mui/material/AppBar'
 import { Box, Toolbar, Typography, Button, IconButton, Link } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { useUserLogoutMutation } from '../pages/auth/authApiSlice'
 
 const Navbar = () => {
 
   const navigate = useNavigate()
+  const [userLogut, {
+    isLoading,
+    isSuccess,
+    isError,
+    error
+  }] = useUserLogoutMutation()
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate('/')
+    }
+  }, [isSuccess, navigate])
+
+  if (isLoading) return <Typography>Loading...</Typography>
+  if (isError) return <Typography>{error.data?.message}</Typography>
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -20,6 +36,7 @@ const Navbar = () => {
               <Link href='/dash' underline='none' color='white'> Dash Board</Link>
             </Typography>
           </Box>
+          <Button color="inherit" onClick={() => userLogut()}>Logout</Button>
           <Button color="inherit" onClick={() => navigate('/login')}>Login</Button>
           <Button color="inherit" onClick={() => navigate('/register')}>Register</Button>
         </Toolbar>
