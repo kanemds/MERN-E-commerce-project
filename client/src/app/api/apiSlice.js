@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { setCredentials } from '../../pages/auth/authSlice'
 
 const baseQuery = fetchBaseQuery({
   baseUrl: '/',
@@ -15,9 +16,35 @@ const baseQuery = fetchBaseQuery({
   }
 })
 
+const baseQueryWithReauth = async (args, api, extraOptions) => {
+  // console.log(args)
+  // console.log(api)
+  // console.log(extraOptions)
+
+  let result = await baseQuery(args, api, extraOptions)
+
+  if (result?.error?.status === 403) {
+    console.log('Sending refresh token')
+
+    const refreshToken = await baseQuery('/auth/refresh', api, extraOptions)
+
+    if (refreshToken?.data) {
+      api.dispatch(setCredentials({ ...refreshToken.data }))
+
+      result = await baseQuery(args, api, extraOptions)
+    } else {
+      if (refreshToken?.error?.status === 403) {
+        refreshToken.error.data.message = 'Login has expired.'
+      }
+      return refreshToken
+    }
+  }
+  return result
+}
+
 export const apiSlice = createApi({
   // baseQuery: fetchBaseQuery({ baseUrl: '/' }),
-  baseQuery,
+  baseQuery: baseQueryWithReauth,
   tagTypes: ['Note', 'User'],
   endpoints: builder => ({})
 })
