@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useUpdateNoteMutation, useDeleteNoteMutation } from './notesApiSlice'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link as RouterLink } from 'react-router-dom'
 import { Switch, Paper, Box, Button, TextField, Typography, Link, OutlinedInput, InputLabel, MenuItem, FormControl, Select } from '@mui/material'
 import { styled } from '@mui/system'
 
@@ -141,7 +141,7 @@ const EditNoteForm = ({ note, users }) => {
           <Box sx={{ m: 3 }}>
             <Button disabled={!canSave} onClick={handleUpdate} >Save</Button>
             <Button onClick={handleDelete} >Delete</Button>
-            <Button><Link href='/dash/notes' underline="none" >Cancel</Link></Button>
+            <Button><Link to='/dash/notes' component={RouterLink} underline="none" >Cancel</Link></Button>
           </Box>
         </Paper>
       }

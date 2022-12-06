@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useUpdateUserMutation, useDeleteUserMutation } from '../users/usersApiSlice'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { useNavigate, Link as RouterLink } from 'react-router-dom'
 import { ROLES } from '../../config/roles'
 import { Paper, Box, Button, TextField, Typography, Link, OutlinedInput, InputLabel, MenuItem, FormControl, Select, Switch } from '@mui/material'
 import { current } from '@reduxjs/toolkit'
@@ -170,7 +170,7 @@ const EditUserForm = ({ currentUser }) => {
           <Box sx={{ m: 3 }}>
             <Button disabled={!canSave} onClick={handleUpdate} >Update</Button>
             <Button onClick={handleDelete}>Delete</Button>
-            <Button><Link href='/dash/users' underline="none" >Cancel</Link></Button>
+            <Button><Link to='/dash/users' component={RouterLink} underline="none" >Cancel</Link></Button>
           </Box>
           <Typography variant='h8' >Note: Password required: one number and one "!,@,#,$,%" special charater </Typography>
 

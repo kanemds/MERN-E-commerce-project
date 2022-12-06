@@ -1,7 +1,7 @@
 
 import React from 'react'
 import { Box, Link } from '@mui/material'
-
+import { Link as RouterLink } from 'react-router-dom'
 
 
 
@@ -22,10 +22,10 @@ const DashBoard = () => {
     <Box>
       {currentTime}
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-        <Link href='/dash/notes' underline='none'>View Notes</Link>
-        <Link href='/dash/notes/new' underline='none'>create new note</Link>
-        <Link href='/dash/users' underline='none'>View Users</Link>
-        <Link href='/dash/users/new' underline='none'>create new user</Link>
+        <Link to='/dash/notes' component={RouterLink} underline='none'>View Notes</Link>
+        <Link to='/dash/notes/new' component={RouterLink} underline='none'>create new note</Link>
+        <Link to='/dash/users' component={RouterLink} underline='none'>View Users</Link>
+        <Link to='/dash/users/new' component={RouterLink} underline='none'>create new user</Link>
       </Box>
     </Box>
   )

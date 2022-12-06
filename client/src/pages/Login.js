@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link as RouterLink } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setCredentials } from './auth/authSlice'
 import { useLoginMutation } from './auth/authApiSlice'
@@ -29,7 +29,6 @@ const Login = () => {
     try {
       if (canSave) {
         const { accessToken } = await login({ username, password }).unwrap()
-        console.log(accessToken)
         dispatch(setCredentials({ accessToken }))
         setUsername('')
         setPassword('')
@@ -63,7 +62,7 @@ const Login = () => {
 
         <Box sx={{ m: 3 }}>
           <Button disabled={!canSave} onClick={handleSubmit} >Log In</Button>
-          <Button><Link href='/' underline="none" >Cancel</Link></Button>
+          <Button><Link to='/' component={RouterLink} underline="none" >Cancel</Link></Button>
         </Box>
 
       </Paper>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useAddNewUserMutation } from '../users/usersApiSlice'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link as RouterLink } from 'react-router-dom'
 import { ROLES } from '../../config/roles'
 import { Paper, Box, Button, TextField, Typography, Link, OutlinedInput, InputLabel, MenuItem, FormControl, Select } from '@mui/material'
 // included
@@ -128,7 +128,7 @@ const NewUserForm = () => {
           {roles.length === 0 ? <Typography>Please select at least one position</Typography> : ""}
           <Box sx={{ m: 3 }}>
             <Button disabled={!canSave} onClick={handleSubmit} >Submit</Button>
-            <Button><Link href='/' underline="none" >Cancel</Link></Button>
+            <Button><Link to='/' component={RouterLink} underline="none" >Cancel</Link></Button>
           </Box>
           <Typography variant='h8' >Note: Password required: one number and one "!,@,#,$,%" special charater </Typography>
         </Paper>

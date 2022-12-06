@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useAddNewNoteMutation } from './notesApiSlice'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link as RouterLink } from 'react-router-dom'
 import { Paper, Box, Button, TextField, Typography, Link, OutlinedInput, InputLabel, MenuItem, FormControl, Select } from '@mui/material'
 
 
@@ -86,7 +86,7 @@ const NewNoteForm = ({ users }) => {
 
           <Box sx={{ m: 3 }}>
             <Button disabled={!canSave} onClick={handleSubmit} >Submit</Button>
-            <Button><Link href='/' underline="none" >Cancel</Link></Button>
+            <Button><Link hto='/' component={RouterLink} underline="none" >Cancel</Link></Button>
           </Box>
 
         </Paper>

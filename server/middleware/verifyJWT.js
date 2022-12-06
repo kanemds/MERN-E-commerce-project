@@ -5,6 +5,7 @@ const verifyJWT = (req, res, next) => {
   // in case lower or upper case for a    
   const authHeader = req.headers.authorization || req.headers.Authorization
 
+
   if (!authHeader?.startsWith('Bearer ')) {
     return res.status(401).json({ message: 'Unauthorzied' })
   }
@@ -19,6 +20,8 @@ const verifyJWT = (req, res, next) => {
       if (error) return res.status(403).json({ message: ' Forbindden' })
       req.user = decoded.UserInfo.username
       req.roles = decoded.UserInfo.roles
+      console.log(token)
+      console.log('????')
       next()
     }
   )
