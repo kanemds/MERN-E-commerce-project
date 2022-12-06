@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import AppBar from '@mui/material/AppBar'
 import { Box, Toolbar, Typography, Button, IconButton, Link } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation, Link as RouterLink } from 'react-router-dom'
 import { useUserLogoutMutation } from '../pages/auth/authApiSlice'
 
 const Navbar = () => {
@@ -30,10 +30,10 @@ const Navbar = () => {
         <Toolbar>
           <Box sx={{ flexGrow: 1, display: 'flex' }}>
             <Typography variant="h6" component="div">
-              <Link href='/' underline='none' color='white'>K Reparis</Link>
+              <Link to='/' component={RouterLink} underline='none' color='white'>K Reparis</Link>
             </Typography>
             <Typography variant="h6" component="div" sx={{ ml: 2 }} >
-              <Link href='/dash' underline='none' color='white'> Dash Board</Link>
+              <Link to='/dash' component={RouterLink} underline='none' color='white'> Dash Board</Link>
             </Typography>
           </Box>
           <Button color="inherit" onClick={() => userLogut()}>Logout</Button>
