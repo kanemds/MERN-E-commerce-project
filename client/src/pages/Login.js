@@ -3,7 +3,8 @@ import { useNavigate, Link as RouterLink } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setCredentials } from './auth/authSlice'
 import { useLoginMutation } from './auth/authApiSlice'
-import { Paper, Box, Button, TextField, Typography, Link, OutlinedInput, InputLabel, MenuItem, FormControl, Select } from '@mui/material'
+import { Paper, Box, Button, TextField, Typography, Link, Checkbox } from '@mui/material'
+import usePersist from '../hooks/usePersist'
 
 const Login = () => {
 
@@ -15,6 +16,7 @@ const Login = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [persist, setPersist] = usePersist()
 
   useEffect(() => {
     setError('')
@@ -65,6 +67,10 @@ const Login = () => {
           <Button><Link to='/' component={RouterLink} underline="none" >Cancel</Link></Button>
         </Box>
 
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Typography>Trust This Device</Typography>
+          <Checkbox checked={persist} onChange={() => setPersist(prev => !prev)} />
+        </Box>
       </Paper>
     </Box >
   )
