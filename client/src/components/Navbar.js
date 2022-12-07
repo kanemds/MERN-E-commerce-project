@@ -8,6 +8,7 @@ import useAuth from '../hooks/useAuth'
 
 const Navbar = () => {
 
+  const { username, status } = useAuth()
 
   const navigate = useNavigate()
   const [userLogut, {
@@ -38,9 +39,14 @@ const Navbar = () => {
               <Link to='/dash' component={RouterLink} underline='none' color='white'> Dash Board</Link>
             </Typography>
           </Box>
-          <Button color="inherit" onClick={() => userLogut()}>Logout</Button>
-          <Button color="inherit" onClick={() => navigate('/login')}>Login</Button>
-          <Button color="inherit" onClick={() => navigate('/register')}>Register</Button>
+          {username ?
+            <Button color="inherit" onClick={() => userLogut()}>Logout</Button>
+            :
+            <Box>
+              <Button color="inherit" onClick={() => navigate('/login')}>Login</Button>
+              <Button color="inherit" onClick={() => navigate('/register')}>Register</Button>
+            </Box>
+          }
         </Toolbar>
       </AppBar>
     </Box>
