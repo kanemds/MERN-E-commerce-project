@@ -20,8 +20,6 @@ const verifyJWT = (req, res, next) => {
       if (error) return res.status(403).json({ message: ' Forbindden' })
       req.user = decoded.UserInfo.username
       req.roles = decoded.UserInfo.roles
-      console.log(token)
-      console.log('????')
       next()
     }
   )

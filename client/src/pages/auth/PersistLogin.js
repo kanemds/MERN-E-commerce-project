@@ -25,6 +25,7 @@ const PersistLogin = () => {
     error
   }] = useRefreshMutation()
 
+
   // https://www.youtube.com/watch?v=81faZzp18NM resource
 
   useEffect(() => {
@@ -33,7 +34,8 @@ const PersistLogin = () => {
       const verifyRefreshToken = async () => {
         console.log('Verifying refresh token')
         try {
-          await refresh()
+          const { data } = await refresh()
+          console.log(data)
           setTrueSuccess(true)
         } catch (error) {
           console.log(error)
