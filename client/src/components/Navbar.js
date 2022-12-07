@@ -4,8 +4,10 @@ import { Box, Toolbar, Typography, Button, IconButton, Link } from '@mui/materia
 import MenuIcon from '@mui/icons-material/Menu'
 import { useNavigate, useLocation, Link as RouterLink } from 'react-router-dom'
 import { useUserLogoutMutation } from '../pages/auth/authApiSlice'
+import useAuth from '../hooks/useAuth'
 
 const Navbar = () => {
+
 
   const navigate = useNavigate()
   const [userLogut, {
