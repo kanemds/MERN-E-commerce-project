@@ -18,12 +18,14 @@ export const authApiSlice = apiSlice.injectEndpoints({
       // instead useDispatch each into component, it can dispatch here as well
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
-          // const { data } =  await queryFulfilled
-          await queryFulfilled
-          // console.log(data) from backend 'cookie cleared'
+          const { data } = await queryFulfilled
+          console.log(data) //from backend 'cookie cleared'
           dispatch(logOut())
           // immediately remove all existing cache entries, and all queries will be considered 'uninitialized'
-          dispatch(apiSlice.util.resetApiState())
+          setTimeout(() => {
+            dispatch(apiSlice.util.resetApiState())
+          }, 1000)
+
         } catch (error) {
           console.log(error)
         }

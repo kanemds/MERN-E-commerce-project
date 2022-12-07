@@ -12,9 +12,9 @@ const UserList = () => {
     isSuccess,
     isError,
     error
-  } = useGetUsersQuery(undefined, //or null
+  } = useGetUsersQuery('usersList', //or null
     {
-      pollingInterval: 600000,
+      pollingInterval: 4000,
       refetchOnFocus: true,
       refetchOnMountOrArgChange: true
     })
