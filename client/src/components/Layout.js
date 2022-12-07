@@ -6,16 +6,18 @@ import Footer from './Footer'
 import Navbar from './Navbar'
 import { Container } from "@mui/system"
 import useAuth from '../hooks/useAuth'
+import { useLocation } from 'react-router-dom'
 
-
+const DASH_REGEX = /^\/dash(\/)?$/
 
 const Layout = () => {
 
+  const { pathname } = useLocation()
+
   const { username, status } = useAuth()
 
-
   const WrapperCustomer = styled(Container)(() => ({
-    minHeight: '70vh',
+    minHeight: '78vh',
     minWidth: '95vw'
 
   }))
@@ -30,7 +32,7 @@ const Layout = () => {
   return (
     <>
       <Navbar />
-      {username && status ?
+      {username && status && DASH_REGEX.test(pathname) ?
         <WrapperUser>
           <Outlet />
         </WrapperUser>
