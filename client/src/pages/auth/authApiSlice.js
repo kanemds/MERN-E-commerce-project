@@ -1,5 +1,5 @@
 import { apiSlice } from "../../app/api/apiSlice"
-import { logOut } from "./authSlice"
+import { logOut, setCredentials } from "./authSlice"
 
 export const authApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
@@ -22,7 +22,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
           console.log(data) //from backend 'cookie cleared'
           dispatch(logOut())
           // immediately remove all existing cache entries, and all queries will be considered 'uninitialized'
-          setTimeout(() => {
+          setTimeout(() => { // take time to uninitialized all state, without it cause keep rerender which one of state still maintain
             dispatch(apiSlice.util.resetApiState())
           }, 1000)
 
@@ -35,8 +35,19 @@ export const authApiSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: '/auth/refresh',
         method: 'GET'
-      })
+      }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled
+          console.log(data)
+          const { accessToken } = data
+          dispatch(setCredentials({ accessToken }))
+        } catch (error) {
+          console.log(error)
+        }
+      }
     })
+
   })
 })
 
