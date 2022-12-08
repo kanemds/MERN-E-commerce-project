@@ -3,6 +3,7 @@ import { useUpdateNoteMutation, useDeleteNoteMutation } from './notesApiSlice'
 import { useNavigate, Link as RouterLink } from 'react-router-dom'
 import { Switch, Paper, Box, Button, TextField, Typography, Link, OutlinedInput, InputLabel, MenuItem, FormControl, Select } from '@mui/material'
 import { styled } from '@mui/system'
+import useAuth from '../../hooks/useAuth'
 
 const DisabledTextField = styled(TextField)(() => ({
   ".MuiInputBase-input.Mui-disabled": {
@@ -17,6 +18,7 @@ const DisabledTextField = styled(TextField)(() => ({
 
 const EditNoteForm = ({ note, users }) => {
 
+  const { isManager, isAdmin } = useAuth()
 
   const [updateNote, {
     isLoading,
@@ -45,6 +47,7 @@ const EditNoteForm = ({ note, users }) => {
     if (isSuccess || isDeletedSuccess) {
       setTitle('')
       setText('')
+      setSelectedUser('')
       navigate('/dash/notes')
     }
   }, [isSuccess, isDeletedSuccess, navigate])
@@ -62,7 +65,6 @@ const EditNoteForm = ({ note, users }) => {
   }
 
   const handleUpdate = async (e) => {
-    e.preventDefault()
     if (canSave) {
       await updateNote({ id: note.id, user: selectedUser, title, text, completed })
     }
@@ -70,6 +72,13 @@ const EditNoteForm = ({ note, users }) => {
 
   const handleDelete = async () => {
     await deleteNote({ id: note.id })
+  }
+
+  let deleteButton = null
+  if (isManager || isAdmin) {
+    deleteButton = (
+      <Button onClick={handleDelete} >Delete</Button>
+    )
   }
 
   const created = new Date(note.createdAt).toLocaleString('en-US', { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric' })
@@ -140,7 +149,7 @@ const EditNoteForm = ({ note, users }) => {
 
           <Box sx={{ m: 3 }}>
             <Button disabled={!canSave} onClick={handleUpdate} >Save</Button>
-            <Button onClick={handleDelete} >Delete</Button>
+            {deleteButton}
             <Button><Link to='/dash/notes' component={RouterLink} underline="none" >Cancel</Link></Button>
           </Box>
         </Paper>
