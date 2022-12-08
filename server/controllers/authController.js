@@ -1,10 +1,11 @@
 const User = require('../models/User')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const asynceHandler = require('express-async-handler')
+// const asynceHandler = require('express-async-handler')
 require('dotenv').config()
+require('express-async-errors') // instead of try catch
 
-const login = asynceHandler(async (req, res) => {
+const login = async (req, res) => {
 
   const { username, password } = req.body
 
@@ -49,7 +50,7 @@ const login = asynceHandler(async (req, res) => {
 
   // send accessToken username and roles
   res.json({ accessToken })
-})
+}
 
 const refresh = (req, res) => {
   const cookies = req.cookies

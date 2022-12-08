@@ -7,7 +7,7 @@ const getAllUsers = asynceHandler(async (req, res) => {
   //  lean() returns a JavaScript object instead of a Mongoose document.
   const users = await User.find().select('-password').lean()
   if (!users?.length) {
-    return res.status(400).json({ message: 'No users found' })
+    return res.status(400).json({ message: 'No users Found' })
   }
   res.json(users)
 })
@@ -15,7 +15,7 @@ const getAllUsers = asynceHandler(async (req, res) => {
 const createUser = asynceHandler(async (req, res) => {
   const { username, password, roles } = req.body
 
-  if (!username || !password || !Array.isArray(roles) || !roles.length) {
+  if (!username || !password) {
     return res.status(400).json({ message: 'All fields are required' })
   }
 
@@ -30,7 +30,9 @@ const createUser = asynceHandler(async (req, res) => {
   //  const salt = bcrypt.genSaltSync(10)
   // hashed = bcrypt.hashSync(password, salt)
   const hashed = await bcrypt.hash(password, 10)
-  const userObject = { username, "password": hashed, roles }
+  const userObject = (!Array.isArray(roles) || !roles.length)
+    ? { username, "password": hashed } // default as Employee
+    : { username, "password": hashed, roles } // recieved roles form req.body and repalce the default roles
 
   const user = await User.create(userObject)
 
