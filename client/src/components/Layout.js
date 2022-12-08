@@ -8,7 +8,7 @@ import { Container } from "@mui/system"
 import useAuth from '../hooks/useAuth'
 import { useLocation } from 'react-router-dom'
 
-const DASH_REGEX = /^\/dash(\/)?$/
+// const DASH_REGEX = /^\/dash(\/)?$/
 
 const Layout = () => {
 
@@ -32,7 +32,7 @@ const Layout = () => {
   return (
     <>
       <Navbar />
-      {username && status && DASH_REGEX.test(pathname) ?
+      {username && pathname.includes('/dash') ?
         <WrapperUser>
           <Outlet />
         </WrapperUser>
