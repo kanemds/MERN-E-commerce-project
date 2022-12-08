@@ -32,10 +32,10 @@ export const notesApiSlice = apiSlice.injectEndpoints({
       providesTags: (result, error, arg) => {
         if (result?.ids) {
           return [
-            { type: 'note', id: 'LIST' },
-            ...result.ids.map(id => ({ type: 'note', id }))
+            { type: 'Note', id: 'LIST' },
+            ...result.ids.map(id => ({ type: 'Note', id }))
           ]
-        } else return [{ type: 'note', id: 'LIST' }]
+        } else return [{ type: 'Note', id: 'LIST' }]
       }
     }),
     addNewNote: builder.mutation({

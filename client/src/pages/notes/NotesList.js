@@ -6,7 +6,9 @@ import useAuth from '../../hooks/useAuth'
 
 const NotesList = () => {
 
-  const { username, isManager, isAdmin } = useAuth()
+  const { username, isManager, isAdmin, status } = useAuth()
+  console.log(username)
+  console.log(status)
 
   const {
     data: notes,
@@ -36,20 +38,17 @@ const NotesList = () => {
 
   if (isSuccess) {
     const { ids, entities } = notes
+
     console.log(entities)
 
     let filteredIds
     if (isManager || isAdmin) {
       filteredIds = [...ids]
     } else {
-      filteredIds = ids.filter(id => entities[id].username === username)
+      filteredIds = ids.filter(id => entities[id].user === username)
     }
 
-
     const tableContent = ids?.length && filteredIds.map(noteId => <Note key={noteId} noteId={noteId} />)
-
-    console.log(username)
-
 
     content = (
       <TableContainer component={Paper}>

@@ -35,7 +35,7 @@ const PersistLogin = () => {
         console.log('Verifying refresh token')
         try {
           const { data } = await refresh()
-          console.log(data)
+
           setTrueSuccess(true)
         } catch (error) {
           console.log(error)
@@ -49,7 +49,6 @@ const PersistLogin = () => {
   let content
 
   if (!persist) {
-    console.log('No Persist')
     content = <Outlet />
   } else if (isLoading) { // persist && !token
     content = <Typography>Loading...</Typography>

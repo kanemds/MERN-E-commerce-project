@@ -13,44 +13,49 @@ import EditNote from './pages/notes/EditNote'
 import NewNote from './pages/notes/NewNote'
 import Prefetch from './redux/Prefetch'
 import PersistLogin from './pages/auth/PersistLogin'
+import { ROLES } from './config/roles'
+import RequireAuth from './pages/auth/RequireAuth'
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Layout />} >
+
+          {/* Public */}
           <Route index element={<Public />} />
           <Route path='login' element={<Login />} />
-          <Route path='register' element={<Register />} />
 
-
+          {/* protected */}
           <Route element={<PersistLogin />}>
-            {/* prevent default 60s unsubscribe */}
-            <Route element={<Prefetch />}>
-              <Route path='dash' element={<DashBoardLayout />}>
+            <Route element={<RequireAuth allowedRoles={[...Object.values(ROLES)]} />}>
+              {/* prevent default 60s unsubscribe */}
+              <Route element={<Prefetch />}>
+                <Route path='dash' element={<DashBoardLayout />}>
 
-                <Route index element={<DashBoard />} />
+                  <Route index element={<DashBoard />} />
+                  <Route element={<RequireAuth allowedRoles={[ROLES.Manager, ROLES.Admin]} />}>
+                    <Route path='users'>
+                      <Route index element={<UsersList />} />
+                      <Route path=':id' element={<EditUser />} />
+                      <Route path='new' element={<NewUserForm />} />
+                    </Route>
+                  </Route>
 
-                <Route path='users'>
-                  <Route index element={<UsersList />} />
-                  <Route path=':id' element={<EditUser />} />
-                  <Route path='new' element={<NewUserForm />} />
+
+                  <Route path='notes'>
+                    <Route index element={<NotesList />} />
+                    <Route path=':id' element={<EditNote />} />
+                    <Route path='new' element={<NewNote />} />
+                  </Route>
+
                 </Route>
-
-                <Route path='notes'>
-                  <Route index element={<NotesList />} />
-                  <Route path=':id' element={<EditNote />} />
-                  <Route path='new' element={<NewNote />} />
-                </Route>
-
               </Route>
             </Route>
           </Route>
+          {/* protected end */}
         </Route>
       </Routes>
-
-
-
     </BrowserRouter >
   )
 }

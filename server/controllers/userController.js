@@ -20,7 +20,8 @@ const createUser = asynceHandler(async (req, res) => {
   }
 
   // async await pass in arg inside need exec()
-  const duplicate = await User.findOne({ username }).lean().exec()
+  // collation check both upper and lower case
+  const duplicate = await User.findOne({ username }).collation({ locale: 'en', strength: 2 }).lean().exec()
 
   if (duplicate) {
     return res.status(409).json({ message: 'User already exist, please try another one' })
@@ -54,7 +55,7 @@ const updateUser = asynceHandler(async (req, res) => {
   }
 
   // check if user already exist
-  const duplicate = await User.findOne({ username }).lean().exec()
+  const duplicate = await User.findOne({ username }).collation({ locale: 'en', strength: 2 }).lean().exec()
 
   // make sure duplicate function is finish
   // if update username's id is not equal to current edit id means username already exist on other id  
