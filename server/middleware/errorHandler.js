@@ -7,8 +7,8 @@ const errorHandler = (error, req, res, next) => {
   const status = res.status ? res.statusCode : 500
 
   res.status(status)
-
-  res.json({ message: error.message })
+  // for rtk query added isError:true on the back end
+  res.json({ message: error.message, isError: true })
 }
 
 module.exports = errorHandler
