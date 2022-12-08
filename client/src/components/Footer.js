@@ -19,7 +19,7 @@ const Bottom = styled(Grid)(() => ({
   alignItems: 'center',
 }))
 
-const DASH_REGEX = /^\/dash(\/)?$/
+// const DASH_REGEX = /^\/dash(\/)?$/
 
 const Footer = () => {
 
@@ -31,7 +31,7 @@ const Footer = () => {
   return (
     <>
       {
-        username && status && DASH_REGEX.test(pathname) ?
+        username && pathname.includes('/dash') ?
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', height: '5vh', borderTop: 3, borderColor: 'primary.main' }}>
             <Typography variant='h5' sx={{ ml: 2 }}>Status: {status} </Typography>
             <Typography sx={{ ml: 3, mr: 3 }}>|</Typography>

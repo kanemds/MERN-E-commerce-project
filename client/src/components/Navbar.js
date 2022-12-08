@@ -11,7 +11,7 @@ import { useNavigate, useLocation, Link as RouterLink } from 'react-router-dom'
 import { useUserLogoutMutation } from '../pages/auth/authApiSlice'
 import useAuth from '../hooks/useAuth'
 
-const DASH_REGEX = /^\/dash(\/)?$/
+
 const NOTES_REGEX = /^\/dash\/notes(\/)?$/
 const USERS_REGEX = /^\/dash\/users(\/)?$/
 
