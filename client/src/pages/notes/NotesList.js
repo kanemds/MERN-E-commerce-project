@@ -3,6 +3,7 @@ import { useGetNotesQuery } from './notesApiSlice'
 import { Typography, Table, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material'
 import Note from './Note'
 import useAuth from '../../hooks/useAuth'
+import LoadingMessage from '../../components/LoadingMessage'
 
 const NotesList = () => {
 
@@ -26,7 +27,7 @@ const NotesList = () => {
   let content
 
   if (isLoading) {
-    content = <Typography>Loading...</Typography>
+    content = <LoadingMessage />
   }
 
   if (isError) {

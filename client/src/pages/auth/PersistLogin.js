@@ -5,7 +5,7 @@ import usePersist from '../../hooks/usePersist'
 import { useSelector } from 'react-redux'
 import { selectCurrentToken } from './authSlice'
 import { Box, Link, Typography } from '@mui/material'
-
+import LoadingMessage from '../../components/LoadingMessage'
 
 const PersistLogin = () => {
 
@@ -51,7 +51,7 @@ const PersistLogin = () => {
   if (!persist) {
     content = <Outlet />
   } else if (isLoading) { // persist && !token
-    content = <Typography>Loading...</Typography>
+    content = <LoadingMessage />
   } else if (isError) { // persist && !token
     content = (
       <Box>

@@ -7,6 +7,7 @@ import DescriptionIcon from '@mui/icons-material/Description'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt'
 //
+import LoadingMessage from './LoadingMessage'
 import { useNavigate, useLocation, Link as RouterLink } from 'react-router-dom'
 import { useUserLogoutMutation } from '../pages/auth/authApiSlice'
 import useAuth from '../hooks/useAuth'
@@ -86,7 +87,7 @@ const Navbar = () => {
 
   let buttonContent
   if (isLoading) {
-    return <Typography>Loading...</Typography>
+    return <LoadingMessage />
   } else {
     buttonContent = (
       <>
