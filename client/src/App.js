@@ -15,8 +15,12 @@ import Prefetch from './redux/Prefetch'
 import PersistLogin from './pages/auth/PersistLogin'
 import { ROLES } from './config/roles'
 import RequireAuth from './pages/auth/RequireAuth'
+import useTitle from './hooks/useTitle'
 
 function App() {
+
+  useTitle('K Repairs')
+
   return (
     <BrowserRouter>
       <Routes>
