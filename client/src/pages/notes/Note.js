@@ -11,7 +11,7 @@ const Note = ({ noteId }) => {
 
   // const note = useSelector(state => selectNoteById(state, noteId)) // render && net work request
 
-  const { note } = useGetNotesQuery("notesList", {
+  const { note } = useGetNotesQuery('notesList', {
     selectFromResult: ({ data }) => ({ // will not rerender && network request unless selected data has changed
       note: data?.entities[noteId]
     })
