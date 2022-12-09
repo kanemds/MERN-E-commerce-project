@@ -7,8 +7,7 @@ import useAuth from '../../hooks/useAuth'
 const NotesList = () => {
 
   const { username, isManager, isAdmin, status } = useAuth()
-  console.log(username)
-  console.log(status)
+
 
   const {
     data: notes,
@@ -39,7 +38,6 @@ const NotesList = () => {
   if (isSuccess) {
     const { ids, entities } = notes
 
-    console.log(entities)
 
     let filteredIds
     if (isManager || isAdmin) {

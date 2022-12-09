@@ -4,10 +4,18 @@ import { useSelector } from 'react-redux'
 import { selectNoteById } from './notesApiSlice'
 import { TableBody, TableCell, TableRow, Button, Typography } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
+import { useGetNotesQuery } from './notesApiSlice'
+import { memo } from 'react'
 
 const Note = ({ noteId }) => {
 
-  const note = useSelector(state => selectNoteById(state, noteId))
+  // const note = useSelector(state => selectNoteById(state, noteId)) // render && net work request
+
+  const { note } = useGetNotesQuery("notesList", {
+    selectFromResult: ({ data }) => ({ // will not rerender && network request unless selected data has changed
+      note: data?.entities[noteId]
+    })
+  })
 
   const navigate = useNavigate()
 
@@ -53,4 +61,5 @@ const Note = ({ noteId }) => {
 
 }
 
-export default Note
+const memoizedNote = memo(Note)
+export default memoizedNote
