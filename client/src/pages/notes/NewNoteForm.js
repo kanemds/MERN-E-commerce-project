@@ -6,6 +6,7 @@ import { Paper, Box, Button, TextField, Typography, Link, OutlinedInput, InputLa
 
 const NewNoteForm = ({ users }) => {
 
+  console.log(users)
 
   const [addNewNote, {
     isLoading,

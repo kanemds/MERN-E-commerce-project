@@ -4,10 +4,19 @@ import { useSelector } from 'react-redux'
 import { selectUserById } from './usersApiSlice'
 import { TableBody, TableCell, TableRow, Button } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
+import { useGetUsersQuery } from './usersApiSlice'
+import { memo } from 'react'
 
 const User = ({ userId }) => {
 
-  const user = useSelector(state => selectUserById(state, userId))
+  // const user = useSelector(state => selectUserById(state, userId))
+
+  const { user } = useGetUsersQuery('usersList', {
+    selectFromResult: ({ data }) => ({
+      user: data?.entities[userId]
+    })
+  })
+
 
   const navigate = useNavigate()
 
@@ -39,4 +48,6 @@ const User = ({ userId }) => {
   }
 }
 
-export default User 
+const memoizedUser = memo(User)
+
+export default memoizedUser

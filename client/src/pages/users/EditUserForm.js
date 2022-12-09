@@ -164,6 +164,7 @@ const EditUserForm = ({ currentUser }) => {
                 onChange={e => setComfirm(e.target.value)}
               />
               {isMatch || comfirm.length === 0 ? "" : <Typography>Please match with password</Typography>}
+              <Typography variant='h8' >Note: Password required: one number and one "!,@,#,$,%" special charater </Typography>
             </>
           }
 
@@ -172,7 +173,7 @@ const EditUserForm = ({ currentUser }) => {
             <Button onClick={handleDelete}>Delete</Button>
             <Button><Link to='/dash/users' component={RouterLink} underline="none" >Cancel</Link></Button>
           </Box>
-          <Typography variant='h8' >Note: Password required: one number and one "!,@,#,$,%" special charater </Typography>
+
 
         </Paper>
       }
