@@ -14,11 +14,13 @@ const initialState = notesAdapter.getInitialState()
 export const notesApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
     getNotes: builder.query({
-      query: () => '/notes',
-      validateStatus: (response, result) => {
-        // need to added in !result.isError, by default always 200
-        return response.status === 200 && !result.isError
-      },
+      query: () => ({
+        url: '/notes',
+        validateStatus: (response, result) => {
+          // need to added in !result.isError, by default always 200
+          return response.status === 200 && !result.isError
+        }
+      }),
       //default 60s
       // keepUnusedDataFor: 5,
       transformResponse: responseData => {
