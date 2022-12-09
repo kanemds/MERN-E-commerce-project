@@ -4,6 +4,7 @@ const path = require('path')
 const user = require('./api/userRoutes')
 const note = require('./api/noteRouters')
 const auth = require('./api/authRouters')
+const book = require('./api/bookRouters')
 
 router.get('^/$|/index(.html)?', (req, res) => {
   res.sendFile(path.join(__dirname, '../', 'views', 'index.html'))
@@ -14,6 +15,7 @@ router.get('^/$|/index(.html)?', (req, res) => {
 router.use('/users', user)
 router.use('/notes', note)
 router.use('/auth', auth)
+router.use('/books', book)
 
 
 module.exports = router
