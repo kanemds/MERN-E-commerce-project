@@ -5,6 +5,7 @@ import { setCredentials } from './auth/authSlice'
 import { useLoginMutation } from './auth/authApiSlice'
 import { Paper, Box, Button, TextField, Typography, Link, Checkbox } from '@mui/material'
 import usePersist from '../hooks/usePersist'
+import LoadingMessage from '../components/LoadingMessage'
 
 const Login = () => {
 
@@ -22,7 +23,7 @@ const Login = () => {
     setError('')
   }, [username, password])
 
-  if (isLoading) return <Typography>Loading...</Typography>
+  if (isLoading) return <LoadingMessage />
 
   const canSave = [username.length, password.length].every(Boolean) && !isLoading
 

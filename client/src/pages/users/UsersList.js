@@ -2,6 +2,7 @@ import React from 'react'
 import { useGetUsersQuery } from './usersApiSlice'
 import { Typography, Table, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material'
 import User from './User'
+import LoadingMessage from '../../components/LoadingMessage'
 
 
 const UserList = () => {
@@ -24,7 +25,7 @@ const UserList = () => {
   let content
 
   if (isLoading) {
-    content = <Typography>Loading...</Typography>
+    content = <LoadingMessage />
   }
 
   if (isError) {
