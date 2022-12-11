@@ -16,6 +16,9 @@ import PersistLogin from './pages/auth/PersistLogin'
 import { ROLES } from './config/roles'
 import RequireAuth from './pages/auth/RequireAuth'
 import useTitle from './hooks/useTitle'
+import BooksList from './pages/books/BooksList'
+import { EditBook } from './pages/books/EditBook'
+import NewBookForm from './pages/books/NewBookForm'
 
 function App() {
 
@@ -51,6 +54,12 @@ function App() {
                     <Route index element={<NotesList />} />
                     <Route path=':id' element={<EditNote />} />
                     <Route path='new' element={<NewNote />} />
+                  </Route>
+
+                  <Route path='books'>
+                    <Route index element={<BooksList />} />
+                    <Route path=':id' element={<EditBook />} />
+                    <Route path='new' element={<NewBookForm />} />
                   </Route>
 
                 </Route>

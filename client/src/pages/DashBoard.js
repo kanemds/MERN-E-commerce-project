@@ -30,6 +30,8 @@ const DashBoard = () => {
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Link to='/dash/users' component={RouterLink} underline='none'>View Users</Link>
             <Link to='/dash/users/new' component={RouterLink} underline='none'>create new user</Link>
+            <Link to='/dash/books' component={RouterLink} underline='none'>View Books</Link>
+            <Link to='/dash/books/new' component={RouterLink} underline='none'>create new book</Link>
           </Box>
         }
       </Box>
