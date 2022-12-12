@@ -9,7 +9,7 @@ const LoadingMessage = () => {
       <Typography sx={{ mr: 1 }} variant='h5'>
         Loading
       </Typography>
-      <ScaleLoader color='grey' height='15' />
+      <ScaleLoader color='grey' height='15px' />
     </Box>
   )
 }
