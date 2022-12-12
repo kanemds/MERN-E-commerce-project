@@ -18,6 +18,7 @@ const DisabledTextField = styled(TextField)(() => ({
 
 const EditNoteForm = ({ note, users }) => {
 
+
   const { isManager, isAdmin } = useAuth()
 
   const [updateNote, {

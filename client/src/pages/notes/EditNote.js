@@ -20,7 +20,7 @@ const EditNote = () => {
 
   const { note } = useGetNotesQuery('notesList', {
     selectFromResult: ({ data }) => ({
-      note: data?.entiteis[id]
+      note: data?.entities[id]
     })
   })
 
