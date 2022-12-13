@@ -9,6 +9,8 @@ const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const { corsOptions, corsOptionsDelegate } = require('./config/corsOptions')
 const connectDB = require('./config/dbConnection')
+const fileUpload = require('express-fileupload') // reading req.files object
+
 
 
 
@@ -31,6 +33,7 @@ app.use(cors({
   credentials: true // cookies
 }))
 app.use(express.json())
+app.use(fileUpload())
 app.use(cookieParser())
 app.use('/', require('./routes/root'))
 

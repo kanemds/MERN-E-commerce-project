@@ -22,7 +22,7 @@ export const booksApiSlice = apiSlice.injectEndpoints({
         return booksAdapter.setAll(initialState, loadedBooks)
       },
       providesTags: (result, error, arg) => {
-        if (result?.id) {
+        if (result?.ids) {
           return [
             { type: 'Book', id: 'LIST' },
             ...result.ids.map(id => ({ type: 'Book', id }))

@@ -21,18 +21,20 @@ const NewBookForm = () => {
   }] = useAddNewBookMutation()
 
   const [image, setImage] = useState(null)
+  const [preview, setPreview] = useState(null)
 
   useEffect(() => {
     const data = localStorage.getItem('preview')
-    setImage(data)
+    setPreview(data)
   }, [])
 
   useEffect(() => {
     localStorage.getItem('preview')
-  }, [image])
+  }, [preview])
 
   const handleClear = () => {
     localStorage.removeItem('preview')
+    setPreview(null)
     setImage(null)
   }
 
@@ -50,60 +52,73 @@ const NewBookForm = () => {
     reader.readAsDataURL(file)
     reader.onloadend = () => {
       const currentImageURL = reader.result
-      setImage(currentImageURL)
+      setPreview(currentImageURL)
+      setImage(file)
       localStorage.setItem('preview', currentImageURL)
     }
   }
 
   console.log(image)
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
-    const data = new FormData()
-    data.append('file', image)
-    await addNewBook(image)
+    const formData = new FormData()
+    formData.append('file', image)
+    // checking if data stored in formData
+    // for (const value of formData.values()) {
+    //   console.log(value)
+    // }
+    addNewBook(formData)
   }
 
-
-  return (
-
+  const content = (
     <Box>
-      {
-        localStorage.getItem('preview') ?
-          < ImageList >
+      {error ?
+        <Box>
+          {error.data.message}
+        </Box>
+        :
+        <Box>
+          {
+            localStorage.getItem('preview') ?
+              < ImageList >
 
-            <ImageListItem sx={{ height: 380, width: 340 }}>
-              <Paper sx={{ height: 370, width: 320, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Container src={localStorage.getItem('preview')} />
+                <ImageListItem sx={{ height: 380, width: 340 }}>
+                  <Paper sx={{ height: 370, width: 320, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <Container src={localStorage.getItem('preview')} />
+                  </Paper>
+                </ImageListItem>
+
+              </ImageList >
+              :
+              <Paper sx={{ height: 400, width: 320, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Typography variant='h5'>Product Preview</Typography>
               </Paper>
-            </ImageListItem>
+          }
 
-          </ImageList >
-          :
-          <Paper sx={{ height: 400, width: 320, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Typography variant='h5'>Product Preview</Typography>
-          </Paper>
+
+          <Box>
+            <label htmlFor="contained-button-file">
+              <Button variant="contained" color="primary" component="span" >
+                Upload Picture
+              </Button>
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              style={{ display: 'none' }}
+              id="contained-button-file"
+              onChange={handleImage}
+            />
+          </Box>
+          <Button variant="contained" onClick={handleClear}>Clear</Button>
+          <Button variant="contained" onClick={handleSubmit}>Submit</Button>
+        </Box >
       }
+    </Box>
 
-
-      <Box>
-        <label htmlFor="contained-button-file">
-          <Button variant="contained" color="primary" component="span" >
-            Upload Picture
-          </Button>
-        </label>
-        <input
-          type="file"
-          accept="image/*"
-          style={{ display: 'none' }}
-          id="contained-button-file"
-          onChange={handleImage}
-        />
-      </Box>
-      <Button variant="contained" onClick={handleClear}>Clear</Button>
-      <Button variant="contained" onClick={handleSubmit}>Submit</Button>
-    </Box >
   )
+
+  return content
 }
 
 export default NewBookForm
