@@ -23,13 +23,10 @@ const NewBookForm = () => {
   const [image, setImage] = useState(null)
   const [preview, setPreview] = useState(null)
 
+
   useEffect(() => {
     const data = localStorage.getItem('preview')
     setPreview(data)
-  }, [])
-
-  useEffect(() => {
-    localStorage.getItem('preview')
   }, [preview])
 
   const handleClear = () => {
@@ -37,6 +34,7 @@ const NewBookForm = () => {
     setPreview(null)
     setImage(null)
   }
+
 
 
   const handleImage = async (e) => {
@@ -48,17 +46,19 @@ const NewBookForm = () => {
     // localStorage.setItem('preview', previewImage)
 
     // return base64
+
     const reader = new FileReader()
     reader.readAsDataURL(file)
     reader.onloadend = () => {
       const currentImageURL = reader.result
-      setPreview(currentImageURL)
       setImage(file)
+      setPreview(currentImageURL)
       localStorage.setItem('preview', currentImageURL)
     }
   }
 
-  console.log(image)
+  // console.log(preview)
+
   const handleSubmit = (e) => {
     e.preventDefault()
     const formData = new FormData()
@@ -68,6 +68,7 @@ const NewBookForm = () => {
     //   console.log(value)
     // }
     addNewBook(formData)
+    // addNewBook({ base64: preview })
   }
 
   const content = (
