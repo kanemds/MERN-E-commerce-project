@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { OutlinedInput, Button, Box, Card, CardMedia, Typography, Modal, Paper, ImageListItem, ImageList } from '@mui/material'
 import styled from 'styled-components'
+import { useAddNewBookMutation } from './booksApiSlice'
 
 const Container = styled.img`
     width:auto;
@@ -12,8 +13,19 @@ const Container = styled.img`
 
 const NewBookForm = () => {
 
+  const [addNewBook, {
+    isLoading,
+    isSuccess,
+    isError,
+    error
+  }] = useAddNewBookMutation()
+
   const [image, setImage] = useState(null)
 
+  useEffect(() => {
+    const data = localStorage.getItem('preview')
+    setImage(data)
+  }, [])
 
   useEffect(() => {
     localStorage.getItem('preview')
@@ -25,11 +37,31 @@ const NewBookForm = () => {
   }
 
 
-  const handleImage = e => {
-    const file = e.target.files[0]
-    const previewImage = URL.createObjectURL(file)
-    setImage(file)
-    localStorage.setItem('preview', previewImage)
+  const handleImage = async (e) => {
+    const file = await e.target.files[0]
+
+    // return short URL
+    // const previewImage = URL.createObjectURL(file)
+    // setImage(file)
+    // localStorage.setItem('preview', previewImage)
+
+    // return base64
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onloadend = () => {
+      const currentImageURL = reader.result
+      setImage(currentImageURL)
+      localStorage.setItem('preview', currentImageURL)
+    }
+  }
+
+  console.log(image)
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const data = new FormData()
+    data.append('file', image)
+    await addNewBook(image)
   }
 
 
@@ -49,16 +81,15 @@ const NewBookForm = () => {
           </ImageList >
           :
           <Paper sx={{ height: 400, width: 320, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Typography>Product Picture</Typography>
+            <Typography variant='h5'>Product Preview</Typography>
           </Paper>
       }
-
 
 
       <Box>
         <label htmlFor="contained-button-file">
           <Button variant="contained" color="primary" component="span" >
-            Upload
+            Upload Picture
           </Button>
         </label>
         <input
@@ -70,6 +101,7 @@ const NewBookForm = () => {
         />
       </Box>
       <Button variant="contained" onClick={handleClear}>Clear</Button>
+      <Button variant="contained" onClick={handleSubmit}>Submit</Button>
     </Box >
   )
 }
