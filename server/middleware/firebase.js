@@ -1,4 +1,4 @@
-const { initializeApp } = reqiure('firebase/app')
+const { initializeApp } = require('firebase/app')
 const { getStorage } = require('firebase/storage')
 require('dotenv').config()
 

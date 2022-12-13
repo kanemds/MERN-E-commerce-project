@@ -5,7 +5,8 @@ const { ref, uploadBytes, getDownloadURL, deleteObject } = require('firebase/sto
 
 
 const createImage = async (req, res) => {
-  const image = await req.files.file
+  const image = await req.body
+  console.log(image)
   const fileName = new Date().getTime() + image.name
 
   const imageRef = ref(storage, `books/${fileName}`)
@@ -20,3 +21,5 @@ const createImage = async (req, res) => {
   const saveImage = await newImage.save()
   res.status(200).json('New Image Added')
 }
+
+module.exports = { createImage }
