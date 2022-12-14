@@ -30,11 +30,11 @@ const NewBookForm = () => {
     error
   }] = useAddNewBookMutation()
 
-  const [image, setImage] = useState({})
+  const [image, setImage] = useState()
   const [preview, setPreview] = useState('')
 
   const [title, setTitle] = useState('')
-  const [text, setText] = useState('')
+  const [description, setDescription] = useState('')
   const [author, setAuthor] = useState('')
   const [imageName, setImageName] = useState('')
 
@@ -45,7 +45,7 @@ const NewBookForm = () => {
     // sessionStorage.removeItem('preview')
     setPreview('')
     setImageName('')
-    setImage({})
+    setImage()
   }
 
 
@@ -80,7 +80,6 @@ const NewBookForm = () => {
   const handleImage = async (e) => {
     const file = e.target.files[0]
     const url = await URL.createObjectURL(file)
-    console.log(url)
     setImage(file)
     setPreview(url)
     setImageName(file.name)
@@ -90,15 +89,21 @@ const NewBookForm = () => {
     e.preventDefault()
     const formData = new FormData()
     formData.append('file', image)
+    formData.append('title', title)
+    formData.append('description', description)
+    formData.append('author', author)
+
+    addNewBook(formData)
 
     // checking if data stored in formData
     // for (const value of formData.values()) {
     //   console.log(value)
     // }
-    addNewBook({ formData, title, text, author })
+    // addNewBook(formData)
+
   }
 
-  const canSave = [title.length, text.length, author.length, image].every(Boolean) && !isLoading
+  const canSave = [title.length, description.length, author.length, image].every(Boolean) && !isLoading
 
 
   const content = (
@@ -136,7 +141,7 @@ const NewBookForm = () => {
               onChange={e => setTitle(e.target.value)}
             />
             <TextField fullWidth rows={8} multiline autoComplete='off' type='text' label='Description' variant='outlined' required sx={{ m: 3 }}
-              onChange={e => setText(e.target.value)}
+              onChange={e => setDescription(e.target.value)}
             />
             <TextField fullWidth autoComplete='off' type='text' label='Author' variant='outlined' required sx={{ m: 3 }}
               onChange={e => setAuthor(e.target.value)}

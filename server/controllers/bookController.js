@@ -11,9 +11,10 @@ const createImage = async (req, res) => {
   // const buffer = toBuffer.decode(base64)
   // console.log(buffer)
 
+  const { title, description, author } = req.body
+
   const image = await req.files.file
 
-  console.log(image)
 
   const fileName = new Date().getTime() + image.name
 
