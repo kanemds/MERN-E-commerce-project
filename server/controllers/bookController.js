@@ -53,7 +53,9 @@ const createImage = async (req, res) => {
 const updateBook = async (req, res) => {
   const { id, title, description, author, category } = req.body
 
-  const image = await req.files.file
+  const image = await req.files?.file
+  console.log(image)
+
 
   if (!id || !title || !description || !author || !category) {
     return res.status(400).json({ message: 'All fields are required' })
