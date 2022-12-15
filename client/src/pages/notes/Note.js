@@ -9,6 +9,8 @@ import { memo } from 'react'
 
 const Note = ({ noteId }) => {
 
+  const navigate = useNavigate()
+
   // const note = useSelector(state => selectNoteById(state, noteId)) // render && net work request
 
   const { note } = useGetNotesQuery('notesList', {
@@ -17,7 +19,7 @@ const Note = ({ noteId }) => {
     })
   })
 
-  const navigate = useNavigate()
+
 
   if (note) {
     const createdAt = new Date(note.createdAt).toLocaleString('en-US', {
