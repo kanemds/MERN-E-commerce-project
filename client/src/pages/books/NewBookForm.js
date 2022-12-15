@@ -193,7 +193,7 @@ const NewBookForm = () => {
                   </InputAdornment>
                 ),
               }}
-              onChange={e => setAuthor(e.target.value)}
+
             />
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Button disabled={!canSave} variant="contained" onClick={handleSubmit}>Submit</Button>
