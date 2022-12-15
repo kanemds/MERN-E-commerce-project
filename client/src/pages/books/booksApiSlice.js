@@ -14,7 +14,7 @@ export const booksApiSlice = apiSlice.injectEndpoints({
           return response.status === 200 && !result.isError
         }
       }),
-      transformErrorResponse: responseData => {
+      transformResponse: responseData => {
         const loadedBooks = responseData.map(book => {
           book.id = book._id
           return book
@@ -42,4 +42,4 @@ export const booksApiSlice = apiSlice.injectEndpoints({
     })
   })
 })
-export const { useAddNewBookMutation } = booksApiSlice
+export const { useGetBooksQuery, useAddNewBookMutation } = booksApiSlice

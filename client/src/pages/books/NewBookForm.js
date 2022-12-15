@@ -155,10 +155,9 @@ const NewBookForm = () => {
               onChange={e => setAuthor(e.target.value)}
             />
 
-            <FormControl required fullWidth>
+            <FormControl required fullWidth sx={{ m: 3 }}>
               <InputLabel id="demo-simple-select-label">Section</InputLabel>
               <Select
-
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={section}
