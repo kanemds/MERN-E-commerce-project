@@ -127,8 +127,8 @@ const NewUserForm = () => {
           {options}
           {roles.length === 0 ? <Typography>Please select at least one position</Typography> : ""}
           <Box sx={{ m: 3 }}>
-            <Button disabled={!canSave} onClick={handleSubmit} >Submit</Button>
-            <Button><Link to='/' component={RouterLink} underline="none" >Cancel</Link></Button>
+            <Button variant="contained" disabled={!canSave} onClick={handleSubmit} sx={{ mr: 3 }}>Submit</Button>
+            <Button variant="contained" ><Link to='/' component={RouterLink} underline="none" color='white'>Cancel</Link></Button>
           </Box>
           <Typography variant='h8' >Note: Password required: one number and one "!,@,#,$,%" special charater </Typography>
         </Paper>

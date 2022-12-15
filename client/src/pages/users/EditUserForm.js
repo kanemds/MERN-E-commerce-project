@@ -152,7 +152,7 @@ const EditUserForm = ({ currentUser }) => {
             />
           </Paper>
 
-          <Button onClick={handleShow} sx={{ m: 1 }}>Password Update</Button>
+          <Button variant="contained" onClick={handleShow} sx={{ m: 1 }}>Password Update</Button>
           {!show ? '' :
             <>
               <TextField fullWidth autoComplete='off' type='password' label='Password' variant='outlined' required sx={{ m: 3 }}
@@ -169,9 +169,9 @@ const EditUserForm = ({ currentUser }) => {
           }
 
           <Box sx={{ m: 3 }}>
-            <Button disabled={!canSave} onClick={handleUpdate} >Update</Button>
-            <Button onClick={handleDelete}>Delete</Button>
-            <Button><Link to='/dash/users' component={RouterLink} underline="none" >Cancel</Link></Button>
+            <Button variant="contained" disabled={!canSave} onClick={handleUpdate} sx={{ mr: 3 }}>Update</Button>
+            <Button variant="contained" onClick={handleDelete} sx={{ mr: 3 }}>Delete</Button>
+            <Button variant="contained" sx={{ mr: 3 }}><Link to='/dash/users' component={RouterLink} underline="none" color='white' >Cancel</Link></Button>
           </Box>
 
 

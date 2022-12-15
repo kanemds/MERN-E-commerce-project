@@ -1,8 +1,9 @@
 import React, { useEffect, useState, } from 'react'
 import { Button, Box, TextField, InputAdornment, Typography, Paper, ImageListItem, InputLabel, MenuItem, FormControl, Select } from '@mui/material'
 import styled from 'styled-components'
-import { useUpdateBookMutation } from './booksApiSlice'
+import { useUpdateBookMutation, useDeleteBookMutation } from './booksApiSlice'
 import { SECTIONS } from '../../config/sections'
+import { useNavigate } from 'react-router-dom'
 
 const DisabledTextField = styled(TextField)(() => ({
   ".MuiInputBase-input.Mui-disabled": {
@@ -23,7 +24,8 @@ const Container = styled.img`
 
 
 const EditBookForm = ({ book }) => {
-  console.log(book)
+
+  const navigate = useNavigate()
 
   const [updateBook, {
     isLoading,
@@ -31,6 +33,12 @@ const EditBookForm = ({ book }) => {
     isError,
     error
   }] = useUpdateBookMutation()
+
+  const [deleteBook, {
+    isSuccess: isDeletedSuccess,
+    isError: isDeletedError,
+    error: deletedError
+  }] = useDeleteBookMutation()
 
   const [image, setImage] = useState('')
   const [preview, setPreview] = useState(book.image)
@@ -40,10 +48,24 @@ const EditBookForm = ({ book }) => {
   const [author, setAuthor] = useState(book.author)
   const [category, setCategory] = useState(book.category)
 
-  const [imageName, setImageName] = useState('')
+  const [imageName, setImageName] = useState('') // will cause error if no value
 
 
   const type = Object.values(SECTIONS)
+
+
+  useEffect(() => {
+    if (isSuccess || isDeletedSuccess) {
+      setImage('')
+      setPreview('')
+      setTitle('')
+      setDescription('')
+      setAuthor('')
+      setCategory('')
+      setImageName('')
+      navigate('/dash/books')
+    }
+  }, [isSuccess, isDeletedSuccess, navigate])
 
   const handleClear = () => {
     setPreview('')
@@ -55,9 +77,13 @@ const EditBookForm = ({ book }) => {
 
   const handleImage = async (e) => {
     const file = e.target.files[0]
-    const url = await URL.createObjectURL(file)
+    // const url = await URL.createObjectURL(file) // might sometimes have a problem when dealing with large file
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onloadend = () => {
+      setPreview(reader.result)
+    }
     setImage(file)
-    setPreview(url)
     setImageName(file.name)
   }
 
@@ -72,13 +98,13 @@ const EditBookForm = ({ book }) => {
 
     if (image && canSave) {
       formData.append('file', image)
-      formData.append('id', book._id)
+      formData.append('id', book.id)
       formData.append('title', title)
       formData.append('description', description)
       formData.append('author', author)
       formData.append('category', category)
     } else {
-      formData.append('id', book._id)
+      formData.append('id', book.id)
       formData.append('title', title)
       formData.append('description', description)
       formData.append('author', author)
@@ -87,6 +113,10 @@ const EditBookForm = ({ book }) => {
 
     updateBook(formData)
 
+  }
+
+  const handleDelete = async () => {
+    await deleteBook({ id: book.id })
   }
 
   let canSave
@@ -182,7 +212,8 @@ const EditBookForm = ({ book }) => {
 
             />
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Button disabled={!canSave} variant="contained" onClick={handleSubmit}>Submit</Button>
+              <Button disabled={!canSave} variant="contained" onClick={handleSubmit} sx={{ mr: 3 }}>Update</Button>
+              <Button variant="contained" onClick={handleDelete} >Delete</Button>
             </Box>
           </Box>
 
