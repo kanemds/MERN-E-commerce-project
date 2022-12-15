@@ -38,7 +38,8 @@ const NotesList = () => {
 
   if (isSuccess) {
     const { ids, entities } = notes
-
+    console.log(ids)
+    console.log(entities)
 
     let filteredIds
     if (isManager || isAdmin) {
