@@ -6,6 +6,8 @@ import NoteAddIcon from '@mui/icons-material/NoteAdd'
 import DescriptionIcon from '@mui/icons-material/Description'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt'
+import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd'
+import BookmarksIcon from '@mui/icons-material/Bookmarks'
 //
 import LoadingMessage from './LoadingMessage'
 import { useNavigate, useLocation, Link as RouterLink } from 'react-router-dom'
@@ -15,6 +17,7 @@ import useAuth from '../hooks/useAuth'
 
 const NOTES_REGEX = /^\/dash\/notes(\/)?$/
 const USERS_REGEX = /^\/dash\/users(\/)?$/
+const BOOKS_REGEX = /^\/dash\/books(\/)?$/
 
 const Navbar = () => {
 
@@ -39,8 +42,12 @@ const Navbar = () => {
 
   const toNewNote = () => navigate('/dash/notes/new')
   const toNotes = () => navigate('/dash/notes')
+
   const toNewUser = () => navigate('/dash/users/new')
   const toUsers = () => navigate('/dash/users')
+
+  const toNewBook = () => navigate('/dash/books/new')
+  const toBooks = () => navigate('/dash/books')
 
 
 
@@ -62,6 +69,16 @@ const Navbar = () => {
     )
   }
 
+  let newBookButton = null
+  if (BOOKS_REGEX.test(pathname)) {
+    newBookButton = (
+      <IconButton aria-label="New Book" onClick={toNewBook} >
+        <BookmarkAddIcon sx={{ color: 'white' }} />
+      </IconButton>
+    )
+  }
+
+
   let usersButton = null
   if (isManager || isAdmin) {
     if (!USERS_REGEX.test(pathname) && pathname.includes('/dash')) {
@@ -82,6 +99,15 @@ const Navbar = () => {
     )
   }
 
+  let booksButton = null
+  if (!BOOKS_REGEX.test(pathname) && pathname.includes('/dash')) {
+    booksButton = (
+      <IconButton aria-label="All Books" onClick={toBooks} >
+        <BookmarksIcon sx={{ color: 'white' }} />
+      </IconButton>
+    )
+  }
+
 
   if (isError) return <Typography>{error.data?.message}</Typography>
 
@@ -95,6 +121,8 @@ const Navbar = () => {
         {notesButton}
         {newUserButton}
         {usersButton}
+        {newBookButton}
+        {booksButton}
       </>
     )
   }
