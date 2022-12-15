@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useRef } from 'react'
-import { OutlinedInput, Button, Box, TextField, Card, CardMedia, InputAdornment, Typography, Modal, Paper, ImageListItem, ImageList } from '@mui/material'
+import React, { useEffect, useState, } from 'react'
+import { Button, Box, TextField, InputAdornment, Typography, Paper, ImageListItem, InputLabel, MenuItem, FormControl, Select } from '@mui/material'
 import styled from 'styled-components'
 import { useAddNewBookMutation } from './booksApiSlice'
+import { SECTIONS } from '../../config/sections'
 
 const DisabledTextField = styled(TextField)(() => ({
   ".MuiInputBase-input.Mui-disabled": {
@@ -36,10 +37,12 @@ const NewBookForm = () => {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [author, setAuthor] = useState('')
+  const [section, setSection] = useState('')
+
   const [imageName, setImageName] = useState('')
 
 
-
+  const type = Object.values(SECTIONS)
 
   const handleClear = () => {
     // sessionStorage.removeItem('preview')
@@ -85,6 +88,10 @@ const NewBookForm = () => {
     setImageName(file.name)
   }
 
+  const handleChange = (event) => {
+    setSection(event.target.value)
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault()
     const formData = new FormData()
@@ -92,6 +99,7 @@ const NewBookForm = () => {
     formData.append('title', title)
     formData.append('description', description)
     formData.append('author', author)
+    formData.append('section', section)
 
     addNewBook(formData)
 
@@ -103,7 +111,7 @@ const NewBookForm = () => {
 
   }
 
-  const canSave = [title.length, description.length, author.length, image].every(Boolean) && !isLoading
+  const canSave = [title.length, description.length, author.length, image, section.length].every(Boolean) && !isLoading
 
 
   const content = (
@@ -146,6 +154,23 @@ const NewBookForm = () => {
             <TextField fullWidth autoComplete='off' type='text' label='Author' variant='outlined' required sx={{ m: 3 }}
               onChange={e => setAuthor(e.target.value)}
             />
+
+            <FormControl required fullWidth>
+              <InputLabel id="demo-simple-select-label">Section</InputLabel>
+              <Select
+
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={section}
+                label="Section"
+                onChange={handleChange}
+              >
+                {type.map((name, index) =>
+                  <MenuItem key={index} value={name}>{name}</MenuItem>
+                )}
+              </Select>
+            </FormControl>
+
             <DisabledTextField fullWidth autoComplete='off' type='text' label='File Name' variant='outlined' required sx={{ m: 3 }}
               disabled={true}
               value={imageName}

@@ -1,8 +1,8 @@
 const router = require('express').Router()
-const { createImage } = require('../../controllers/bookController')
+const { getALlBooks, createImage } = require('../../controllers/bookController')
 
 router.route('/')
-  .get()
+  .get(getALlBooks)
   .post(createImage)
   .patch()
   .delete()
