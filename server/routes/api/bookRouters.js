@@ -1,10 +1,10 @@
 const router = require('express').Router()
-const { getALlBooks, createImage } = require('../../controllers/bookController')
+const { getALlBooks, createImage, updateBook } = require('../../controllers/bookController')
 
 router.route('/')
   .get(getALlBooks)
   .post(createImage)
-  .patch()
+  .patch(updateBook)
   .delete()
 
 module.exports = router
