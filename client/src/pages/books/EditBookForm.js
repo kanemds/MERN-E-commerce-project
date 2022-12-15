@@ -1,7 +1,7 @@
 import React, { useEffect, useState, } from 'react'
 import { Button, Box, TextField, InputAdornment, Typography, Paper, ImageListItem, InputLabel, MenuItem, FormControl, Select } from '@mui/material'
 import styled from 'styled-components'
-import { useAddNewBookMutation } from './booksApiSlice'
+import { useUpdateBookMutation } from './booksApiSlice'
 import { SECTIONS } from '../../config/sections'
 
 const DisabledTextField = styled(TextField)(() => ({
@@ -25,14 +25,14 @@ const Container = styled.img`
 const EditBookForm = ({ book }) => {
   console.log(book)
 
-  const [addNewBook, {
+  const [updateBook, {
     isLoading,
     isSuccess,
     isError,
     error
-  }] = useAddNewBookMutation()
+  }] = useUpdateBookMutation()
 
-  const [image, setImage] = useState()
+  const [image, setImage] = useState('')
   const [preview, setPreview] = useState(book.image)
 
   const [title, setTitle] = useState(book.title)
@@ -48,7 +48,7 @@ const EditBookForm = ({ book }) => {
   const handleClear = () => {
     setPreview('')
     setImageName('')
-    setImage()
+    setImage('')
   }
 
 
@@ -67,18 +67,34 @@ const EditBookForm = ({ book }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const formData = new FormData()
-    formData.append('file', image)
-    formData.append('title', title)
-    formData.append('description', description)
-    formData.append('author', author)
-    formData.append('category', category)
 
-    addNewBook(formData)
+    const formData = new FormData()
+
+    if (image && canSave) {
+      formData.append('file', image)
+      formData.append('id', book._id)
+      formData.append('title', title)
+      formData.append('description', description)
+      formData.append('author', author)
+      formData.append('category', category)
+    } else {
+      formData.append('id', book._id)
+      formData.append('title', title)
+      formData.append('description', description)
+      formData.append('author', author)
+      formData.append('category', category)
+    }
+
+    updateBook(formData)
 
   }
 
-  const canSave = [title.length, description.length, author.length, preview, category.length].every(Boolean) && !isLoading
+  let canSave
+  if (image) {
+    canSave = [title.length, description.length, author.length, image, category.length].every(Boolean) && !isLoading
+  } else {
+    canSave = [title.length, description.length, author.length, category.length].every(Boolean) && !isLoading
+  }
 
 
   const content = (

@@ -39,7 +39,17 @@ export const booksApiSlice = apiSlice.injectEndpoints({
       invalidatesTages: [
         { type: 'Book', id: 'LIST' }
       ]
+    }),
+    updateBook: builder.mutation({
+      query: updateBookData => ({
+        url: '/books',
+        method: 'PATCH',
+        body: updateBookData
+      }),
+      invalidatesTags: (result, error, arg) => [{
+        type: 'Book', id: arg.id
+      }]
     })
   })
 })
-export const { useGetBooksQuery, useAddNewBookMutation } = booksApiSlice
+export const { useGetBooksQuery, useAddNewBookMutation, useUpdateBookMutation } = booksApiSlice
