@@ -47,6 +47,11 @@ function App() {
                       <Route path=':id' element={<EditUser />} />
                       <Route path='new' element={<NewUserForm />} />
                     </Route>
+                    <Route path='books'>
+                      <Route index element={<BooksList />} />
+                      <Route path=':id' element={<EditBook />} />
+                      <Route path='new' element={<NewBookForm />} />
+                    </Route>
                   </Route>
 
 
@@ -56,11 +61,7 @@ function App() {
                     <Route path='new' element={<NewNote />} />
                   </Route>
 
-                  <Route path='books'>
-                    <Route index element={<BooksList />} />
-                    <Route path=':id' element={<EditBook />} />
-                    <Route path='new' element={<NewBookForm />} />
-                  </Route>
+
 
                 </Route>
               </Route>
