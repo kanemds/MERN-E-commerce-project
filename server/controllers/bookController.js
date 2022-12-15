@@ -19,12 +19,18 @@ const createImage = async (req, res) => {
   // const buffer = toBuffer.decode(base64)
   // console.log(buffer)
 
-  const { title, description, author, section } = req.body
+  const { title, description, author, category } = req.body
 
   const image = await req.files.file
 
-  if (!title || !description || author || image || section) {
+  if (!title || !description || !author || !image || !category) {
     return res.status(400).json({ message: 'All fields are required' })
+  }
+
+  const duplicate = await Book.findOne({ title }).collation({ locale: 'en', strength: 2 }).lean().exec()
+
+  if (duplicate) {
+    return res.status(409).json({ message: 'Book Title already exist, please try again' })
   }
 
   const fileName = new Date().getTime() + image.name
@@ -34,7 +40,7 @@ const createImage = async (req, res) => {
   const uploadImage = await uploadBytes(imageRef, image.data)
   const getImage = await getDownloadURL(uploadImage.ref)
 
-  const newImage = { image: getImage, title, description, author, section }
+  const newImage = { image: getImage, title, description, author, category }
 
   const saveImage = await Book.create(newImage)
   if (saveImage) {
@@ -44,4 +50,57 @@ const createImage = async (req, res) => {
   }
 }
 
-module.exports = { getALlBooks, createImage }
+const updateBook = async (req, res) => {
+  const { id, title, description, author, category } = req.body
+
+  const image = await req.files.file
+
+  if (!id || !title || !description || !author || !category) {
+    return res.status(400).json({ message: 'All fields are required' })
+  }
+
+  const currentBook = await Book.findById(id).exec()
+
+  if (!currentBook) {
+    return res.status(400).json({ message: 'Book Not Found' })
+  }
+
+  const duplicate = await Book.findOne({ title }).collation({ locale: 'en', strength: 2 }).lean().exec()
+
+  if (duplicate && duplicate?._id.toString() !== id) {
+    return res.status(409).json({ message: 'Book already exist, please try another one' })
+  }
+
+  currentBook.title = title
+  currentBook.description = description
+  currentBook.author = author
+  currentBook.category = category
+
+  if (image) {
+    try {
+      const fileName = new Date().getTime() + image.name
+
+      const imageRef = ref(storage, `books/${fileName}`)
+
+      const uploadImage = await uploadBytes(imageRef, image.data)
+      const getImage = await getDownloadURL(uploadImage.ref)
+
+
+      const desertRef = ref(storage, currentBook.image)
+      const deleteImageFirebase = await deleteObject(desertRef)
+
+      currentBook.image = getImage
+    } catch (error) {
+      console.log(error.message)
+      res.status(400).json({ message: 'Upload Failed Please try again' })
+    }
+  }
+
+
+  const update = await currentBook.save()
+
+  res.json({ message: `Book ${update.title} updated` })
+
+}
+
+module.exports = { getALlBooks, createImage, updateBook }
