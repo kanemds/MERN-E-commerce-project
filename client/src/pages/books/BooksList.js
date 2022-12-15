@@ -3,11 +3,16 @@ import { Typography, Table, TableCell, TableContainer, TableHead, TableRow, Pape
 import LoadingMessage from '../../components/LoadingMessage'
 import useAuth from '../../hooks/useAuth'
 import { useGetBooksQuery } from './booksApiSlice'
+import Book from './Book'
+
+
 
 
 const BooksList = () => {
 
   const { username, isManager, isAdmin, status } = useAuth()
+
+
 
   const {
     data: books,
@@ -21,7 +26,6 @@ const BooksList = () => {
     refetchOnMountOrArgChange: true
   })
 
-  console.log(books)
 
   let content
 
@@ -36,14 +40,32 @@ const BooksList = () => {
   }
 
   if (isSuccess) {
-    const { ids, entities } = books
-    console.log(ids)
-    console.log(entities)
+    const { ids } = books
+
+    const tableContent = ids?.length && ids.map(bookId => <Book key={bookId} bookId={bookId} />)
+
+    content = (
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Category</TableCell>
+              <TableCell align="left">Name</TableCell>
+              <TableCell align="left">Author</TableCell>
+              <TableCell align="center">Edit</TableCell>
+            </TableRow>
+          </TableHead>
+          {tableContent}
+        </Table>
+      </TableContainer>
+    )
   }
 
-  return (
-    <div>BooksList</div>
-  )
+
+
+
+
+  return content
 }
 
 export default BooksList

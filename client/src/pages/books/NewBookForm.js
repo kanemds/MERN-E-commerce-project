@@ -156,7 +156,7 @@ const NewBookForm = () => {
             />
 
             <FormControl required fullWidth sx={{ m: 3 }}>
-              <InputLabel id="demo-simple-select-label">Section</InputLabel>
+              <InputLabel id="demo-simple-select-label">category</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
