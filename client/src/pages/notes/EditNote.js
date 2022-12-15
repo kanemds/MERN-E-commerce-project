@@ -7,7 +7,7 @@ import { Typography } from '@mui/material'
 import { useGetNotesQuery } from './notesApiSlice'
 import { useGetUsersQuery } from '../users/usersApiSlice'
 import useAuth from '../../hooks/useAuth'
-import ScaleLoader from 'react-spinners/ScaleLoader'
+import LoadingMessage from '../../components/LoadingMessage'
 
 const EditNote = () => {
 
@@ -30,8 +30,7 @@ const EditNote = () => {
     })
   })
 
-  if (!note && !users?.length) return <ScaleLoader color='grey' />
-
+  if (!note && !users?.length) return <LoadingMessage />
   if (!isManager && !isAdmin) {
     if (note.username !== username) {
       return <Typography>Access Denied</Typography>
