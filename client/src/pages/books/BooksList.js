@@ -10,9 +10,6 @@ import Book from './Book'
 
 const BooksList = () => {
 
-  const { username, isManager, isAdmin, status } = useAuth()
-
-
 
   const {
     data: books,
@@ -50,6 +47,7 @@ const BooksList = () => {
           <TableHead>
             <TableRow>
               <TableCell>Category</TableCell>
+              <TableCell align="left">Product Image</TableCell>
               <TableCell align="left">Name</TableCell>
               <TableCell align="left">Author</TableCell>
               <TableCell align="center">Edit</TableCell>
