@@ -85,8 +85,8 @@ const NewNoteForm = ({ users }) => {
           {options}
 
           <Box sx={{ m: 3 }}>
-            <Button disabled={!canSave} onClick={handleSubmit} >Submit</Button>
-            <Button><Link hto='/' component={RouterLink} underline="none" >Cancel</Link></Button>
+            <Button variant="contained" disabled={!canSave} onClick={handleSubmit} sx={{ mr: 3 }}>Submit</Button>
+            <Button variant="contained"><Link hto='/' component={RouterLink} underline="none" color='white' >Cancel</Link></Button>
           </Box>
 
         </Paper>

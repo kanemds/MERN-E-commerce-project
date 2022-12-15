@@ -105,4 +105,27 @@ const updateBook = async (req, res) => {
 
 }
 
-module.exports = { getALlBooks, createImage, updateBook }
+const deleteBook = async (req, res) => {
+  const { id } = req.body
+
+  if (!id) {
+    return res.status(400).json({ message: 'Book ID required ' })
+  }
+
+  const currentBook = await Book.findById(id).exec()
+
+  if (!currentBook) {
+    return res.status(400).json({ message: 'Book Not Found' })
+  }
+
+  const desertRef = ref(storage, currentBook.image)
+  const deleteImageFirebase = await deleteObject(desertRef)
+
+  const result = await Book.deleteOne()
+
+  const reply = `Book: ${result.title} with ID ${result._id} deleted`
+
+  res.json(reply)
+}
+
+module.exports = { getALlBooks, createImage, updateBook, deleteBook }

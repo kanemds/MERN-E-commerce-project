@@ -3,6 +3,7 @@ import { Button, Box, TextField, InputAdornment, Typography, Paper, ImageListIte
 import styled from 'styled-components'
 import { useAddNewBookMutation } from './booksApiSlice'
 import { SECTIONS } from '../../config/sections'
+import { useNavigate } from 'react-router-dom'
 
 const DisabledTextField = styled(TextField)(() => ({
   ".MuiInputBase-input.Mui-disabled": {
@@ -24,6 +25,8 @@ const Container = styled.img`
 
 const NewBookForm = () => {
 
+  const navigate = useNavigate()
+
   const [addNewBook, {
     isLoading,
     isSuccess,
@@ -43,6 +46,19 @@ const NewBookForm = () => {
 
 
   const type = Object.values(SECTIONS)
+
+  useEffect(() => {
+    if (isSuccess) {
+      setImage('')
+      setPreview('')
+      setTitle('')
+      setDescription('')
+      setAuthor('')
+      setCategory('')
+      setImageName('')
+      navigate('/dash/books')
+    }
+  }, [isSuccess, navigate])
 
   const handleClear = () => {
     // sessionStorage.removeItem('preview')

@@ -78,7 +78,7 @@ const EditNoteForm = ({ note, users }) => {
   let deleteButton = null
   if (isManager || isAdmin) {
     deleteButton = (
-      <Button onClick={handleDelete} >Delete</Button>
+      <Button variant="contained" onClick={handleDelete} sx={{ mr: 3 }}>Delete</Button>
     )
   }
 
@@ -149,9 +149,9 @@ const EditNoteForm = ({ note, users }) => {
 
 
           <Box sx={{ m: 3 }}>
-            <Button disabled={!canSave} onClick={handleUpdate} >Save</Button>
+            <Button variant="contained" disabled={!canSave} onClick={handleUpdate} sx={{ mr: 3 }}>Save</Button>
             {deleteButton}
-            <Button><Link to='/dash/notes' component={RouterLink} underline="none" >Cancel</Link></Button>
+            <Button variant="contained" sx={{ mr: 3 }}><Link to='/dash/notes' component={RouterLink} underline="none" color='white' >Cancel</Link></Button>
           </Box>
         </Paper>
       }
