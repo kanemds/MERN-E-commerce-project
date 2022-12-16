@@ -22,7 +22,7 @@ import NewBookForm from './pages/books/NewBookForm'
 
 function App() {
 
-  useTitle('K Repairs')
+  useTitle('K Book Shop')
 
   return (
     <BrowserRouter>
@@ -60,8 +60,6 @@ function App() {
                     <Route path=':id' element={<EditNote />} />
                     <Route path='new' element={<NewNote />} />
                   </Route>
-
-
 
                 </Route>
               </Route>

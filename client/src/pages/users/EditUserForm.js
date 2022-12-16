@@ -48,7 +48,7 @@ const EditUserForm = ({ currentUser }) => {
   }, [username])
 
   useEffect(() => {
-    setPassword(PWD_REGEX.test(password))
+    setValidPassword(PWD_REGEX.test(password))
   }, [password])
 
   useEffect(() => {
@@ -171,7 +171,7 @@ const EditUserForm = ({ currentUser }) => {
           <Box sx={{ m: 3 }}>
             <Button variant="contained" disabled={!canSave} onClick={handleUpdate} sx={{ mr: 3 }}>Update</Button>
             <Button variant="contained" onClick={handleDelete} sx={{ mr: 3 }}>Delete</Button>
-            <Button variant="contained" sx={{ mr: 3 }}><Link to='/dash/users' component={RouterLink} underline="none" color='white' >Cancel</Link></Button>
+            <Button variant="contained" ><Link to='/dash/users' component={RouterLink} underline="none" color='white' >Cancel</Link></Button>
           </Box>
 
 
