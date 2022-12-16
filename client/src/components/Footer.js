@@ -44,7 +44,7 @@ const Footer = () => {
               <Bottom xs={6} >
                 <Item sx={{ mt: 1 }}><Typography variant='h6'>Address</Typography></Item>
                 <Item>
-                  K Reparis <br />
+                  K Book Shop <br />
                   (604) 888-8888 <br />
                   555 Foo Drive <br />
                   Vancouver, B.C <br />

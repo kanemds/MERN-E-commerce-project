@@ -133,7 +133,7 @@ const Navbar = () => {
         <Toolbar>
           <Box sx={{ flexGrow: 1, display: 'flex' }}>
             <Typography variant="h6" >
-              <Link to='/' component={RouterLink} underline='none' color='white'>K Reparis</Link>
+              <Link to='/' component={RouterLink} underline='none' color='white'>K Book Shop</Link>
             </Typography>
             {username ?
               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
