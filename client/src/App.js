@@ -19,6 +19,7 @@ import useTitle from './hooks/useTitle'
 import BooksList from './pages/books/BooksList'
 import { EditBook } from './pages/books/EditBook'
 import NewBookForm from './pages/books/NewBookForm'
+import BooksPrefetch from './redux/BooksPrefetch'
 
 function App() {
 
@@ -28,44 +29,45 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Layout />} >
-
           {/* Public */}
-          <Route index element={<Public />} />
-          <Route path='login' element={<Login />} />
+          <Route element={<BooksPrefetch />}>
+            <Route index element={<Public />} />
+            <Route path='login' element={<Login />} />
 
-          {/* protected */}
-          <Route element={<PersistLogin />}>
-            <Route element={<RequireAuth allowedRoles={[...Object.values(ROLES)]} />}>
-              {/* prevent default 60s unsubscribe */}
-              <Route element={<Prefetch />}>
-                <Route path='dash' element={<DashBoardLayout />}>
+            {/* protected */}
+            <Route element={<PersistLogin />}>
+              <Route element={<RequireAuth allowedRoles={[...Object.values(ROLES)]} />}>
+                {/* prevent default 60s unsubscribe */}
+                <Route element={<Prefetch />}>
+                  <Route path='dash' element={<DashBoardLayout />}>
 
-                  <Route index element={<DashBoard />} />
-                  <Route element={<RequireAuth allowedRoles={[ROLES.Manager, ROLES.Admin]} />}>
-                    <Route path='users'>
-                      <Route index element={<UsersList />} />
-                      <Route path=':id' element={<EditUser />} />
-                      <Route path='new' element={<NewUserForm />} />
+                    <Route index element={<DashBoard />} />
+                    <Route element={<RequireAuth allowedRoles={[ROLES.Manager, ROLES.Admin]} />}>
+                      <Route path='users'>
+                        <Route index element={<UsersList />} />
+                        <Route path=':id' element={<EditUser />} />
+                        <Route path='new' element={<NewUserForm />} />
+                      </Route>
+                      <Route path='books'>
+                        <Route index element={<BooksList />} />
+                        <Route path=':id' element={<EditBook />} />
+                        <Route path='new' element={<NewBookForm />} />
+                      </Route>
                     </Route>
-                    <Route path='books'>
-                      <Route index element={<BooksList />} />
-                      <Route path=':id' element={<EditBook />} />
-                      <Route path='new' element={<NewBookForm />} />
+
+
+                    <Route path='notes'>
+                      <Route index element={<NotesList />} />
+                      <Route path=':id' element={<EditNote />} />
+                      <Route path='new' element={<NewNote />} />
                     </Route>
+
                   </Route>
-
-
-                  <Route path='notes'>
-                    <Route index element={<NotesList />} />
-                    <Route path=':id' element={<EditNote />} />
-                    <Route path='new' element={<NewNote />} />
-                  </Route>
-
                 </Route>
               </Route>
             </Route>
+            {/* protected end */}
           </Route>
-          {/* protected end */}
         </Route>
       </Routes>
     </BrowserRouter >
