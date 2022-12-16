@@ -1,12 +1,11 @@
 import React from 'react'
 import { Box, Typography, Button, Paper } from '@mui/material'
-
 import { useGetBooksQuery } from './books/booksApiSlice'
 import LoadingMessage from '../components/LoadingMessage'
+import FrontPageDisplay from '../components/FrontPageDisplay'
+import { SECTIONS } from '../config/sections'
 
 const Public = () => {
-
-
 
   const {
     data: books,
@@ -20,8 +19,7 @@ const Public = () => {
     refetchOnMountOrArgChange: true
   })
 
-
-
+  const types = Object.values(SECTIONS)
 
 
   let content
@@ -33,45 +31,47 @@ const Public = () => {
   if (isSuccess) {
     const { ids, entities } = books
 
-
     content = (
-      <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }} >
+      <Box sx={{ display: 'flex', flexDirection: 'column' }} >
         <Typography variant='h6'>Welcome to K Book Store</Typography>
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 
+        <Box position="fixed" sx={{ height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start' }}>
+          {types?.map((category) => {
+            let view = document.getElementById(`view-${category}`)
 
-          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            {ids.map((id, index) => {
+            return (
+              <Button key={category}
+                onClick={() => {
+                  view.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                    inline: "start"
+                  })
+                }}
+              >
+                {category}
+              </Button>
+            )
+          })}
+        </Box>
 
-              let view = document.getElementById(`view-${index + 1}`)
+        <Box sx={{ display: 'flex' }}>
+          <Box>
+            {types?.map((category) => {
+
+              let currentCategory = ids.filter(id => entities[id].category === category)
 
               return (
-                <Button key={index + 1}
-                  onClick={() => {
-                    view.scrollIntoView({
-                      behavior: 'smooth',
-                      block: 'start',
-                      inline: "start"
-                    })
-                  }}
-                >
-                  {index + 1}
-                </Button>
+                <Paper key={category} id={`view-${category}`} sx={{ height: '60vh' }}>
+                  <FrontPageDisplay props={currentCategory} />
+
+                </Paper>
               )
-            })}
-          </Box>
-          <Box>
-            {ids.map((book, index) =>
-              <Paper key={index + 1} id={`view-${index + 1}`}>
-
-
-                {book}
-
-              </Paper>
+            }
             )}
           </Box>
         </Box>
-      </Box >
+      </Box>
     )
   }
 

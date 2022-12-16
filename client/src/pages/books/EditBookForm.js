@@ -51,7 +51,7 @@ const EditBookForm = ({ book }) => {
   const [imageName, setImageName] = useState('') // will cause error if no value
 
 
-  const type = Object.values(SECTIONS)
+  const types = Object.values(SECTIONS)
 
 
   useEffect(() => {
@@ -180,7 +180,7 @@ const EditBookForm = ({ book }) => {
                 label="Category"
                 onChange={handleChange}
               >
-                {type.map((name, index) =>
+                {types.map((name, index) =>
                   <MenuItem key={index} value={name}>{name}</MenuItem>
                 )}
               </Select>
