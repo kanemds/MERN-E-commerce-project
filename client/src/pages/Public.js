@@ -26,7 +26,6 @@ const Public = () => {
   })
 
 
-
   let content
 
   if (!books) {
