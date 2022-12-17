@@ -9,7 +9,7 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight'
 import SwipeableViews from 'react-swipeable-views'
 import 'react-slideshow-image/dist/styles.css'
-
+import Image from './Image'
 
 
 
@@ -31,48 +31,33 @@ function SwipeableTextMobileStepper({ currentCategory }) {
   }
 
 
-
-
   return (
-    <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
-      <Paper
-        square
-        elevation={0}
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          height: 50,
-          pl: 2,
-          bgcolor: 'background.default',
-        }}
-      >
-        <Typography>{currentCategory[activeStep].title}</Typography>
-      </Paper>
+    <Box sx={{ flexGrow: 1 }}>
       <SwipeableViews
+        sx={{ maxWidth: 700 }}
         axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
         index={activeStep}
         onChangeIndex={handleStepChange}
         enableMouseEvents
       >
         {currentCategory.map((step, index) => (
-          <div key={step._id}>
-            {Math.abs(activeStep - index) <= 2 ? (
-              <Box
-                component="img"
-                sx={{
-                  height: 500,
-                  display: 'block',
-                  maxWidth: 400,
-                  overflow: 'hidden',
-                  width: '100%',
-                }}
-                src={step.image}
-                alt={step.title}
-              />
-            ) : null}
-          </div>
+          <Box key={index}>
+            {
+              Math.abs(activeStep - index) <= 2 ? (
+                <Image step={step} />
+              ) : null
+            }
+          </Box>
+
+
         ))}
+
       </SwipeableViews>
+
+
+
+
+
       <MobileStepper
         steps={maxSteps}
         position="static"
@@ -104,7 +89,7 @@ function SwipeableTextMobileStepper({ currentCategory }) {
       />
 
 
-    </Box>
+    </Box >
   )
 }
 
