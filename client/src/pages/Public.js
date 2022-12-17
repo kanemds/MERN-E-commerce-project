@@ -3,37 +3,32 @@ import { Box, Typography, Button, Paper } from '@mui/material'
 import { useGetBooksQuery } from './books/booksApiSlice'
 import LoadingMessage from '../components/LoadingMessage'
 import FrontPageDisplay from '../components/FrontPageDisplay'
-import { SECTIONS } from '../config/sections'
+import { CATEGORY } from '../config/category'
 
 const Public = () => {
 
-  const {
-    data: books,
-    isLoading,
-    isSuccess,
-    isError,
-    error
-  } = useGetBooksQuery('booksList', {
-    pollingInterval: 15 * 60 * 1000,
-    refetchOnFocus: true,
-    refetchOnMountOrArgChange: true
-  })
 
-  const types = Object.values(SECTIONS)
+  const types = Object.values(CATEGORY)
+
+  const { books } = useGetBooksQuery('booksList', {
+    selectFromResult: ({ data }) => ({
+      books: data?.ids.map(id => data?.entities[id])
+    })
+  })
 
 
   let content
 
-  if (isLoading) {
+  if (!books) {
     content = <LoadingMessage />
   }
 
-  if (isSuccess) {
-    const { ids, entities } = books
+  if (books) {
+
 
     content = (
       <Box sx={{ display: 'flex', flexDirection: 'column' }} >
-        <Typography variant='h6'>Welcome to K Book Store</Typography>
+
 
         <Box position="fixed" sx={{ height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start' }}>
           {types?.map((category) => {
@@ -55,23 +50,21 @@ const Public = () => {
           })}
         </Box>
 
-        <Box sx={{ display: 'flex' }}>
-          <Box>
-            {types?.map((category) => {
+        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
 
-              let currentCategory = ids.filter(id => entities[id].category === category)
+          {types?.map((category) => {
+            let currentCategory = books.filter(book => book.category === category)
 
-              return (
-                <Paper key={category} id={`view-${category}`} sx={{ height: '60vh' }}>
-                  <FrontPageDisplay props={currentCategory} />
-
-                </Paper>
-              )
-            }
-            )}
-          </Box>
+            return (
+              <Paper key={category} id={`view-${category}`} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '50vh', width: '60vw' }}>
+                <FrontPageDisplay currentCategory={currentCategory} />
+              </Paper>
+            )
+          }
+          )}
         </Box>
-      </Box>
+
+      </Box >
     )
   }
 
