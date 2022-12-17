@@ -128,7 +128,7 @@ const Navbar = () => {
   }
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, height: '64px' }}>
       <AppBar position="static">
         <Toolbar>
           <Box sx={{ flexGrow: 1, display: 'flex' }}>

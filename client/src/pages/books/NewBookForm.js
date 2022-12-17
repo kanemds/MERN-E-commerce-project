@@ -2,7 +2,7 @@ import React, { useEffect, useState, } from 'react'
 import { Button, Box, TextField, InputAdornment, Typography, Paper, ImageListItem, InputLabel, MenuItem, FormControl, Select } from '@mui/material'
 import styled from 'styled-components'
 import { useAddNewBookMutation } from './booksApiSlice'
-import { SECTIONS } from '../../config/sections'
+import { CATEGORY } from '../../config/category'
 import { useNavigate } from 'react-router-dom'
 
 const DisabledTextField = styled(TextField)(() => ({
@@ -45,7 +45,7 @@ const NewBookForm = () => {
   const [imageName, setImageName] = useState('')
 
 
-  const type = Object.values(SECTIONS)
+  const type = Object.values(CATEGORY)
 
   useEffect(() => {
     if (isSuccess) {

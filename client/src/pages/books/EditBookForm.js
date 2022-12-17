@@ -2,7 +2,7 @@ import React, { useEffect, useState, } from 'react'
 import { Button, Box, TextField, InputAdornment, Typography, Paper, ImageListItem, InputLabel, MenuItem, FormControl, Select } from '@mui/material'
 import styled from 'styled-components'
 import { useUpdateBookMutation, useDeleteBookMutation } from './booksApiSlice'
-import { SECTIONS } from '../../config/sections'
+import { CATEGORY } from '../../config/category'
 import { useNavigate } from 'react-router-dom'
 
 const DisabledTextField = styled(TextField)(() => ({
@@ -51,7 +51,7 @@ const EditBookForm = ({ book }) => {
   const [imageName, setImageName] = useState('') // will cause error if no value
 
 
-  const types = Object.values(SECTIONS)
+  const types = Object.values(CATEGORY)
 
 
   useEffect(() => {

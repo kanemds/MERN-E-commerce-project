@@ -63,3 +63,17 @@ export const booksApiSlice = apiSlice.injectEndpoints({
   })
 })
 export const { useGetBooksQuery, useAddNewBookMutation, useUpdateBookMutation, useDeleteBookMutation } = booksApiSlice
+
+export const selectBooksResult = booksApiSlice.endpoints.getBooks.select()
+
+
+const selectBooksData = createSelector(
+  selectBooksResult,
+  state => state.data // normalized state object with ids & entities
+)
+
+export const {
+  selectAll: selectAllBooks,
+  selectById: selectBookById,
+  selectIds: selectBookIds
+} = booksAdapter.getSelectors(state => selectBooksData(state) ?? initialState)
