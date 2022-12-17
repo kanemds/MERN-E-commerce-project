@@ -8,9 +8,9 @@ import Button from '@mui/material/Button'
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight'
 import SwipeableViews from 'react-swipeable-views'
+import 'react-slideshow-image/dist/styles.css'
 
 
-const AutoPlaySwipeableViews = SwipeableViews
 
 
 function SwipeableTextMobileStepper({ currentCategory }) {
@@ -30,6 +30,9 @@ function SwipeableTextMobileStepper({ currentCategory }) {
     setActiveStep(step)
   }
 
+
+
+
   return (
     <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
       <Paper
@@ -45,7 +48,7 @@ function SwipeableTextMobileStepper({ currentCategory }) {
       >
         <Typography>{currentCategory[activeStep].title}</Typography>
       </Paper>
-      <AutoPlaySwipeableViews
+      <SwipeableViews
         axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
         index={activeStep}
         onChangeIndex={handleStepChange}
@@ -69,7 +72,7 @@ function SwipeableTextMobileStepper({ currentCategory }) {
             ) : null}
           </div>
         ))}
-      </AutoPlaySwipeableViews>
+      </SwipeableViews>
       <MobileStepper
         steps={maxSteps}
         position="static"
@@ -99,6 +102,8 @@ function SwipeableTextMobileStepper({ currentCategory }) {
           </Button>
         }
       />
+
+
     </Box>
   )
 }
