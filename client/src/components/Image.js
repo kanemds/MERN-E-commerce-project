@@ -2,37 +2,22 @@ import React from 'react'
 import { Box } from '@mui/system'
 import { Typography } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
-const Image = ({ step }) => {
-  console.log(step)
 
-  //   <Box key={index}>
-  //   {
-  //     Math.abs(activeStep - index) <= 2 ? (
-  //       <Box
-  //         component="img"
-  //         sx={{
-  //           height: 400,
-  //           display: 'block',
-  //           width: 350,
-  //           overflow: 'hidden',
-  //           width: '100%',
-  //         }}
-  //         src={step.image}
-  //         alt={step.title}
-  //       />
-  //     ) : null
-  //   }
-  // </Box>
+
+
+
+const Image = ({ step }) => {
+
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, p: 1 }}>
       <Grid container >
         <Grid xs={5}>
           <Box
             component="img"
             sx={{
-              height: 400,
+              height: 550,
               display: 'block',
-              width: 350,
+              width: 400,
               overflow: 'hidden',
               width: '100%',
             }}
