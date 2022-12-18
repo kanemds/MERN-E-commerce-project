@@ -20,6 +20,7 @@ import BooksList from './pages/books/BooksList'
 import { EditBook } from './pages/books/EditBook'
 import NewBookForm from './pages/books/NewBookForm'
 import BooksPrefetch from './redux/BooksPrefetch'
+import './App.css'
 
 function App() {
 
