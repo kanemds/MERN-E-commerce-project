@@ -14,7 +14,9 @@ import { styled } from '@mui/material/styles'
 
 
 
+
 function SwipeableTextMobileStepper({ currentCategory }) {
+
 
 
   const theme = useTheme()
