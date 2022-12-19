@@ -1,38 +1,33 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Box, Typography, Button, Paper } from '@mui/material'
 import { useGetBooksQuery } from './books/booksApiSlice'
 import LoadingMessage from '../components/LoadingMessage'
 import FrontPageDisplay from '../components/FrontPageDisplay'
 import { CATEGORY } from '../config/category'
-import { useScrollDirection } from '../components/useScrollDirection'
-import { useEffect } from 'react'
-import { Link, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
+import { Link } from 'react-scroll'
+
 
 
 const Public = () => {
 
-  const scrollDirection = useScrollDirection()
-  console.log(scrollDirection)
+  // force to top when refresh
+  window.onbeforeunload = function () {
+    window.scrollTo(0, 0)
+  }
 
   const types = Object.values(CATEGORY)
 
 
-  const [selected, setSelected] = useState(types[0])
-  const [movement, setMovement] = useState(0)
-
-
-
-
-  const handleClick = (category, index) => {
-    setSelected(category)
-    document.getElementById(`${category}`).scrollIntoView({
-      behavior: 'smooth',
-      block: 'center',
-      inline: "start"
-    })
-  }
-
-
+  // const [selected, setSelected] = useState(types[0])
+  // const [movement, setMovement] = useState(0)
+  // const handleClick = (category, index) => {
+  //   setSelected(category)
+  //   document.getElementById(`${category}`).scrollIntoView({
+  //     behavior: 'smooth',
+  //     block: 'center',
+  //     inline: "start"
+  //   })
+  // }
 
 
   const { books } = useGetBooksQuery('booksList', {
@@ -51,10 +46,10 @@ const Public = () => {
   if (books) {
 
     content = (
-      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', mt: 20 }} >
 
-        <Box position="fixed" sx={{ height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start' }}>
-          {types?.map((category, index) =>
+        <Box position="fixed" sx={{ height: '80vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start' }}>
+          {types?.map((category) =>
 
             // <Button
             //   key={category}
@@ -67,20 +62,20 @@ const Public = () => {
             //   variant={selected === category ? "contained" : "text"}
             // > {category}
             // </Button>
-            <Link key={category} to={category} activeClass="active" spy={true} smooth={true} offset={-300} duration={500} >
+
+            <Link key={category} to={category} activeClass="active" className='scroll' spy={true} smooth={true} offset={-700} duration={600} >
               {category}
             </Link>
-          )}
 
+          )}
         </Box>
 
         <Box sx={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
 
-          {types?.map((category, index) => {
+          {types?.map((category) => {
             let currentCategory = books.filter(book => book.category === category)
-
             return (
-              <Paper key={category} id={`${category}`} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100%', width: '50%', m: 10 }}>
+              <Paper key={category} id={`${category}`} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100%', width: '50%', m: 25 }}>
 
                 <FrontPageDisplay currentCategory={currentCategory} />
               </Paper>
