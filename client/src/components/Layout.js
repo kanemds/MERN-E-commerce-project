@@ -17,14 +17,16 @@ const Layout = () => {
   const { username, status } = useAuth()
 
   const WrapperCustomer = styled(Container)(() => ({
-    minHeight: '78vh',
-    minWidth: '95vw'
+    marginTop: '80px',
+    height: '78%',
+    wdth: '95%'
 
   }))
 
   const WrapperUser = styled(Container)(() => ({
-    minHeight: '90vh',
-    minWidth: '95vw'
+    marginTop: '80px',
+    height: '90%',
+    width: '95%'
 
   }))
 

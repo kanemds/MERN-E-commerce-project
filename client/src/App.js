@@ -34,6 +34,7 @@ function App() {
           <Route element={<BooksPrefetch />}>
             <Route index element={<Public />} />
             <Route path='login' element={<Login />} />
+            <Route path='register' element={<Register />} />
 
             {/* protected */}
             <Route element={<PersistLogin />}>
