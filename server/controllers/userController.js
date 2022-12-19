@@ -46,7 +46,7 @@ const createUser = asynceHandler(async (req, res) => {
 const updateUser = asynceHandler(async (req, res) => {
   const { id, username, roles, active, password } = req.body
 
-  if (!id || !username || !Array.isArray(roles) || !roles.length || typeof active !== 'boolean') {
+  if (!username || !Array.isArray(roles) || !roles.length || typeof active !== 'boolean') {
     return res.status(400).json({ message: 'All fields are required' })
   }
 
@@ -82,9 +82,7 @@ const updateUser = asynceHandler(async (req, res) => {
 const deleteUser = asynceHandler(async (req, res) => {
   const { id } = req.body
 
-  if (!id) {
-    return res.status(400).json({ message: 'user ID required ' })
-  }
+  if (!id) return res.status(400).json({ message: 'user ID required ' })
 
   const note = await Note.findOne({ user: id }).lean().exec()
 
@@ -100,7 +98,7 @@ const deleteUser = asynceHandler(async (req, res) => {
 
   const result = await user.deleteOne()
 
-  const reply = `User ${result.username} with ID ${result._id} deleted`
+  const reply = `User '${result.username}' with ID ${result._id} deleted`
 
   res.json(reply)
 
