@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt')
 require('express-async-errors')
 
 const getAllCustomers = async (req, res) => {
-  const customers = await Customer.find().select('password').lean()
+  const customers = await Customer.find().select('-password').lean()
   if (!customers.length) {
     return res.status(400).json({ message: 'No Customer Found' })
   }
@@ -12,7 +12,6 @@ const getAllCustomers = async (req, res) => {
 
 const createCustomer = async (req, res) => {
   const { customername, email, password } = req.body
-  console.log(customername, email, password)
 
   if (!customername || !email || !password) {
     return res.status(400).json({ message: 'All fields are required' })
@@ -45,7 +44,59 @@ const createCustomer = async (req, res) => {
 }
 
 
-const updateCustomer = async (req, res) => { }
-const deleteCustomer = async (req, res) => { }
+const updateCustomer = async (req, res) => {
+  const { id, customername, email, password } = req.body
+
+  if (!customername || !email) {
+    return res.status(400).json({ message: 'All fields are required' })
+  }
+
+  const currentCustomer = await Customer.findById(id).exec()
+
+  if (!currentCustomer) {
+    return res.status(400).json({ message: 'Customer not Found' })
+  }
+
+  const duplicateName = await Customer.findOne({ customername }).collation({ locale: 'en', strength: 2 }).lean().exec()
+
+  if (duplicateName && duplicateName?._id.toString() !== id) {
+    return res.status(409).json({ message: 'Customer Name already exist, Please try another one' })
+  }
+
+  const duplicateEmail = await Customer.findOne({ email }).collation({ locale: 'en', strength: 2 }).lean().exec()
+
+  if (duplicateEmail && duplicateEmail?._id.toString() !== id) {
+    return res.status(409).json({ message: 'Email already exist, Please try another one' })
+  }
+
+  currentCustomer.customername = customername
+  currentCustomer.email = email
+
+  if (password) {
+    currentCustomer.password = await bcrypt.hash(password, 10)
+  }
+
+  const update = await currentCustomer.save()
+
+  res.json({ message: `${update.customername} updated` })
+
+}
+
+const deleteCustomer = async (req, res) => {
+  const { id } = req.body
+
+  if (!id) return res.status(400).json({ message: 'Customer Id required' })
+
+  const currentCustomer = await Customer.findById(id).exec()
+
+  if (!currentCustomer) return res.status(400).json({ message: 'Customer not Found' })
+
+  const result = await currentCustomer.deleteOne()
+
+  const reply = `Customer '${result.customername}' delete`
+
+  res.json(reply)
+
+}
 
 module.exports = { getAllCustomers, createCustomer, updateCustomer, deleteCustomer }
