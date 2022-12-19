@@ -63,7 +63,7 @@ const Public = () => {
             // > {category}
             // </Button>
 
-            <Link key={category} to={category} activeClass="active" className='scroll' spy={true} smooth={true} offset={-700} duration={600} >
+            <Link key={category} to={category} activeClass="active" className='scroll' spy={true} smooth={true} offset={-380} duration={600} >
               {category}
             </Link>
 
@@ -75,7 +75,7 @@ const Public = () => {
           {types?.map((category) => {
             let currentCategory = books.filter(book => book.category === category)
             return (
-              <Paper key={category} id={`${category}`} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100%', width: '50%', m: 25 }}>
+              <Paper key={category} id={`${category}`} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100%', width: '40%', m: 25 }}>
 
                 <FrontPageDisplay currentCategory={currentCategory} />
               </Paper>
