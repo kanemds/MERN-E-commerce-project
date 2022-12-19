@@ -1,3 +1,13 @@
 .active {
   color: red !important;
 }
+
+.scroll {
+  font-size: 1.6rem;
+  margin: 10px;
+}
+
+.scroll:hover {
+  cursor:pointer;
+  font-size:2rem;
+}

@@ -38,28 +38,33 @@ const Footer = () => {
             <Typography variant='h5'> User Name: {username}</Typography>
           </Box>
           :
-          <Box sx={{ flexGrow: 1, height: '15vh', borderTop: 3, borderColor: 'primary.main' }
+          <Box sx={{ flexGrow: 1, height: '20vh', borderTop: 3, borderColor: 'primary.main', mt: 20 }
           } >
-            <Grid container  >
+            <Grid container sx={{ m: 4 }}>
               <Bottom xs={6} >
-                <Item sx={{ mt: 1 }}><Typography variant='h6'>Address</Typography></Item>
+                <Item sx={{ mt: 1 }}><Typography variant='h4'>Address</Typography></Item>
                 <Item>
-                  K Book Shop <br />
-                  (604) 888-8888 <br />
-                  555 Foo Drive <br />
-                  Vancouver, B.C <br />
+                  <Typography variant='h5'>
+
+                    K Book Shop <br />
+                    (604) 888-8888 <br />
+                    555 Foo Drive <br />
+                    Vancouver, B.C <br />
+                  </Typography>
                 </Item>
               </Bottom>
               <Bottom xs={6} >
-                <Item sx={{ mt: 1 }}><Typography variant='h6'>Hours</Typography></Item>
+                <Item sx={{ mt: 1 }}><Typography variant='h4'>Hours</Typography></Item>
                 <Item >
-                  Sunday 9AM - 6PM <br />
-                  Monday 9AM - 6PM <br />
-                  Tuesday 9AM - 6PM <br />
-                  Wednesday 9AM - 6PM <br />
-                  Thursday 9AM - 6PM <br />
-                  Friday 9AM - 6PM <br />
-                  Saturday 9AM - 6PM <br />
+                  <Typography variant='h5'>
+                    Sunday 9AM - 6PM <br />
+                    Monday 9AM - 6PM <br />
+                    Tuesday 9AM - 6PM <br />
+                    Wednesday 9AM - 6PM <br />
+                    Thursday 9AM - 6PM <br />
+                    Friday 9AM - 6PM <br />
+                    Saturday 9AM - 6PM <br />
+                  </Typography>
                 </Item>
               </Bottom>
             </Grid>

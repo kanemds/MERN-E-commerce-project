@@ -128,37 +128,29 @@ const Navbar = () => {
   }
 
   return (
-    <Box sx={{ flexGrow: 1, height: '64px' }}>
-      <AppBar position="static">
-        <Toolbar>
-          <Box sx={{ flexGrow: 1, display: 'flex' }}>
-            <Typography variant="h6" >
-              <Link to='/' component={RouterLink} underline='none' color='white'>K Book Shop</Link>
-            </Typography>
-            {username ?
-              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Typography sx={{ ml: 2, mr: 2 }}>|</Typography>
-                <Typography variant="h6"  >
-                  <Link to='/dash' component={RouterLink} underline='none' color='white'> Dash Board</Link>
-                </Typography>
-              </Box>
-              : ''}
 
-          </Box>
-          {username ?
-            <Box>
-              {buttonContent}
-              <Button color="inherit" onClick={() => userLogut()}>Logout</Button>
-            </Box>
-            :
-            <Box>
-              <Button color="inherit" onClick={() => navigate('/login')}>Login</Button>
-              {/* <Button color="inherit" onClick={() => navigate('/register')}>Register</Button> */}
-            </Box>
-          }
-        </Toolbar>
-      </AppBar>
-    </Box>
+    <AppBar position="fixed" sx={{ maxHeight: '10vh', width: '100vw', zindex: 9999, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', p: 3 }}>
+
+      <Typography variant="h6" sx={{ ml: 3 }} >
+        <Link to='/' component={RouterLink} underline='none' color='white'>K Book Shop</Link>
+      </Typography>
+
+      {username ?
+        <Box >
+          <Button color="inherit" onClick={() => navigate('/dash')}> Dash Board</Button>
+          {buttonContent}
+          <Button color="inherit" onClick={() => userLogut()}>Logout</Button>
+        </Box>
+        :
+        <Box>
+          <Button color="inherit" onClick={() => navigate('/login')}>Login</Button>
+          {/* <Button color="inherit" onClick={() => navigate('/register')}>Register</Button> */}
+        </Box>
+      }
+
+    </AppBar >
+
+
   )
 }
 
