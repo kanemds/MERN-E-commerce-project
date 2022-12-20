@@ -3,12 +3,12 @@ const { getAllUsers, updateUser, createUser, deleteUser } = require('../../contr
 
 const verifyJWT = require('../../middleware/verifyJWT')
 
+router.post('/', createUser)
+
 router.use(verifyJWT) // this will apply every routes below
-
-
 router.route('/')
   .get(getAllUsers)
-  .post(createUser)
+  // .post(createUser)
   .patch(updateUser)
   .delete(deleteUser)
 
