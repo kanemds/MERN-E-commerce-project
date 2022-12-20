@@ -13,7 +13,10 @@ const getAllCustomers = async (req, res) => {
 const createCustomer = async (req, res) => {
   const { customername, email, password } = req.body
 
-  if (!customername || !email || !password) {
+  const lowerCase = email.toLowerCase()
+
+
+  if (!customername || !lowerCase || !password) {
     return res.status(400).json({ message: 'All fields are required' })
   }
 
@@ -23,7 +26,7 @@ const createCustomer = async (req, res) => {
     return res.status(409).json({ message: 'Customer Name already exist, Please try another one' })
   }
 
-  const duplicateEmail = await Customer.findOne({ email }).collation({ locale: 'en', strength: 2 }).lean().exec()
+  const duplicateEmail = await Customer.findOne({ lowerCase }).collation({ locale: 'en', strength: 2 }).lean().exec()
 
   if (duplicateEmail) {
     return res.status(409).json({ message: 'Email already exist, Please try another one' })
@@ -31,7 +34,7 @@ const createCustomer = async (req, res) => {
 
   const hashed = await bcrypt.hash(password, 10)
 
-  const info = { customername, email, password: hashed }
+  const info = { customername, lowerCase, password: hashed }
 
   const newCustomer = Customer.create(info)
 
@@ -47,7 +50,9 @@ const createCustomer = async (req, res) => {
 const updateCustomer = async (req, res) => {
   const { id, customername, email, password } = req.body
 
-  if (!customername || !email) {
+  const lowerCase = email.toLowerCase()
+
+  if (!customername || !lowerCase) {
     return res.status(400).json({ message: 'All fields are required' })
   }
 
@@ -63,14 +68,14 @@ const updateCustomer = async (req, res) => {
     return res.status(409).json({ message: 'Customer Name already exist, Please try another one' })
   }
 
-  const duplicateEmail = await Customer.findOne({ email }).collation({ locale: 'en', strength: 2 }).lean().exec()
+  const duplicateEmail = await Customer.findOne({ lowerCase }).collation({ locale: 'en', strength: 2 }).lean().exec()
 
   if (duplicateEmail && duplicateEmail?._id.toString() !== id) {
     return res.status(409).json({ message: 'Email already exist, Please try another one' })
   }
 
   currentCustomer.customername = customername
-  currentCustomer.email = email
+  currentCustomer.email = lowerCase
 
   if (password) {
     currentCustomer.password = await bcrypt.hash(password, 10)

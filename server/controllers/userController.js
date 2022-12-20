@@ -13,26 +13,37 @@ const getAllUsers = asynceHandler(async (req, res) => {
 })
 
 const createUser = asynceHandler(async (req, res) => {
-  const { username, password, roles } = req.body
+  const { username, email, password, roles } = req.body
 
-  if (!username || !password) {
+  const lowerCase = email.toLowerCase()
+  console.log(lowerCase)
+
+  if (!username || !lowerCase || !password) {
     return res.status(400).json({ message: 'All fields are required' })
   }
 
   // async await pass in arg inside need exec()
   // collation check both upper and lower case
-  const duplicate = await User.findOne({ username }).collation({ locale: 'en', strength: 2 }).lean().exec()
+  const duplicateName = await User.findOne({ username }).collation({ locale: 'en', strength: 2 }).lean().exec()
 
-  if (duplicate) {
+  if (duplicateName) {
     return res.status(409).json({ message: 'User already exist, please try another one' })
   }
+
+  const duplicateEmail = await User.findOne({ email: lowerCase }).collation({ locale: 'en', strength: 2 }).lean().exec()
+
+  if (duplicateEmail) {
+    return res.status(409).json({ message: 'Email already exist, Please try another one' })
+  }
+
+
 
   //  const salt = bcrypt.genSaltSync(10)
   // hashed = bcrypt.hashSync(password, salt)
   const hashed = await bcrypt.hash(password, 10)
   const userObject = (!Array.isArray(roles) || !roles.length)
-    ? { username, "password": hashed } // default as Employee
-    : { username, "password": hashed, roles } // recieved roles form req.body and repalce the default roles
+    ? { username, email: lowerCase, password: hashed } // default as Employee
+    : { username, email: lowerCase, password: hashed, roles } // recieved roles form req.body and repalce the default roles
 
   const user = await User.create(userObject)
 
@@ -44,9 +55,11 @@ const createUser = asynceHandler(async (req, res) => {
 })
 
 const updateUser = asynceHandler(async (req, res) => {
-  const { id, username, roles, active, password } = req.body
+  const { id, username, email, roles, active, password } = req.body
 
-  if (!username || !Array.isArray(roles) || !roles.length || typeof active !== 'boolean') {
+  const lowerCase = email.toLowerCase()
+
+  if (!username || !lowerCase || !Array.isArray(roles) || !roles.length || typeof active !== 'boolean') {
     return res.status(400).json({ message: 'All fields are required' })
   }
 
@@ -57,15 +70,22 @@ const updateUser = asynceHandler(async (req, res) => {
   }
 
   // check if user already exist
-  const duplicate = await User.findOne({ username }).collation({ locale: 'en', strength: 2 }).lean().exec()
+  const duplicateName = await User.findOne({ username }).collation({ locale: 'en', strength: 2 }).lean().exec()
 
   // make sure duplicate function is finish
   // if update username's id is not equal to current edit id means username already exist on other id  
-  if (duplicate && duplicate?._id.toString() !== id) {
+  if (duplicateName && duplicate?._id.toString() !== id) {
     return res.status(409).json({ message: 'User already exist, please try another one' })
   }
 
+  const duplicateEmail = await User.findOne({ email: lowerCase }).collation({ locale: 'en', strength: 2 }).lean().exec()
+
+  if (duplicateEmail && duplicateEmail?._id.toString() !== id) {
+    return res.status(409).json({ message: 'Email already exist, Please try another one' })
+  }
+
   user.username = username
+  user.email = lowerCase
   user.roles = roles
   user.active = active
 
