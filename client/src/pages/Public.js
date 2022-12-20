@@ -36,6 +36,7 @@ const Public = () => {
     })
   })
 
+  console.log('is', books)
 
   let content
 
