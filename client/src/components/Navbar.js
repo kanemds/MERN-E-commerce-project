@@ -36,6 +36,7 @@ const Navbar = () => {
 
   useEffect(() => {
     if (isSuccess) {
+      window.location.reload()
       navigate('/')
     }
   }, [isSuccess, navigate])
@@ -149,7 +150,6 @@ const Navbar = () => {
           </Box>
           :
           <Button color="inherit" onClick={() => userLogut()}>Logout</Button>
-
 
       }
 
