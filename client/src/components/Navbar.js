@@ -21,7 +21,7 @@ const BOOKS_REGEX = /^\/dash\/books(\/)?$/
 
 const Navbar = () => {
 
-  const { username, isManager, isAdmin } = useAuth()
+  const { username, status, isEmployee, isManager, isAdmin } = useAuth()
 
   const navigate = useNavigate()
   const { pathname } = useLocation()
@@ -63,7 +63,7 @@ const Navbar = () => {
   let newUserButton = null
   if (USERS_REGEX.test(pathname)) {
     newUserButton = (
-      <IconButton aria-label="New Note" onClick={toNewUser} >
+      <IconButton aria-label="New User" onClick={toNewUser} >
         <PersonAddIcon sx={{ color: 'white' }} />
       </IconButton>
     )
@@ -135,17 +135,22 @@ const Navbar = () => {
         <Link to='/' component={RouterLink} underline='none' color='white'>K Book Shop</Link>
       </Typography>
 
-      {username ?
-        <Box >
-          <Button color="inherit" onClick={() => navigate('/dash')}> Dash Board</Button>
-          {buttonContent}
-          <Button color="inherit" onClick={() => userLogut()}>Logout</Button>
-        </Box>
-        :
+      {!username ?
         <Box>
           <Button color="inherit" onClick={() => navigate('/login')}>Login</Button>
           <Button color="inherit" onClick={() => navigate('/register')}>Register</Button>
         </Box>
+        :
+        isEmployee || isManager || isAdmin ?
+          <Box >
+            <Button color="inherit" onClick={() => navigate('/dash')}> Dash Board</Button>
+            {buttonContent}
+            <Button color="inherit" onClick={() => userLogut()}>Logout</Button>
+          </Box>
+          :
+          <Button color="inherit" onClick={() => userLogut()}>Logout</Button>
+
+
       }
 
     </AppBar >

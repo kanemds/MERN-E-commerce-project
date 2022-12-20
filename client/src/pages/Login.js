@@ -35,7 +35,7 @@ const Login = () => {
         dispatch(setCredentials({ accessToken }))
         setUsername('')
         setPassword('')
-        navigate('/dash')
+        navigate('/')
       }
     } catch (error) {
       if (!error.status) {
@@ -52,7 +52,7 @@ const Login = () => {
   }
 
   const content = (
-    <Box sx={{ height: '70vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
       <Paper sx={{ width: '600px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', p: 3 }}>
         <Typography variant='h5' sx={{ p: 3 }} >Login</Typography>
         <Typography>{error}</Typography>

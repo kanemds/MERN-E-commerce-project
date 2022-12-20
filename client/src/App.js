@@ -38,7 +38,8 @@ function App() {
 
             {/* protected */}
             <Route element={<PersistLogin />}>
-              <Route element={<RequireAuth allowedRoles={[...Object.values(ROLES)]} />}>
+              {/* <Route element={<RequireAuth allowedRoles={[...Object.values(ROLES)]} />}> */}
+              <Route element={<RequireAuth allowedRoles={[ROLES.Employee, ROLES.Manager, ROLES.Admin]} />}>
                 {/* prevent default 60s unsubscribe */}
                 <Route element={<Prefetch />}>
                   <Route path='dash' element={<DashBoardLayout />}>
