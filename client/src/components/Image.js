@@ -8,8 +8,8 @@ import Grid from '@mui/material/Unstable_Grid2'
 const Image = ({ step }) => {
 
   return (
-    <Box sx={{ flexGrow: 1, p: 1, maxWidth: 700 }}>
-      <Grid container spacing={4}>
+    <Box sx={{ flexGrow: 1, p: 1, maxWidth: 600 }}>
+      <Grid container spacing={3}>
         <Grid xs={5}>
           <Box
             component="img"

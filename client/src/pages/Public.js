@@ -36,7 +36,7 @@ const Public = () => {
     })
   })
 
-
+  console.log(books)
 
   let content
 
@@ -49,7 +49,7 @@ const Public = () => {
     content = (
       <Box sx={{ mt: 20 }} >
 
-        <Box position="fixed" sx={{ height: '70vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', ml: '5%' }}>
+        <Box position="fixed" sx={{ height: '70%', display: 'flex', flexDirection: 'column', justifyContent: 'center', ml: '5%' }}>
           {types?.map((category) =>
 
             // <Button
