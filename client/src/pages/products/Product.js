@@ -17,6 +17,7 @@ const Product = () => {
     })
   })
 
+  console.log(book)
 
   const [quantity, setQuantity] = useState(0)
 
@@ -37,7 +38,7 @@ const Product = () => {
   const menu = (amount) => {
     let menuItems = []
     for (let i = 0;i <= amount;i++) {
-      menuItems.push(<MenuItem value={i}>{i}</MenuItem>)
+      menuItems.push(<MenuItem key={i} value={i}>{i}</MenuItem>)
     }
     return menuItems
   }
@@ -47,15 +48,15 @@ const Product = () => {
   }
 
   const selectedQuantity = (
-    <Box >
+    <Box>
       <Typography>Quantity</Typography>
-      <FormControl sx={{ width: 100 }} >
+      <FormControl >
         <Select
+          sx={{ height: 30, width: 65 }}
           value={quantity}
           onChange={handleChange}
         >
           {menu(amount)}
-
         </Select>
       </FormControl>
       <Typography>
@@ -67,15 +68,14 @@ const Product = () => {
   let content
 
   if (!book) return content = <LoadingMessage />
-  console.log(book)
 
 
 
   if (book) {
     content = (
-      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', height: 500 }}>
 
-        <Box sx={{ flexGrow: 1, p: 1, maxWidth: 700 }}>
+        <Box sx={{ flexGrow: 1, p: 1, maxWidth: 800 }}>
           <Grid container spacing={4}>
             <Grid xs={5}>
               <Box
@@ -84,58 +84,34 @@ const Product = () => {
                 src={book.image}
                 alt={book.title}
               />
+              <Typography variant='h7'>Author: {book.author}</Typography>
             </Grid>
-            <Grid xs={7} >
+            <Grid xs={7} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around' }}>
               <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                 <Typography variant='h5'>{book.title}</Typography>
                 <br />
                 <Typography variant='h7'>{book.description}</Typography>
                 <br />
-                <Typography variant='h7'>By: {book.author}</Typography>
               </Box>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
+                Price: ${book.price.toFixed(2)}
+                {selectedQuantity}
+              </Box>
+
             </Grid>
+
           </Grid>
+
         </Box>
 
-        {selectedQuantity}
-        <Box>
-          <Typography>You might also interested in</Typography>
-        </Box>
+
+
       </Box >
     )
   }
 
-  return (
-    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+  return content
 
-      <Box sx={{ flexGrow: 1, p: 1, maxWidth: 700 }}>
-        <Grid container spacing={4}>
-          <Grid xs={5}>
-            <Box
-              component="img"
-              sx={{ height: 400, width: '100%' }}
-              src={book.image}
-              alt={book.title}
-            />
-          </Grid>
-          <Grid xs={7} >
-            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-              <Typography variant='h5'>{book.title}</Typography>
-              <br />
-              <Typography variant='h7'>{book.description}</Typography>
-              <br />
-              <Typography variant='h7'>By: {book.author}</Typography>
-            </Box>
-          </Grid>
-        </Grid>
-      </Box>
-
-      {selectedQuantity}
-      <Box>
-        <Typography>You might also interested in</Typography>
-      </Box>
-    </Box >
-  )
 }
 
 export default Product

@@ -41,6 +41,7 @@ const NewBookForm = () => {
   const [description, setDescription] = useState('')
   const [author, setAuthor] = useState('')
   const [inStocks, setInStocks] = useState(0)
+  const [price, setPrice] = useState(0)
   const [category, setCategory] = useState('')
   const [imageName, setImageName] = useState('')
 
@@ -56,6 +57,7 @@ const NewBookForm = () => {
       setAuthor('')
       setCategory('')
       setImageName('')
+      setPrice('')
       navigate('/dash/books')
     }
   }, [isSuccess, navigate])
@@ -117,6 +119,7 @@ const NewBookForm = () => {
     formData.append('author', author)
     formData.append('inStocks', inStocks)
     formData.append('category', category)
+    formData.append('price', price)
     addNewBook(formData)
 
     // checking if data stored in formData
@@ -127,7 +130,7 @@ const NewBookForm = () => {
 
   }
 
-  const canSave = [title.length, description.length, author.length, image, category.length, inStocks].every(Boolean) && !isLoading
+  const canSave = [title.length, description.length, author.length, image, category.length, inStocks, price].every(Boolean) && !isLoading
 
 
   const content = (
@@ -173,6 +176,10 @@ const NewBookForm = () => {
             <TextField fullWidth autoComplete='off' type='number' label='InStocks' variant='outlined' required sx={{ m: 3 }}
               value={inStocks}
               onChange={e => setInStocks(e.target.value)}
+            />
+            <TextField fullWidth autoComplete='off' type='number' label='Price' variant='outlined' required sx={{ m: 3 }}
+              value={price}
+              onChange={e => setPrice(e.target.value)}
             />
 
             <FormControl required fullWidth sx={{ m: 3 }}>
