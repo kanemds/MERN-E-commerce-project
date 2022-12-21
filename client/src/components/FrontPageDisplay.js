@@ -98,8 +98,6 @@ function SwipeableTextMobileStepper({ currentCategory }) {
         enableMouseEvents
       >
         {currentCategory.map((step, index) => (
-
-
           < Box key={index} >
             {
               Math.abs(activeStep - index) <= 2 ? (
