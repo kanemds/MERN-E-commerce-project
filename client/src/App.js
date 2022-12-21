@@ -46,16 +46,17 @@ function App() {
 
                     <Route index element={<DashBoard />} />
                     <Route element={<RequireAuth allowedRoles={[ROLES.Manager, ROLES.Admin]} />}>
-                      <Route path='users'>
-                        <Route index element={<UsersList />} />
-                        <Route path=':id' element={<EditUser />} />
-                        <Route path='new' element={<NewUserForm />} />
-                      </Route>
                       <Route path='books'>
                         <Route index element={<BooksList />} />
                         <Route path=':id' element={<EditBook />} />
                         <Route path='new' element={<NewBookForm />} />
                       </Route>
+                      <Route path='users'>
+                        <Route index element={<UsersList />} />
+                        <Route path=':id' element={<EditUser />} />
+                        <Route path='new' element={<NewUserForm />} />
+                      </Route>
+
                     </Route>
 
 

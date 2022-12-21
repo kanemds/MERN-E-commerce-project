@@ -50,6 +50,7 @@ const BooksList = () => {
               <TableCell align="left">Product Image</TableCell>
               <TableCell align="left">Name</TableCell>
               <TableCell align="left">Author</TableCell>
+              <TableCell align="left">Quantities</TableCell>
               <TableCell align="center">Edit</TableCell>
             </TableRow>
           </TableHead>

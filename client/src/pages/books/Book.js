@@ -41,6 +41,7 @@ const Book = ({ bookId }) => {
           </TableCell>
           <TableCell align="left">{book.title}</TableCell>
           <TableCell align="left">{book.author}</TableCell>
+          <TableCell align="left">{book.instocks}</TableCell>
           <TableCell align="center">
             <Button onClick={handleEdit}>
               <EditIcon />

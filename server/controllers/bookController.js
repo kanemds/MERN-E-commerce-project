@@ -19,11 +19,12 @@ const createImage = async (req, res) => {
   // const buffer = toBuffer.decode(base64)
   // console.log(buffer)
 
-  const { title, description, author, category } = req.body
+  const { title, description, author, category, inStocks } = req.body
+  console.log(inStocks)
 
   const image = await req.files.file
 
-  if (!title || !description || !author || !image || !category) {
+  if (!title || !description || !author || !image || !category || !inStocks) {
     return res.status(400).json({ message: 'All fields are required' })
   }
 
@@ -40,7 +41,7 @@ const createImage = async (req, res) => {
   const uploadImage = await uploadBytes(imageRef, image.data)
   const getImage = await getDownloadURL(uploadImage.ref)
 
-  const newImage = { image: getImage, title, description, author, category }
+  const newImage = { image: getImage, title, description, author, category, instocks: inStocks }
 
   const saveImage = await Book.create(newImage)
   if (saveImage) {
@@ -51,13 +52,13 @@ const createImage = async (req, res) => {
 }
 
 const updateBook = async (req, res) => {
-  const { id, title, description, author, category } = req.body
+  const { id, title, description, author, category, inStocks } = req.body
 
   const image = await req.files?.file
-  console.log(image)
 
 
-  if (!id || !title || !description || !author || !category) {
+
+  if (!id || !title || !description || !author || !category || !inStocks) {
     return res.status(400).json({ message: 'All fields are required' })
   }
 
@@ -76,6 +77,7 @@ const updateBook = async (req, res) => {
   currentBook.title = title
   currentBook.description = description
   currentBook.author = author
+  currentBook.instocks = inStocks
   currentBook.category = category
 
   if (image) {

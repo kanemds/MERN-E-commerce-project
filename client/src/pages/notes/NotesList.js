@@ -37,6 +37,8 @@ const NotesList = () => {
   }
 
   if (isSuccess) {
+
+
     const { ids, entities } = notes
 
 
