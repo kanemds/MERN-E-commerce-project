@@ -20,6 +20,9 @@ import BooksList from './pages/books/BooksList'
 import { EditBook } from './pages/books/EditBook'
 import NewBookForm from './pages/books/NewBookForm'
 import BooksPrefetch from './redux/BooksPrefetch'
+import Products from './pages/products/Products'
+import Product from './pages/products/Product'
+import Image from './components/Image'
 import './App.css'
 
 function App() {
@@ -35,6 +38,11 @@ function App() {
             <Route index element={<Public />} />
             <Route path='login' element={<Login />} />
             <Route path='register' element={<Register />} />
+
+            <Route path='products' >
+              <Route index element={<Products />} />
+              <Route path=':id' element={<Product />} />
+            </Route>
 
             {/* protected */}
             <Route element={<PersistLogin />}>
