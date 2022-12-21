@@ -46,6 +46,7 @@ const EditBookForm = ({ book }) => {
   const [title, setTitle] = useState(book.title)
   const [description, setDescription] = useState(book.description)
   const [author, setAuthor] = useState(book.author)
+  const [inStocks, setInStocks] = useState(book.instocks)
   const [category, setCategory] = useState(book.category)
 
   const [imageName, setImageName] = useState('') // will cause error if no value
@@ -102,12 +103,14 @@ const EditBookForm = ({ book }) => {
       formData.append('title', title)
       formData.append('description', description)
       formData.append('author', author)
+      formData.append('inStocks', inStocks)
       formData.append('category', category)
     } else {
       formData.append('id', book.id)
       formData.append('title', title)
       formData.append('description', description)
       formData.append('author', author)
+      formData.append('inStocks', inStocks)
       formData.append('category', category)
     }
 
@@ -170,6 +173,10 @@ const EditBookForm = ({ book }) => {
               value={author}
               onChange={e => setAuthor(e.target.value)}
             />
+            <TextField fullWidth autoComplete='off' type='number' label='InStocks' variant='outlined' required sx={{ m: 3 }}
+              value={inStocks}
+              onChange={e => setInStocks(e.target.value)}
+            />
 
             <FormControl required fullWidth sx={{ m: 3 }}>
               <InputLabel id="demo-simple-select-label">category</InputLabel>
@@ -213,7 +220,8 @@ const EditBookForm = ({ book }) => {
             />
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Button disabled={!canSave} variant="contained" onClick={handleSubmit} sx={{ mr: 3 }}>Update</Button>
-              <Button variant="contained" onClick={handleDelete} >Delete</Button>
+              <Button variant="contained" onClick={handleDelete} sx={{ mr: 3 }}>Delete</Button>
+              <Button variant="contained" onClick={() => navigate('/dash/books')} >Back</Button>
             </Box>
           </Box>
 

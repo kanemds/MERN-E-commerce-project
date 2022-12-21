@@ -13,6 +13,7 @@ export const EditBook = () => {
 
 
   const { isManager, isAdmin } = useAuth()
+  console.log(isAdmin)
 
   const { book } = useGetBooksQuery('booksList', {
     selectFromResult: ({ data }) => ({
@@ -21,9 +22,9 @@ export const EditBook = () => {
   })
 
 
-  if (!book) return <LoadingMessage />
-  if (!isManager || !isAdmin) return <Typography>Access Denied</Typography>
 
+  if (!book) return <LoadingMessage />
+  if (!isManager && !isAdmin) return <Typography>Access Denied</Typography>
   const content = <EditBookForm book={book} />
 
   return content

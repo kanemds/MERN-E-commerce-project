@@ -20,6 +20,10 @@ const bookSchema = new mongoose.Schema({
   category: {
     type: String,
     required: true
+  },
+  instocks: {
+    type: Number,
+    default: 0
   }
 }, {
   timestamps: true
