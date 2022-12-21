@@ -5,7 +5,7 @@ import LoadingMessage from '../components/LoadingMessage'
 import FrontPageDisplay from '../components/FrontPageDisplay'
 import { CATEGORY } from '../config/category'
 import { Link } from 'react-scroll'
-
+import Grid from '@mui/material/Unstable_Grid2'
 
 
 const Public = () => {
@@ -47,9 +47,9 @@ const Public = () => {
   if (books) {
 
     content = (
-      <Box sx={{ display: 'flex', flexDirection: 'column', mt: 20 }} >
+      <Box sx={{ mt: 20 }} >
 
-        <Box position="fixed" sx={{ height: '80vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start' }}>
+        <Box position="fixed" sx={{ height: '70vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', ml: '5%' }}>
           {types?.map((category) =>
 
             // <Button
@@ -71,20 +71,19 @@ const Public = () => {
           )}
         </Box>
 
-        <Box sx={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
 
-          {types?.map((category) => {
-            let currentCategory = books.filter(book => book.category === category)
-            return (
-              <Paper key={category} id={`${category}`} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100%', width: '40%', m: 25 }}>
+        {types?.map((category) => {
+          let currentCategory = books.filter(book => book.category === category)
+          return (
+            <Paper key={category} id={`${category}`} sx={{ mt: 35, mb: 35, ml: '30%', maxWidth: '50%' }}>
 
-                <FrontPageDisplay currentCategory={currentCategory} />
+              <FrontPageDisplay currentCategory={currentCategory} />
 
-              </Paper>
-            )
-          }
-          )}
-        </Box>
+            </Paper>
+          )
+        }
+        )}
+
 
       </Box >
     )

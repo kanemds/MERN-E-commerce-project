@@ -11,11 +11,13 @@ import 'react-slideshow-image/dist/styles.css'
 import Image from './Image'
 import { styled } from '@mui/material/styles'
 import { pink, blue, orange } from '@mui/material/colors'
+import { useNavigate } from 'react-router-dom'
 
 
 function SwipeableTextMobileStepper({ currentCategory }) {
 
 
+  const navigate = useNavigate()
 
   const theme = useTheme()
   const [activeStep, setActiveStep] = React.useState(0)
@@ -84,7 +86,7 @@ function SwipeableTextMobileStepper({ currentCategory }) {
 
 
   return (
-    <Box sx={{ height: '100%', width: '100%' }}>
+    <Box >
       <Banner>
         <Typography variant='h5' sx={{ m: 2 }}>{currentCategory[0].category}</Typography>
       </Banner>
@@ -96,19 +98,24 @@ function SwipeableTextMobileStepper({ currentCategory }) {
         enableMouseEvents
       >
         {currentCategory.map((step, index) => (
-          <Box key={index}>
+
+
+          < Box key={index} >
             {
               Math.abs(activeStep - index) <= 2 ? (
-
-                <ColorButton >
+                <ColorButton
+                  sx={{ height: '100%', width: '100%' }}
+                  onClick={() => navigate(`/products/${step._id}`)}
+                >
                   <Image step={step} />
                 </ColorButton>
 
               ) : null
             }
           </Box>
-        ))}
-      </SwipeableViews>
+        ))
+        }
+      </SwipeableViews >
       <MobileStepper
         steps={maxSteps}
         position="static"
