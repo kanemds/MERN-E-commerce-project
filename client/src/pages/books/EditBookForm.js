@@ -47,7 +47,9 @@ const EditBookForm = ({ book }) => {
   const [description, setDescription] = useState(book.description)
   const [author, setAuthor] = useState(book.author)
   const [inStocks, setInStocks] = useState(book.instocks)
+  const [price, setPrice] = useState(book.price)
   const [category, setCategory] = useState(book.category)
+
 
   const [imageName, setImageName] = useState('') // will cause error if no value
 
@@ -64,6 +66,7 @@ const EditBookForm = ({ book }) => {
       setAuthor('')
       setCategory('')
       setImageName('')
+      setPrice('')
       navigate('/dash/books')
     }
   }, [isSuccess, isDeletedSuccess, navigate])
@@ -105,6 +108,7 @@ const EditBookForm = ({ book }) => {
       formData.append('author', author)
       formData.append('inStocks', inStocks)
       formData.append('category', category)
+      formData.append('price', price)
     } else {
       formData.append('id', book.id)
       formData.append('title', title)
@@ -112,6 +116,7 @@ const EditBookForm = ({ book }) => {
       formData.append('author', author)
       formData.append('inStocks', inStocks)
       formData.append('category', category)
+      formData.append('price', price)
     }
 
     updateBook(formData)
@@ -124,9 +129,9 @@ const EditBookForm = ({ book }) => {
 
   let canSave
   if (image) {
-    canSave = [title.length, description.length, author.length, image, category.length].every(Boolean) && !isLoading
+    canSave = [title.length, description.length, author.length, image, category.length, price].every(Boolean) && !isLoading
   } else {
-    canSave = [title.length, description.length, author.length, category.length].every(Boolean) && !isLoading
+    canSave = [title.length, description.length, author.length, category.length, price].every(Boolean) && !isLoading
   }
 
 
@@ -176,6 +181,10 @@ const EditBookForm = ({ book }) => {
             <TextField fullWidth autoComplete='off' type='number' label='InStocks' variant='outlined' required sx={{ m: 3 }}
               value={inStocks}
               onChange={e => setInStocks(e.target.value)}
+            />
+            <TextField fullWidth autoComplete='off' type='number' label='Price' variant='outlined' required sx={{ m: 3 }}
+              value={price}
+              onChange={e => setPrice(e.target.value)}
             />
 
             <FormControl required fullWidth sx={{ m: 3 }}>
