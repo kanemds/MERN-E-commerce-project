@@ -79,6 +79,7 @@ const Public = () => {
               <Paper key={category} id={`${category}`} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100%', width: '40%', m: 25 }}>
 
                 <FrontPageDisplay currentCategory={currentCategory} />
+
               </Paper>
             )
           }

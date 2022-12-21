@@ -10,9 +10,7 @@ import SwipeableViews from 'react-swipeable-views'
 import 'react-slideshow-image/dist/styles.css'
 import Image from './Image'
 import { styled } from '@mui/material/styles'
-
-
-
+import { pink, blue, orange } from '@mui/material/colors'
 
 
 function SwipeableTextMobileStepper({ currentCategory }) {
@@ -54,6 +52,36 @@ function SwipeableTextMobileStepper({ currentCategory }) {
     backgroundColor: bannerColor
   }))
 
+  let buttonContrast
+  let buttonBC
+  let buttonHover
+
+  if (currentCategory[0].category === 'Cooking') {
+    buttonContrast = pink[50]
+    buttonBC = pink[50]
+    buttonHover = pink[100]
+  }
+  if (currentCategory[0].category === 'Language') {
+    buttonContrast = blue[50]
+    buttonBC = blue[50]
+    buttonHover = blue[100]
+  }
+  if (currentCategory[0].category === 'People Management') {
+    buttonContrast = orange[50]
+    buttonBC = orange[50]
+    buttonHover = orange[100]
+  }
+
+
+
+  const ColorButton = styled(Button)(({ theme }) => ({
+    color: theme.palette.getContrastText(buttonContrast),
+    backgroundColor: buttonBC,
+    '&:hover': {
+      backgroundColor: buttonHover,
+    },
+  }))
+
 
   return (
     <Box sx={{ height: '100%', width: '100%' }}>
@@ -71,7 +99,11 @@ function SwipeableTextMobileStepper({ currentCategory }) {
           <Box key={index}>
             {
               Math.abs(activeStep - index) <= 2 ? (
-                <Image step={step} />
+
+                <ColorButton >
+                  <Image step={step} />
+                </ColorButton>
+
               ) : null
             }
           </Box>
