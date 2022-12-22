@@ -24,6 +24,7 @@ import Products from './pages/products/Products'
 import Product from './pages/products/Product'
 import Image from './components/Image'
 import './App.css'
+import ShoppingCart from './pages/cart/ShoppingCart'
 
 function App() {
 
@@ -42,6 +43,10 @@ function App() {
             <Route path='products' >
               <Route index element={<Products />} />
               <Route path=':id' element={<Product />} />
+            </Route>
+
+            <Route path='carts'>
+              <Route index element={<ShoppingCart />} />
             </Route>
 
             {/* protected */}

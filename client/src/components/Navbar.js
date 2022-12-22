@@ -153,7 +153,7 @@ const Navbar = () => {
         <Box>
           <Button color="inherit" onClick={() => navigate('/login')}>Login</Button>
           <Button color="inherit" onClick={() => navigate('/register')}>Register</Button>
-          <IconButton>
+          <IconButton onClick={() => navigate('/carts')}>
             <ColorBadge badgeContent={10} sx={{ color: "#f06292" }}>
               <ShoppingCartIcon sx={{ color: 'white' }} />
             </ColorBadge>
