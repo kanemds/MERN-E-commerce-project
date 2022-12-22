@@ -2,12 +2,37 @@ import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useGetBooksQuery } from '../books/booksApiSlice'
 import Grid from '@mui/material/Unstable_Grid2'
-import { Button, Box, Paper, Typography, TextField, IconButton, Select, InputLabel, MenuItem, FormControl } from '@mui/material'
+import { Button, Box, Paper, Typography, TextField, IconButton, Select, InputLabel, MenuItem, FormControl, Modal } from '@mui/material'
 import LoadingMessage from '../../components/LoadingMessage'
+import { styled } from '@mui/material/styles'
+import { grey } from '@mui/material/colors'
 
 
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 500,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+}
+
+
+const ColorButton = styled(Button)(({ theme }) => ({
+  color: theme.palette.getContrastText(grey[300]),
+  backgroundColor: grey[300],
+  '&:hover': {
+    backgroundColor: grey[400],
+    border: '1px #9e9e9e solid'
+  },
+  border: '1px #bdbdbd solid',
+}))
 
 const Product = () => {
+
 
   const { id } = useParams()
 
@@ -47,6 +72,10 @@ const Product = () => {
     setQuantity(event.target.value)
   }
 
+  const [open, setOpen] = React.useState(false)
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
+
   const selectedQuantity = (
     <Box>
       <Typography>Quantity</Typography>
@@ -65,6 +94,7 @@ const Product = () => {
     </Box >
   )
 
+
   let content
 
   if (!book) return content = <LoadingMessage />
@@ -74,7 +104,6 @@ const Product = () => {
   if (book) {
     content = (
       <Box sx={{ display: 'flex', justifyContent: 'center', height: 500 }}>
-
         <Box sx={{ flexGrow: 1, p: 1, maxWidth: 800 }}>
           <Grid container spacing={4}>
             <Grid xs={5}>
@@ -94,10 +123,42 @@ const Product = () => {
                 <br />
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
-                Price: ${book.price.toFixed(2)}
-                {selectedQuantity}
-              </Box>
+                <Typography variant='h6'>Price: ${book.price.toFixed(2)}</Typography>
 
+                {selectedQuantity}
+              </Box >
+              <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                <Button variant='contained' sx={{ width: '80%' }} onClick={handleOpen}>Add to Cart</Button>
+                <Modal
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                  <Box sx={style}>
+                    <Typography id="modal-modal-title" variant="h6" component="h2" >
+                      x ITEMS ADDED TO YOUR COURT
+                    </Typography>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }} >
+                      <Box sx={{ display: 'flex' }}>
+                        <Typography id="modal-modal-description" >
+                          SUBTOTAL |
+                        </Typography>
+                        <Typography id="modal-modal-description" >
+                          x item(s)
+                        </Typography>
+                      </Box>
+                      <Typography id="modal-modal-description" >
+                        CAD $ xxx.00
+                      </Typography>
+                    </Box>
+                    <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
+                      <Button variant='contained' sx={{ width: 200 }} >View Cart</Button>
+                      <ColorButton variant='outlined' sx={{ width: 200 }} >Continue Shopping</ColorButton>
+                    </Box>
+                  </Box>
+                </Modal>
+              </Box>
             </Grid>
 
           </Grid>
