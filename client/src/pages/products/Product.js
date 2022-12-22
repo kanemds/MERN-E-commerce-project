@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useGetBooksQuery } from '../books/booksApiSlice'
 import Grid from '@mui/material/Unstable_Grid2'
 import { Button, Box, Paper, Typography, TextField, IconButton, Select, InputLabel, MenuItem, FormControl, Modal } from '@mui/material'
@@ -33,7 +33,7 @@ const ColorButton = styled(Button)(({ theme }) => ({
 
 const Product = () => {
 
-
+  const navigate = useNavigate()
   const { id } = useParams()
 
   const { book } = useGetBooksQuery('booksList', {
@@ -137,7 +137,7 @@ const Product = () => {
                 >
                   <Box sx={style}>
                     <Typography id="modal-modal-title" variant="h6" component="h2" >
-                      x ITEMS ADDED TO YOUR COURT
+                      {quantity} ITEMS ADDED TO YOUR COURT
                     </Typography>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }} >
                       <Box sx={{ display: 'flex' }}>
@@ -153,8 +153,8 @@ const Product = () => {
                       </Typography>
                     </Box>
                     <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
-                      <Button variant='contained' sx={{ width: 200 }} >View Cart</Button>
-                      <ColorButton variant='outlined' sx={{ width: 200 }} >Continue Shopping</ColorButton>
+                      <Button variant='contained' sx={{ width: 200 }} onClick={() => navigate('/carts')} >View Cart</Button>
+                      <ColorButton variant='outlined' sx={{ width: 200 }} onClick={handleClose}>Continue Shopping</ColorButton>
                     </Box>
                   </Box>
                 </Modal>
