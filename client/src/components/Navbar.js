@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
 import AppBar from '@mui/material/AppBar'
-import { Box, Toolbar, Typography, Button, Link, IconButton } from '@mui/material'
+import { Box, Toolbar, Typography, Button, Link, IconButton, Badge } from '@mui/material'
+import { pink, blue, orange } from '@mui/material/colors'
+import { styled } from '@mui/material/styles'
 // icons
 import NoteAddIcon from '@mui/icons-material/NoteAdd'
 import DescriptionIcon from '@mui/icons-material/Description'
@@ -8,6 +10,7 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt'
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd'
 import BookmarksIcon from '@mui/icons-material/Bookmarks'
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 //
 import LoadingMessage from './LoadingMessage'
 import { useNavigate, useLocation, Link as RouterLink } from 'react-router-dom'
@@ -15,9 +18,19 @@ import { useUserLogoutMutation } from '../pages/auth/authApiSlice'
 import useAuth from '../hooks/useAuth'
 
 
+
 const NOTES_REGEX = /^\/dash\/notes(\/)?$/
 const USERS_REGEX = /^\/dash\/users(\/)?$/
 const BOOKS_REGEX = /^\/dash\/books(\/)?$/
+
+
+const ColorBadge = styled(Badge)(({ theme }) => ({
+  "& .MuiBadge-badge": {
+    color: "black",
+    backgroundColor: pink[100]
+  }
+
+}))
 
 const Navbar = () => {
 
@@ -140,6 +153,11 @@ const Navbar = () => {
         <Box>
           <Button color="inherit" onClick={() => navigate('/login')}>Login</Button>
           <Button color="inherit" onClick={() => navigate('/register')}>Register</Button>
+          <IconButton>
+            <ColorBadge badgeContent={10} sx={{ color: "#f06292" }}>
+              <ShoppingCartIcon sx={{ color: 'white' }} />
+            </ColorBadge>
+          </IconButton>
         </Box>
         :
         isEmployee || isManager || isAdmin ?

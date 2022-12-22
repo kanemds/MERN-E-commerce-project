@@ -137,7 +137,7 @@ const Product = () => {
                 >
                   <Box sx={style}>
                     <Typography id="modal-modal-title" variant="h6" component="h2" >
-                      x ITEMS ADDED TO YOUR COURT
+                      {quantity} ITEMS ADDED TO YOUR COURT
                     </Typography>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }} >
                       <Box sx={{ display: 'flex' }}>
