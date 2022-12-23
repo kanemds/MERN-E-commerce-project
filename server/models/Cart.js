@@ -12,6 +12,10 @@ const cartSchema = new mongoose.Schema({
     // from which Shcema 
     ref: 'Product',
     default: null
+  },
+  total: {
+    type: Number,
+    required: true
   }
 }, {
   timestamps: true

@@ -7,7 +7,7 @@ import LoadingMessage from '../../components/LoadingMessage'
 import { styled } from '@mui/material/styles'
 import { grey } from '@mui/material/colors'
 import { useGetCartsQuery, useAddNewCartMutation } from '../cart/cartApiSlice'
-
+import { useAddNewProductMutation } from './productApiSlice'
 
 
 const style = {
@@ -46,6 +46,13 @@ const Product = () => {
     error
   }] = useAddNewCartMutation()
 
+  const [addNewProduct, {
+    data: productId,
+    isLoading: productIsLoading,
+    isSuccess: productIsSuccess,
+    isError: productIsError,
+    error: productError
+  }] = useAddNewProductMutation()
 
 
   const { book } = useGetBooksQuery('booksList', {
