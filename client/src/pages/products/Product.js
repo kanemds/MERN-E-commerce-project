@@ -58,6 +58,7 @@ const Product = () => {
 
   const [bookShopCartId, setBookShopCartId] = useState(localStorage.getItem('BookShopCartId') || null)
   const [quantity, setQuantity] = useState(0)
+  const [price, setPrice] = useState(0)
   const [username, setUsername] = useState(false)
   const [open, setOpen] = React.useState(false)
 
@@ -73,11 +74,11 @@ const Product = () => {
   }, [isSuccess])
 
 
-  // const { cart } = useGetCartsQuery('cartsList', {
-  //   selectFromResult: ({ data }) => ({
-  //     cart: data?.entities[bookShopCartId]
-  //   })
-  // })
+  const { cart } = useGetCartsQuery('cartsList', {
+    selectFromResult: ({ data }) => ({
+      cart: data?.entities[bookShopCartId]
+    })
+  })
 
   // const sum = cart?.itemcounts?.reduce((a, b) => { return a + b }, 0)
 
@@ -186,16 +187,13 @@ const Product = () => {
                           {quantity} ITEMS ADDED TO YOUR COURT
                         </Typography>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }} >
-                          <Box sx={{ display: 'flex' }}>
-                            <Typography id="modal-modal-description" >
-                              SUBTOTAL |
-                            </Typography>
-                            <Typography id="modal-modal-description" >
-                              item(s)
-                            </Typography>
-                          </Box>
+
                           <Typography id="modal-modal-description" >
-                            CAD $ xxx.00
+                            SUBTOTAL |  {cart?.itemcounts?.reduce((a, b) => { return a + b }, 0)}  item(s)
+                          </Typography>
+
+                          <Typography id="modal-modal-description" >
+                            CAD $
                           </Typography>
                         </Box>
                         <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
@@ -209,9 +207,9 @@ const Product = () => {
               </Box>
             </Grid>
 
-          </Grid>
+          </Grid >
 
-        </Box>
+        </Box >
 
 
 
