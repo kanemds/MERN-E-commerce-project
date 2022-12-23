@@ -5,7 +5,7 @@ const user = require('./api/userRoutes')
 const note = require('./api/noteRouters')
 const auth = require('./api/authRouters')
 const book = require('./api/bookRouters')
-const customer = require('./api/customerRouters')
+const cart = require('./api/cartRouters')
 
 router.get('^/$|/index(.html)?', (req, res) => {
   res.sendFile(path.join(__dirname, '../', 'views', 'index.html'))
@@ -17,7 +17,7 @@ router.use('/users', user)
 router.use('/notes', note)
 router.use('/auth', auth)
 router.use('/books', book)
-router.use('/customers', customer)
+router.use('/carts', cart)
 
 
 module.exports = router
