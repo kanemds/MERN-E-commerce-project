@@ -12,18 +12,17 @@ const getAllProducts = async (req, res) => {
 }
 
 const createProduct = async (req, res) => {
-  const { uproduct, itemcounts, } = req.body
+  const { id, product, itemcounts, } = req.body
 
 
   // const existUser = await User.findOne(user).exec()
   // console.log(existUser)
 
-  const existProduct = await Product.findById().exec()
+  const existProduct = await Product.findById(id).exec()
 
 
 
   if (existProduct) {
-    existProduct.product.push(product)
     existProduct.itemcounts.push(itemcounts)
     const currentProduct = await existProduct.save()
     return res.status(201).json(currentProduct._id)
