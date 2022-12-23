@@ -16,7 +16,7 @@ const createUser = asynceHandler(async (req, res) => {
   const { username, email, password, roles } = req.body
 
   const lowerCase = email.toLowerCase()
-  console.log(lowerCase)
+
 
   if (!username || !lowerCase || !password) {
     return res.status(400).json({ message: 'All fields are required' })

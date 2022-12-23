@@ -1,17 +1,21 @@
 const mongoose = require('mongoose')
 
 const cartSchema = new mongoose.Schema({
+  // cartid: {
+  //   type: String,
+  //   default: null
+  // },
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    required: true,
     // from which Shcema 
-    ref: 'User'
+    ref: 'User',
+    default: null
   },
-  products: {
-    type: String
+  product: {
+    type: [String]
   },
-  totalproducts: {
-    type: Number,
+  itemcounts: {
+    type: [Number],
     default: 0
   }
 }, {

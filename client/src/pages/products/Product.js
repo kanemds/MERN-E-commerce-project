@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useGetBooksQuery } from '../books/booksApiSlice'
 import Grid from '@mui/material/Unstable_Grid2'
@@ -6,6 +6,8 @@ import { Button, Box, Paper, Typography, TextField, IconButton, Select, InputLab
 import LoadingMessage from '../../components/LoadingMessage'
 import { styled } from '@mui/material/styles'
 import { grey } from '@mui/material/colors'
+import { useGetCartsQuery, useAddNewCartMutation } from '../cart/cartApiSlice'
+
 
 
 const style = {
@@ -36,15 +38,48 @@ const Product = () => {
   const navigate = useNavigate()
   const { id } = useParams()
 
+  const [addNewCart, {
+    data: cartId,
+    isLoading,
+    isSuccess,
+    isError,
+    error
+  }] = useAddNewCartMutation()
+
+
+
   const { book } = useGetBooksQuery('booksList', {
     selectFromResult: ({ data }) => ({
       book: data?.entities[id]
     })
   })
 
-  console.log(book)
 
+
+  const [bookShopCartId, setBookShopCartId] = useState(localStorage.getItem('BookShopCartId') || null)
   const [quantity, setQuantity] = useState(0)
+  const [username, setUsername] = useState(false)
+  const [open, setOpen] = React.useState(false)
+
+
+  useEffect(() => {
+    if (isSuccess) {
+      if (localStorage.getItem('BookShopCartId') === null) {
+        localStorage.setItem('BookShopCartId', cartId)
+        setBookShopCartId(cartId)
+      }
+      setOpen(true)
+    }
+  }, [isSuccess])
+
+
+  // const { cart } = useGetCartsQuery('cartsList', {
+  //   selectFromResult: ({ data }) => ({
+  //     cart: data?.entities[bookShopCartId]
+  //   })
+  // })
+
+  // const sum = cart?.itemcounts?.reduce((a, b) => { return a + b }, 0)
 
 
   const currentStocks = book?.instocks
@@ -72,8 +107,15 @@ const Product = () => {
     setQuantity(event.target.value)
   }
 
-  const [open, setOpen] = React.useState(false)
-  const handleOpen = () => setOpen(true)
+
+
+  const handleOpen = () => {
+    let currentUser = username ? 'name' : null
+
+    addNewCart({ bookShopCartId, user: currentUser, product: id, itemcounts: quantity }).unwrap()
+
+
+  }
   const handleClose = () => setOpen(false)
 
   const selectedQuantity = (
@@ -135,27 +177,33 @@ const Product = () => {
                   aria-labelledby="modal-modal-title"
                   aria-describedby="modal-modal-description"
                 >
+
                   <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2" >
-                      {quantity} ITEMS ADDED TO YOUR COURT
-                    </Typography>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }} >
-                      <Box sx={{ display: 'flex' }}>
-                        <Typography id="modal-modal-description" >
-                          SUBTOTAL |
+                    {isLoading ?
+                      <LoadingMessage /> :
+                      <Box>
+                        <Typography id="modal-modal-title" variant="h6" component="h2" >
+                          {quantity} ITEMS ADDED TO YOUR COURT
                         </Typography>
-                        <Typography id="modal-modal-description" >
-                          x item(s)
-                        </Typography>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }} >
+                          <Box sx={{ display: 'flex' }}>
+                            <Typography id="modal-modal-description" >
+                              SUBTOTAL |
+                            </Typography>
+                            <Typography id="modal-modal-description" >
+                              item(s)
+                            </Typography>
+                          </Box>
+                          <Typography id="modal-modal-description" >
+                            CAD $ xxx.00
+                          </Typography>
+                        </Box>
+                        <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
+                          <Button variant='contained' sx={{ width: 200 }} onClick={() => navigate('/carts')} >View Cart</Button>
+                          <ColorButton variant='outlined' sx={{ width: 200 }} onClick={handleClose}>Continue Shopping</ColorButton>
+                        </Box>
                       </Box>
-                      <Typography id="modal-modal-description" >
-                        CAD $ xxx.00
-                      </Typography>
-                    </Box>
-                    <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
-                      <Button variant='contained' sx={{ width: 200 }} onClick={() => navigate('/carts')} >View Cart</Button>
-                      <ColorButton variant='outlined' sx={{ width: 200 }} onClick={handleClose}>Continue Shopping</ColorButton>
-                    </Box>
+                    }
                   </Box>
                 </Modal>
               </Box>
