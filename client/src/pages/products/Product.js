@@ -15,11 +15,16 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
+  height: 200,
   width: 500,
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
+  display: 'flex',
+  justifyContent: 'center',
+  flexDirection: 'column'
+
 }
 
 
@@ -70,15 +75,16 @@ const Product = () => {
   const [username, setUsername] = useState(null)
   const [open, setOpen] = React.useState(false)
 
-  // useEffect(() => {
-  //   if (productIsSuccess) {
-
-  //     console.log(productId)
-  //     addNewCart({ id: bookShopCartId, user: username, productId, totalprice: quantity * book.price, totalproducts: quantity })
-  //   }
-  // }, [productIsSuccess])
 
 
+  useEffect(() => {
+    if (productIsSuccess) {
+      console.log(productId)
+      addNewCart({ id: bookShopCartId, user: username, productId, totalprice: quantity * book.price, totalproducts: quantity })
+    }
+
+
+  }, [productIsSuccess])
 
   useEffect(() => {
     if (isSuccess) {
@@ -86,18 +92,17 @@ const Product = () => {
         localStorage.setItem('BookShopCartId', cartId)
         setBookShopCartId(cartId)
       }
-
     }
   }, [isSuccess])
 
 
-  // const { cart } = useGetCartsQuery('cartsList', {
-  //   selectFromResult: ({ data }) => ({
-  //     cart: data?.entities[bookShopCartId]
-  //   })
-  // })
+  const { cart } = useGetCartsQuery('cartsList', {
+    selectFromResult: ({ data }) => ({
+      cart: data?.entities[bookShopCartId]
+    })
+  })
 
-  // const sum = cart?.itemcounts?.reduce((a, b) => { return a + b }, 0)
+
 
 
   const currentStocks = book?.instocks
@@ -130,11 +135,10 @@ const Product = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     setOpen(true)
+
     addNewProduct({ bookId: id, itemcounts: quantity, price: book.price, totalprice: quantity * book.price }).unwrap()
-    if (productIsSuccess) {
-      console.log(productId)
-      addNewCart({ id: bookShopCartId, user: username, productId, totalprice: quantity * book.price, totalproducts: quantity })
-    }
+
+
   }
 
   const handleClose = () => setOpen(false)
@@ -157,6 +161,8 @@ const Product = () => {
     </Box >
   )
 
+
+  const canSave = quantity >= 1
 
   let content
 
@@ -191,7 +197,7 @@ const Product = () => {
                 {selectedQuantity}
               </Box >
               <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                <Button variant='contained' sx={{ width: '80%' }} onClick={handleSubmit}>Add to Cart</Button>
+                <Button disabled={!canSave} variant='contained' sx={{ width: '80%' }} onClick={handleSubmit}>Add to Cart</Button>
                 <Modal
                   open={open}
                   onClose={handleClose}
@@ -200,8 +206,10 @@ const Product = () => {
                 >
 
                   <Box sx={style}>
-                    {isLoading && productIsLoading ?
-                      <LoadingMessage /> :
+                    {isLoading ?
+                      <Box >
+                        <LoadingMessage />
+                      </Box> :
                       <Box>
                         <Typography id="modal-modal-title" variant="h6" component="h2" >
                           {quantity} ITEMS ADDED TO YOUR COURT
@@ -209,17 +217,16 @@ const Product = () => {
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }} >
 
                           <Typography id="modal-modal-description" >
-                            SUBTOTAL |   item(s)
+                            SUBTOTAL | {cart.totalproducts}  item(s)
                           </Typography>
 
                           <Typography id="modal-modal-description" >
-                            CAD $
+                            CAD $ {cart.totalprice.toFixed(2)}
                           </Typography>
                         </Box>
                         <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
                           <Button variant='contained' sx={{ width: 200 }} onClick={() => navigate('/carts')} >View Cart</Button>
-                          <ColorButton variant='outlined' sx={{ width: 200 }} onClick={handleClose}>Continue Shopping</ColorButton>
-                        </Box>
+                          <ColorButton variant='outlined' sx={{ width: 200 }} onClick={handleClose}>Continue Shopping</ColorButton>                       </Box>
                       </Box>
                     }
                   </Box>
