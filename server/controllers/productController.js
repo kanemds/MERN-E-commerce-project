@@ -1,5 +1,6 @@
 
 const Product = require('../models/Product')
+const Book = require('../models/Book')
 
 require('express-async-errors')
 
@@ -12,29 +13,29 @@ const getAllProducts = async (req, res) => {
 }
 
 const createProduct = async (req, res) => {
-  const { id, product, itemcounts, } = req.body
+  const { bookId, itemcounts, price, totalprice } = req.body
 
 
   // const existUser = await User.findOne(user).exec()
   // console.log(existUser)
 
-  const existProduct = await Product.findById(id).exec()
+  const currentProduct = await Product.findOne({ bookId }).exec()
 
 
 
-  if (existProduct) {
-    existProduct.itemcounts.push(itemcounts)
-    const currentProduct = await existProduct.save()
+  if (currentProduct) {
+    currentProduct.itemcounts += itemcounts
+    currentProduct.totalprice += totalprice
+    currentProduct.save()
     return res.status(201).json(currentProduct._id)
-
   } else {
-    const info = { product, itemcounts }
+    const info = { bookId, itemcounts, price, totalprice }
 
     const newProduct = await Product.create(info)
 
     return res.status(201).json(newProduct._id)
-
   }
+
 }
 
 

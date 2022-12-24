@@ -64,10 +64,20 @@ const Product = () => {
 
 
   const [bookShopCartId, setBookShopCartId] = useState(localStorage.getItem('BookShopCartId') || null)
+
   const [quantity, setQuantity] = useState(0)
-  const [price, setPrice] = useState(0)
-  const [username, setUsername] = useState(false)
+
+  const [username, setUsername] = useState(null)
   const [open, setOpen] = React.useState(false)
+
+  // useEffect(() => {
+  //   if (productIsSuccess) {
+
+  //     console.log(productId)
+  //     addNewCart({ id: bookShopCartId, user: username, productId, totalprice: quantity * book.price, totalproducts: quantity })
+  //   }
+  // }, [productIsSuccess])
+
 
 
   useEffect(() => {
@@ -76,16 +86,16 @@ const Product = () => {
         localStorage.setItem('BookShopCartId', cartId)
         setBookShopCartId(cartId)
       }
-      setOpen(true)
+
     }
   }, [isSuccess])
 
 
-  const { cart } = useGetCartsQuery('cartsList', {
-    selectFromResult: ({ data }) => ({
-      cart: data?.entities[bookShopCartId]
-    })
-  })
+  // const { cart } = useGetCartsQuery('cartsList', {
+  //   selectFromResult: ({ data }) => ({
+  //     cart: data?.entities[bookShopCartId]
+  //   })
+  // })
 
   // const sum = cart?.itemcounts?.reduce((a, b) => { return a + b }, 0)
 
@@ -117,13 +127,16 @@ const Product = () => {
 
 
 
-  const handleOpen = () => {
-    let currentUser = username ? 'name' : null
-
-    addNewCart({ bookShopCartId, user: currentUser, product: id, itemcounts: quantity }).unwrap()
-
-
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    setOpen(true)
+    addNewProduct({ bookId: id, itemcounts: quantity, price: book.price, totalprice: quantity * book.price }).unwrap()
+    if (productIsSuccess) {
+      console.log(productId)
+      addNewCart({ id: bookShopCartId, user: username, productId, totalprice: quantity * book.price, totalproducts: quantity })
+    }
   }
+
   const handleClose = () => setOpen(false)
 
   const selectedQuantity = (
@@ -178,7 +191,7 @@ const Product = () => {
                 {selectedQuantity}
               </Box >
               <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                <Button variant='contained' sx={{ width: '80%' }} onClick={handleOpen}>Add to Cart</Button>
+                <Button variant='contained' sx={{ width: '80%' }} onClick={handleSubmit}>Add to Cart</Button>
                 <Modal
                   open={open}
                   onClose={handleClose}
@@ -187,7 +200,7 @@ const Product = () => {
                 >
 
                   <Box sx={style}>
-                    {isLoading ?
+                    {isLoading && productIsLoading ?
                       <LoadingMessage /> :
                       <Box>
                         <Typography id="modal-modal-title" variant="h6" component="h2" >
@@ -196,7 +209,7 @@ const Product = () => {
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }} >
 
                           <Typography id="modal-modal-description" >
-                            SUBTOTAL |  {cart?.itemcounts?.reduce((a, b) => { return a + b }, 0)}  item(s)
+                            SUBTOTAL |   item(s)
                           </Typography>
 
                           <Typography id="modal-modal-description" >

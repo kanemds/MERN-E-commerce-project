@@ -1,4 +1,5 @@
 const Cart = require('../models/Cart')
+const Product = require('../models/Product')
 const User = require('../models/User')
 
 require('express-async-errors')
@@ -12,30 +13,29 @@ const getAllCarts = async (req, res) => {
 }
 
 const createCart = async (req, res) => {
-  const { user, product, itemcounts, bookShopCartId } = req.body
+  const { id, user, productId, totalprice, totalproducts } = req.body
 
-
-
-  // const existUser = await User.findOne(user).exec()
-  // console.log(existUser)
-
-  const existCart = await Cart.findById(bookShopCartId).exec()
-
-
-
+  const existCart = await Cart.findById(id).exec()
+  const existProduct = await Cart.findOne({ productId }).exec()
   if (existCart) {
-    existCart.product.push(product)
-    existCart.itemcounts.push(itemcounts)
-    const currentCart = await existCart.save()
-    return res.status(201).json(currentCart._id)
+    if (!existProduct) {
+      existCart.productId.push(productId)
+      existCart.totalprice += totalprice
+      existCart.totalproducts += totalproducts
+    } else if (existProduct) {
 
+      existCart.totalprice += totalprice
+      existCart.totalproducts += totalproducts
+    }
+    existCart.save()
+    return res.status(201).json(existCart._id)
   } else {
-    const info = { product, itemcounts }
+
+    const info = { user, productId, totalprice, totalproducts }
 
     const newCart = await Cart.create(info)
 
     return res.status(201).json(newCart._id)
-
   }
 }
 
