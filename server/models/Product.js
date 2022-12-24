@@ -1,8 +1,10 @@
 const mongoose = require('mongoose')
 
 const productSchema = new mongoose.Schema({
-  item: {
-    type: String,
+  bookId: {
+    type: mongoose.Schema.Types.ObjectId,
+    // from which Shcema 
+    ref: 'Book',
     required: true
   },
   itemcounts: {
@@ -13,7 +15,7 @@ const productSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  total: {
+  totalprice: {
     type: Number,
     required: true
   }
