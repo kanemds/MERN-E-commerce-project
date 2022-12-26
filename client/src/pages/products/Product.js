@@ -88,7 +88,7 @@ const Product = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      if (localStorage.getItem('BookShopCartId') === null) {
+      if (localStorage.getItem('BookShopCartId') == null) {
         localStorage.setItem('BookShopCartId', cartId)
         setBookShopCartId(cartId)
       }
@@ -217,11 +217,11 @@ const Product = () => {
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }} >
 
                           <Typography id="modal-modal-description" >
-                            SUBTOTAL | {cart.totalproducts}  item(s)
+                            SUBTOTAL | {cart?.totalproducts}  item(s)
                           </Typography>
 
                           <Typography id="modal-modal-description" >
-                            CAD $ {cart.totalprice.toFixed(2)}
+                            CAD $ {cart?.totalprice.toFixed(2)}
                           </Typography>
                         </Box>
                         <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
