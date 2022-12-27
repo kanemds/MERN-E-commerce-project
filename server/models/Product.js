@@ -8,20 +8,17 @@ const productSchema = new mongoose.Schema({
   //   required: true
   // },
   details: [{
-    bookId: {
+    books: {
       type: mongoose.Schema.Types.ObjectId,
       // from which Shcema 
       ref: 'Book',
       required: true
     },
     quantity: { type: Number, required: true },
-    amount: { type: Number, required: true }
+    price: { type: Number, required: true },
+    total: { type: Number, required: true }
   }],
-  itemcounts: {
-    type: Number,
-    required: true
-  },
-  price: {
+  totalcounts: {
     type: Number,
     required: true
   },

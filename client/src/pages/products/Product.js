@@ -132,10 +132,7 @@ const Product = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     setOpen(true)
-
-    addNewProduct({ details: { bookId: id, quantity, amount: book.price }, itemcounts: quantity, price: book.price, totalprice: quantity * book.price }).unwrap()
-
-
+    addNewProduct({ details: { books: id, quantity, price: book.price, total: quantity * book.price }, totalcounts: quantity, totalprice: quantity * book.price }).unwrap()
   }
 
   const handleClose = () => setOpen(false)

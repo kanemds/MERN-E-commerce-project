@@ -13,12 +13,15 @@ const getAllProducts = async (req, res) => {
 }
 
 const createProduct = async (req, res) => {
-  const { details, itemcounts, price, totalprice
-  } = req.body
+  const { details, totalcounts, totalprice, } = req.body
 
   console.log(details)
 
   console.log(req.body)
+  const book = await Book.findById(details.bookId)
+
+  console.log(book)
+
 
   // const existUser = await User.findOne(user).exec()
   // console.log(existUser)
