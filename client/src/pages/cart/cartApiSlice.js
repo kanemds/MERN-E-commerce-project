@@ -1,5 +1,6 @@
 import { createEntityAdapter, createSelector } from "@reduxjs/toolkit"
 import { apiSlice } from "../../app/api/apiSlice"
+import { selectBooksResult } from "../books/booksApiSlice"
 
 const cartAdapter = createEntityAdapter({})
 
@@ -44,3 +45,14 @@ export const cartsApiSlice = apiSlice.injectEndpoints({
 })
 
 export const { useGetCartsQuery, useAddNewCartMutation } = cartsApiSlice
+
+export const selectCartsResult = cartsApiSlice.endpoints.getCarts.select()
+
+const selectCartsData = createSelector(
+  selectBooksResult,
+  state => state.data
+)
+
+export const {
+  selectById: selectCartById,
+} = cartAdapter.getSelectors(state => selectCartsData(state) ?? initialState)

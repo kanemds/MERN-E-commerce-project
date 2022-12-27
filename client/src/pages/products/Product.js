@@ -79,11 +79,8 @@ const Product = () => {
 
   useEffect(() => {
     if (productIsSuccess) {
-      console.log(productId)
       addNewCart({ id: bookShopCartId, user: username, productId, totalprice: quantity * book.price, totalproducts: quantity })
     }
-
-
   }, [productIsSuccess])
 
   useEffect(() => {
@@ -226,7 +223,8 @@ const Product = () => {
                         </Box>
                         <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
                           <Button variant='contained' sx={{ width: 200 }} onClick={() => navigate('/carts')} >View Cart</Button>
-                          <ColorButton variant='outlined' sx={{ width: 200 }} onClick={handleClose}>Continue Shopping</ColorButton>                       </Box>
+                          <ColorButton variant='outlined' sx={{ width: 200 }} onClick={handleClose}>Continue Shopping</ColorButton>
+                        </Box>
                       </Box>
                     }
                   </Box>
