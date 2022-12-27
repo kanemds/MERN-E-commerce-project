@@ -76,7 +76,7 @@ const ShoppingCart = () => {
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }} >
             <Box sx={{ width: '65%' }}>
-              <CartList />
+              <CartList productId={cart?.productId} />
             </Box>
 
             <Box sx={{ width: '30%' }}>
