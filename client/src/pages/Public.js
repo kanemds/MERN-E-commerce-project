@@ -29,14 +29,12 @@ const Public = () => {
   //   })
   // }
 
-
   const { books } = useGetBooksQuery('booksList', {
     selectFromResult: ({ data }) => ({
       books: data?.ids.map(id => data?.entities[id])
     })
   })
 
-  console.log(books)
 
   let content
 
@@ -67,10 +65,8 @@ const Public = () => {
             <Link key={category} to={category} activeClass="active" className='scroll' spy={true} smooth={true} offset={-380} duration={600} >
               {category}
             </Link>
-
           )}
         </Box>
-
 
         {types?.map((category) => {
           let currentCategory = books.filter(book => book.category === category)
@@ -83,8 +79,6 @@ const Public = () => {
           )
         }
         )}
-
-
       </Box >
     )
   }
