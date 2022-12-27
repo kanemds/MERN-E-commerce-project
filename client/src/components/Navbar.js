@@ -64,9 +64,6 @@ const Navbar = () => {
     })
   })
 
-  console.log(cart)
-
-
 
   const quantity = cart ? cart?.totalproducts : 0
 

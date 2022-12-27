@@ -133,7 +133,7 @@ const Product = () => {
     e.preventDefault()
     setOpen(true)
 
-    addNewProduct({ bookId: id, itemcounts: quantity, price: book.price, totalprice: quantity * book.price }).unwrap()
+    addNewProduct({ details: { bookId: id, quantity, amount: book.price }, itemcounts: quantity, price: book.price, totalprice: quantity * book.price }).unwrap()
 
 
   }

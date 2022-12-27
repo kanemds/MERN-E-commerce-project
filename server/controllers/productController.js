@@ -13,28 +13,31 @@ const getAllProducts = async (req, res) => {
 }
 
 const createProduct = async (req, res) => {
-  const { bookId, itemcounts, price, totalprice } = req.body
+  const { details, itemcounts, price, totalprice
+  } = req.body
 
+  console.log(details)
+
+  console.log(req.body)
 
   // const existUser = await User.findOne(user).exec()
   // console.log(existUser)
 
-  const currentProduct = await Product.findOne({ bookId }).exec()
+  // const currentProduct = await Product.findOne({ bookId }).exec()
 
 
+  // if (currentProduct) {
+  //   currentProduct.itemcounts += itemcounts
+  //   currentProduct.totalprice += totalprice
+  //   currentProduct.save()
+  //   return res.status(201).json(currentProduct._id)
+  // } else {
+  //   const info = { bookId, itemcounts, price, totalprice }
 
-  if (currentProduct) {
-    currentProduct.itemcounts += itemcounts
-    currentProduct.totalprice += totalprice
-    currentProduct.save()
-    return res.status(201).json(currentProduct._id)
-  } else {
-    const info = { bookId, itemcounts, price, totalprice }
+  //   const newProduct = await Product.create(info)
 
-    const newProduct = await Product.create(info)
-
-    return res.status(201).json(newProduct._id)
-  }
+  //   return res.status(201).json(newProduct._id)
+  // }
 
 }
 
