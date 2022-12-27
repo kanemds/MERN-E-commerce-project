@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import AppBar from '@mui/material/AppBar'
 import { Box, Toolbar, Typography, Button, Link, IconButton, Badge } from '@mui/material'
-import { pink, blue, orange } from '@mui/material/colors'
+import { pink, blue, orange, red } from '@mui/material/colors'
 import { styled } from '@mui/material/styles'
 // icons
 import NoteAddIcon from '@mui/icons-material/NoteAdd'
@@ -15,6 +15,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import LoadingMessage from './LoadingMessage'
 import { useNavigate, useLocation, Link as RouterLink } from 'react-router-dom'
 import { useUserLogoutMutation } from '../pages/auth/authApiSlice'
+import { useGetCartsQuery } from '../pages/cart/cartApiSlice'
 import useAuth from '../hooks/useAuth'
 
 
@@ -26,8 +27,9 @@ const BOOKS_REGEX = /^\/dash\/books(\/)?$/
 
 const ColorBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
-    color: "black",
-    backgroundColor: pink[100]
+    color: "white",
+    backgroundColor: pink[500
+    ]
   }
 
 }))
@@ -39,6 +41,34 @@ const Navbar = () => {
   const navigate = useNavigate()
   const { pathname } = useLocation()
 
+  const [cartId, setCartId] = useState(localStorage.getItem('BookShopCartId') || null)
+
+
+
+  const {
+    data: carts,
+    isSuccess: isCartsSuccess
+  } = useGetCartsQuery()
+
+
+  useEffect(() => {
+    if (isCartsSuccess) {
+      setCartId(localStorage.getItem('BookShopCartId'))
+    }
+  }, [carts])
+
+
+  const { cart } = useGetCartsQuery('cartsList', {
+    selectFromResult: ({ data }) => ({
+      cart: data?.entities[cartId]
+    })
+  })
+
+  console.log(cart)
+
+
+
+  const quantity = cart ? cart?.totalproducts : 0
 
   const [userLogut, {
     isLoading,
@@ -154,7 +184,7 @@ const Navbar = () => {
           <Button color="inherit" onClick={() => navigate('/login')}>Login</Button>
           <Button color="inherit" onClick={() => navigate('/register')}>Register</Button>
           <IconButton onClick={() => navigate('/carts')}>
-            <ColorBadge badgeContent={10} sx={{ color: "#f06292" }}>
+            <ColorBadge badgeContent={quantity}>
               <ShoppingCartIcon sx={{ color: 'white' }} />
             </ColorBadge>
           </IconButton>

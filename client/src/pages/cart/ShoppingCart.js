@@ -5,7 +5,7 @@ import LoadingMessage from '../../components/LoadingMessage'
 import { useGetCartsQuery } from './cartApiSlice'
 import CartList from './CartList'
 import { styled } from '@mui/material/styles'
-import { grey, red } from '@mui/material/colors'
+import { grey, red, pink } from '@mui/material/colors'
 
 
 
@@ -20,22 +20,25 @@ const KEEPSHOPPING = styled(Button)(({ theme }) => ({
 }))
 
 const CHECKOUT = styled(Button)(({ theme }) => ({
-  color: theme.palette.getContrastText(red[500
+  color: theme.palette.getContrastText(pink[500
   ]),
-  backgroundColor: red[500],
+  backgroundColor: pink[500],
   '&:hover': {
-    backgroundColor: red[700],
-    border: '1px #d32f2f solid'
+    backgroundColor: pink[600
+    ],
+    border: '1px #d81b60 solid'
   },
-  border: '1px #f44336 solid',
+  border: '1px #e91e63 solid',
 }))
 
 
 const ShoppingCart = () => {
 
+  const navigate = useNavigate()
+
   const [cartId, setCartId] = useState(localStorage.getItem('BookShopCartId') || null)
 
-  console.log(cartId)
+
 
   const { cart } = useGetCartsQuery('cartsList', {
     selectFromResult: ({ data }) => ({
@@ -108,7 +111,7 @@ const ShoppingCart = () => {
 
               <Box sx={{ display: 'flex', flexDirection: 'column', mt: 4 }}>
                 <CHECKOUT variant='contained'>CHECKOUT</CHECKOUT>
-                <KEEPSHOPPING variant='contained' sx={{ mt: 2 }}>COUTINUE SHOPPING</KEEPSHOPPING>
+                <KEEPSHOPPING variant='contained' sx={{ mt: 2 }} onClick={() => navigate('/')}>COUTINUE SHOPPING</KEEPSHOPPING>
               </Box>
             </Box>
           </Box>
