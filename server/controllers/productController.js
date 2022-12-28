@@ -20,8 +20,6 @@ const createProduct = async (req, res) => {
   // const user = await User.findOne(owner).exec()
   const order = await Product.findById(orderId).exec()
 
-  console.log(order)
-
   if (!order) {
     const info = {
       details: {
@@ -39,8 +37,6 @@ const createProduct = async (req, res) => {
     return res.status(201).json(newProduct._id)
   } else if (order) {
     const duplicate = order.details.find(product => product.bookId === details.bookId)
-    console.log(book)
-    console.log(duplicate)
     if (order && !duplicate) {
 
       const newProdut = {
@@ -58,13 +54,21 @@ const createProduct = async (req, res) => {
 
       order.save()
       return res.status(201).json(order._id)
-
     }
+    else if (order && duplicate) {
 
+      duplicate.quantity += details.quantity
+      duplicate.total += details.quantity * book.price
+
+
+      order.totalcounts += totalcounts
+      order.totalprice += totalprice
+      order.save()
+      return res.status(201).json(order._id)
+    }
+  } else {
+    return res.status(500), json({ message: 'Server Error' })
   }
-
-
-
 }
 
 
