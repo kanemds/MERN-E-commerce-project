@@ -13,36 +13,77 @@ const getAllProducts = async (req, res) => {
 }
 
 const createProduct = async (req, res) => {
-  const { details, totalcounts, totalprice, } = req.body
+  const { orderId, owner, details, totalcounts, totalprice } = req.body
 
-  console.log(details)
+  const book = await Book.findById(details.bookId).exec()
 
-  console.log(req.body)
-  const book = await Book.findById(details.bookId)
+  // const user = await User.findOne(owner).exec()
+  const order = await Product.findById(orderId).exec()
 
-  console.log(book)
+  console.log(order)
+
+  if (!order) {
+    const info = {
+      details: {
+        image: book.image,
+        title: book.title,
+        author: book.author,
+        price: book.price,
+        quantity: details.quantity,
+        total: details.quantity * book.price,
+        ...details
+      },
+      totalcounts, totalprice
+    }
+    const newProduct = await Product.create(info)
+    return res.status(201).json(newProduct._id)
+  } else if (order) {
+    const duplicate = order.details.find(product => product.bookId === details.bookId)
+    console.log(book)
+    console.log(duplicate)
+    if (order && !duplicate) {
+
+      const newProdut = {
+        image: book.image,
+        title: book.title,
+        author: book.author,
+        price: book.price,
+        quantity: details.quantity,
+        total: details.quantity * book.price
+      }
+      order.details.push({ ...newProdut, ...details })
+
+      order.totalcounts += totalcounts
+      order.totalprice += totalprice
+
+      order.save()
+      return res.status(201).json(order._id)
+
+    }
+
+  }
 
 
-  // const existUser = await User.findOne(user).exec()
-  // console.log(existUser)
-
-  // const currentProduct = await Product.findOne({ bookId }).exec()
-
-
-  // if (currentProduct) {
-  //   currentProduct.itemcounts += itemcounts
-  //   currentProduct.totalprice += totalprice
-  //   currentProduct.save()
-  //   return res.status(201).json(currentProduct._id)
-  // } else {
-  //   const info = { bookId, itemcounts, price, totalprice }
-
-  //   const newProduct = await Product.create(info)
-
-  //   return res.status(201).json(newProduct._id)
-  // }
 
 }
+
+
+
+
+// if (currentProduct) {
+//   currentProduct.itemcounts += itemcounts
+//   currentProduct.totalprice += totalprice
+//   currentProduct.save()
+//   return res.status(201).json(currentProduct._id)
+// } else {
+//   const info = { bookId, itemcounts, price, totalprice }
+
+//   const newProduct = await Product.create(info)
+
+//   return res.status(201).json(newProduct._id)
+// }
+
+
 
 
 const updateProduct = async (req, res) => {

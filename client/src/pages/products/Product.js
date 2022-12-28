@@ -7,7 +7,7 @@ import LoadingMessage from '../../components/LoadingMessage'
 import { styled } from '@mui/material/styles'
 import { grey } from '@mui/material/colors'
 import { useGetCartsQuery, useAddNewCartMutation } from '../cart/cartApiSlice'
-import { useAddNewProductMutation } from './productApiSlice'
+import { useAddNewProductMutation, useGetProductsQuery } from './productApiSlice'
 
 
 const style = {
@@ -43,13 +43,13 @@ const Product = () => {
   const navigate = useNavigate()
   const { id } = useParams()
 
-  const [addNewCart, {
-    data: cartId,
-    isLoading,
-    isSuccess,
-    isError,
-    error
-  }] = useAddNewCartMutation()
+  // const [addNewCart, {
+  //   data: cartId,
+  //   isLoading,
+  //   isSuccess,
+  //   isError,
+  //   error
+  // }] = useAddNewCartMutation()
 
   const [addNewProduct, {
     data: productId,
@@ -58,6 +58,8 @@ const Product = () => {
     isError: productIsError,
     error: productError
   }] = useAddNewProductMutation()
+
+
 
 
   const { book } = useGetBooksQuery('booksList', {
@@ -77,30 +79,49 @@ const Product = () => {
 
 
 
+  // useEffect(() => {
+  //   if (productIsSuccess) {
+  //     addNewCart({ id: bookShopCartId, user: username, productId, totalprice: quantity * book.price, totalproducts: quantity })
+  //   }
+  // }, [productIsSuccess])
+
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     if (localStorage.getItem('BookShopCartId') == null) {
+  //       localStorage.setItem('BookShopCartId', cartId)
+  //       setBookShopCartId(cartId)
+  //     }
+  //   }
+  // }, [isSuccess])
+
+
+  // const { cart } = useGetCartsQuery('cartsList', {
+  //   selectFromResult: ({ data }) => ({
+  //     cart: data?.entities[bookShopCartId]
+  //   })
+  // })
+
+
+
+
   useEffect(() => {
     if (productIsSuccess) {
-      addNewCart({ id: bookShopCartId, user: username, productId, totalprice: quantity * book.price, totalproducts: quantity })
+      if (localStorage.getItem('BookShopCartId') === null) {
+        localStorage.setItem('BookShopCartId', productId)
+        console.log(productId)
+        setBookShopCartId(productId)
+      }
     }
   }, [productIsSuccess])
 
-  useEffect(() => {
-    if (isSuccess) {
-      if (localStorage.getItem('BookShopCartId') == null) {
-        localStorage.setItem('BookShopCartId', cartId)
-        setBookShopCartId(cartId)
-      }
-    }
-  }, [isSuccess])
-
-
-  const { cart } = useGetCartsQuery('cartsList', {
+  const { product } = useGetProductsQuery('productsList', {
     selectFromResult: ({ data }) => ({
-      cart: data?.entities[bookShopCartId]
+      product: data?.entities[bookShopCartId]
     })
   })
 
-
-
+  console.log(product)
+  console.log(bookShopCartId)
 
   const currentStocks = book?.instocks
 
@@ -132,7 +153,7 @@ const Product = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     setOpen(true)
-    addNewProduct({ details: { books: id, quantity, price: book.price, total: quantity * book.price }, totalcounts: quantity, totalprice: quantity * book.price }).unwrap()
+    addNewProduct({ orderId: bookShopCartId, owner: username, details: { bookId: id, quantity }, totalcounts: quantity, totalprice: quantity * book.price }).unwrap()
   }
 
   const handleClose = () => setOpen(false)
@@ -200,7 +221,7 @@ const Product = () => {
                 >
 
                   <Box sx={style}>
-                    {isLoading ?
+                    {productIsLoading ?
                       <Box >
                         <LoadingMessage />
                       </Box> :
@@ -211,11 +232,11 @@ const Product = () => {
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }} >
 
                           <Typography id="modal-modal-description" >
-                            SUBTOTAL | {cart?.totalproducts}  item(s)
+                            {/* SUBTOTAL | {cart?.totalproducts}  item(s) */}
                           </Typography>
 
                           <Typography id="modal-modal-description" >
-                            CAD $ {cart?.totalprice.toFixed(2)}
+                            {/* CAD $ {cart?.totalprice.toFixed(2)} */}
                           </Typography>
                         </Box>
                         <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>

@@ -1,19 +1,20 @@
 const mongoose = require('mongoose')
 
 const productSchema = new mongoose.Schema({
-  // bookId: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   // from which Shcema 
-  //   ref: 'Book',
-  //   required: true
-  // },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    // from which Shcema 
+    ref: 'User',
+    default: null
+  },
   details: [{
-    books: {
-      type: mongoose.Schema.Types.ObjectId,
-      // from which Shcema 
-      ref: 'Book',
+    bookId: {
+      type: String,
       required: true
     },
+    image: { type: String, required: true },
+    title: { type: String, required: true },
+    author: { type: String, required: true },
     quantity: { type: Number, required: true },
     price: { type: Number, required: true },
     total: { type: Number, required: true }
