@@ -73,7 +73,6 @@ const Product = () => {
     if (productIsSuccess) {
       if (localStorage.getItem('BookShopCartId') === null) {
         localStorage.setItem('BookShopCartId', productId)
-        console.log(productId)
         setBookShopCartId(productId)
       }
     }

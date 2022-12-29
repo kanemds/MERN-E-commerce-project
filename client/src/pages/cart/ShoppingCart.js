@@ -52,9 +52,6 @@ const ShoppingCart = () => {
     })
   })
 
-  console.log(product)
-
-
   let content
 
   if (cartId == null) {
@@ -83,7 +80,9 @@ const ShoppingCart = () => {
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }} >
             <Box sx={{ width: '65%', height: '100%' }}>
-              <CartList details={product?.details} />
+              {product.details.map(product =>
+                <CartList key={product.bookId} product={product} />
+              )}
             </Box>
 
             <Box sx={{ width: '30%' }}>
