@@ -13,7 +13,7 @@ const getAllProducts = async (req, res) => {
 }
 
 const createProduct = async (req, res) => {
-  const { orderId, owner, details, totalcounts, totalprice } = req.body
+  const { orderId, owner, details } = req.body
 
   // less info from frontend prevent error input
   // chose add book info to product model prevent nested mapping in the future
@@ -34,7 +34,8 @@ const createProduct = async (req, res) => {
         total: details.quantity * book.price,
         ...details
       },
-      totalcounts, totalprice
+      totalcounts: details.quantity,
+      totalprice: details.quantity * book.price
     }
     const newProduct = await Product.create(info)
     return res.status(201).json(newProduct._id)
@@ -52,8 +53,8 @@ const createProduct = async (req, res) => {
       }
       order.details.push({ ...newProdut, ...details })
 
-      order.totalcounts += totalcounts
-      order.totalprice += totalprice
+      order.totalcounts += details.quantity
+      order.totalprice += details.quantity * book.price
 
       order.save()
       return res.status(201).json(order._id)
@@ -64,8 +65,8 @@ const createProduct = async (req, res) => {
       duplicate.total += details.quantity * book.price
 
 
-      order.totalcounts += totalcounts
-      order.totalprice += totalprice
+      order.totalcounts += details.quantity
+      order.totalprice += details.quantity * book.price
       order.save()
       return res.status(201).json(order._id)
     }
@@ -77,8 +78,37 @@ const createProduct = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   const { orderId, details } = req.body
-  console.log(req.body)
+
   console.log(details)
+
+  const currentCart = await Product.findById(orderId).exec()
+
+  if (!currentCart) return res.status(400).json({ message: 'Shopping Cart Not Found' })
+
+  const selectedProduct = currentCart.details.find(product => product.bookId === details.bookId)
+
+  if (!selectedProduct) return res.status(400).json({ message: 'Select Product Not Found' })
+  console.log(selectedProduct)
+
+  selectedProduct.quantity = details.quantity
+  selectedProduct.total = selectedProduct.price * details.quantity
+
+  let newCounts = 0
+  let newTotal = 0
+  currentCart.details.forEach(product => {
+    newCounts += product.quantity
+    newTotal += product.total
+  })
+
+  currentCart.totalcounts = newCounts
+  currentCart.totalprice = newTotal
+
+
+
+  currentCart.save()
+  res.status(201).json({ message: 'Quantity Updated' })
+
+
 }
 
 const deleteProduct = async (req, res) => {

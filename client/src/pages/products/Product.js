@@ -111,7 +111,7 @@ const Product = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     setOpen(true)
-    addNewProduct({ orderId: bookShopCartId, owner: username, details: { bookId: id, quantity }, totalcounts: quantity, totalprice: quantity * book.price }).unwrap()
+    addNewProduct({ orderId: bookShopCartId, owner: username, details: { bookId: id, quantity } }).unwrap()
   }
 
   const handleClose = () => setOpen(false)
