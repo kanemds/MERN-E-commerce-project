@@ -1,9 +1,10 @@
 import { Button, Box, Paper, Typography, TextField, IconButton, Select, InputLabel, MenuItem, FormControl, Modal } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Grid from '@mui/material/Unstable_Grid2'
 import ClearIcon from '@mui/icons-material/Clear'
 import { styled } from '@mui/material/styles'
 import { useGetBooksQuery } from '../books/booksApiSlice'
+import { useUpdateProductMutation } from '../products/productApiSlice'
 import LoadingMessage from '../../components/LoadingMessage'
 
 const DELETEBUTTON = styled(IconButton)(({ theme }) => ({
@@ -15,6 +16,13 @@ const CartList = ({ product }) => {
 
   console.log(product)
 
+  const [updateProduct, {
+    isLoading,
+    isSuccess,
+    isError,
+    error
+  }] = useUpdateProductMutation()
+
   const { book } = useGetBooksQuery('booksList', {
     selectFromResult: ({ data }) => ({
       book: data?.entities[product.bookId]
@@ -22,9 +30,12 @@ const CartList = ({ product }) => {
   })
 
   console.log(book)
-
+  const [cartId, setCartId] = useState(localStorage.getItem('BookShopCartId') || null)
   const [quantity, setQuantity] = useState(product?.quantity)
 
+  useEffect(() => {
+    updateProduct({ orderId: cartId, details: { bookId: product.bookId, quantity } })
+  }, [quantity])
 
   const currentStocks = book?.instocks
 
@@ -40,6 +51,8 @@ const CartList = ({ product }) => {
 
   const handleChange = (event) => {
     setQuantity(event.target.value)
+
+
   }
 
   const menu = (amount) => {
