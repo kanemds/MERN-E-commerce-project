@@ -47,7 +47,7 @@ const Public = () => {
     content = (
       <Box sx={{ mt: 20 }} >
 
-        <Box position="fixed" sx={{ height: '70%', display: 'flex', flexDirection: 'column', justifyContent: 'center', ml: '5%' }}>
+        <Box position="fixed" sx={{ height: '70%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
           {types?.map((category) =>
 
             // <Button

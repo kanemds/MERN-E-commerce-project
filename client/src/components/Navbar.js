@@ -16,6 +16,7 @@ import LoadingMessage from './LoadingMessage'
 import { useNavigate, useLocation, Link as RouterLink } from 'react-router-dom'
 import { useUserLogoutMutation } from '../pages/auth/authApiSlice'
 import { useGetCartsQuery } from '../pages/cart/cartApiSlice'
+import { useGetProductsQuery } from '../pages/products/productApiSlice'
 import useAuth from '../hooks/useAuth'
 
 
@@ -43,29 +44,26 @@ const Navbar = () => {
 
   const [cartId, setCartId] = useState(localStorage.getItem('BookShopCartId') || null)
 
-
-
   const {
-    data: carts,
-    isSuccess: isCartsSuccess
-  } = useGetCartsQuery()
-
+    data: products,
+    isSuccess: isProductsSuccess
+  } = useGetProductsQuery()
 
   useEffect(() => {
-    if (isCartsSuccess) {
+    if (isProductsSuccess) {
       setCartId(localStorage.getItem('BookShopCartId'))
     }
-  }, [carts])
+  }, [products])
 
 
-  const { cart } = useGetCartsQuery('cartsList', {
+  const { product } = useGetProductsQuery('productsList', {
     selectFromResult: ({ data }) => ({
-      cart: data?.entities[cartId]
+      product: data?.entities[cartId]
     })
   })
 
 
-  const quantity = cart ? cart?.totalproducts : 0
+  const quantity = product ? product?.totalcounts : 0
 
   const [userLogut, {
     isLoading,

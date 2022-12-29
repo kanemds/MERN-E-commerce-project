@@ -15,6 +15,9 @@ const getAllProducts = async (req, res) => {
 const createProduct = async (req, res) => {
   const { orderId, owner, details, totalcounts, totalprice } = req.body
 
+  // less info from frontend prevent error input
+  // chose add book info to product model prevent nested mapping in the future
+
   const book = await Book.findById(details.bookId).exec()
 
   // const user = await User.findOne(owner).exec()
