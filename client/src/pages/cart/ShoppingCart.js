@@ -6,6 +6,7 @@ import { useGetCartsQuery } from './cartApiSlice'
 import CartList from './CartList'
 import { styled } from '@mui/material/styles'
 import { grey, red, pink } from '@mui/material/colors'
+import { useGetProductsQuery } from '../products/productApiSlice'
 
 
 
@@ -31,6 +32,12 @@ const CHECKOUT = styled(Button)(({ theme }) => ({
   border: '1px #e91e63 solid',
 }))
 
+const STICKY = styled(Box)(({ theme }) => ({
+  position: 'fixed'
+}))
+
+
+
 
 const ShoppingCart = () => {
 
@@ -39,14 +46,14 @@ const ShoppingCart = () => {
   const [cartId, setCartId] = useState(localStorage.getItem('BookShopCartId') || null)
 
 
-
-  const { cart } = useGetCartsQuery('cartsList', {
+  const { product } = useGetProductsQuery('productList', {
     selectFromResult: ({ data }) => ({
-      cart: data?.entities[cartId]
+      product: data?.entities[cartId]
     })
   })
 
-  console.log(cart)
+  console.log(product)
+
 
   let content
 
@@ -62,7 +69,7 @@ const ShoppingCart = () => {
   }
 
   if (cartId) {
-    if (!cart) {
+    if (!product) {
       content = (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <LoadingMessage />
@@ -75,20 +82,20 @@ const ShoppingCart = () => {
             <Typography variant='h5'>SHOPPING CART</Typography>
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }} >
-            <Box sx={{ width: '65%' }}>
-              <CartList productId={cart?.productId} />
+            <Box sx={{ width: '65%', height: '100%' }}>
+              <CartList details={product?.details} />
             </Box>
 
             <Box sx={{ width: '30%' }}>
-              <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', border: '1px solid lightGrey' }}>
-                <Typography sx={{ mt: 4, ml: 2, mr: 2 }}>ORDER SUMMARY | {cart.totalproducts} ITEM(S)</Typography>
+              <STICKY sx={{ display: 'flex', flexDirection: 'column', border: '1px solid lightGrey' }}>
+                <Typography sx={{ mt: 4, ml: 2, mr: 2 }}>ORDER SUMMARY | {product.totalcounts} ITEM(S)</Typography>
                 <Box sx={{
                   display: 'flex',
                   justifyContent: 'space-between',
                   mt: 4, ml: 2, mr: 2
                 }} >
                   <Typography>SUBTOTAL</Typography>
-                  <Typography>CAD $ {cart.totalprice.toFixed(2)}</Typography>
+                  <Typography>CAD $ {product.totalprice.toFixed(2)}</Typography>
                 </Box>
                 <Box sx={{
                   display: 'flex',
@@ -105,14 +112,16 @@ const ShoppingCart = () => {
                   mb: 4, ml: 2, mr: 2
                 }}>
                   <Typography>ORDER TOTAL</Typography>
-                  <Typography>CAD $ {cart.totalprice.toFixed(2)}</Typography>
+                  <Typography>CAD $ {product.totalprice.toFixed(2)}</Typography>
                 </Box>
-              </Box>
 
-              <Box sx={{ display: 'flex', flexDirection: 'column', mt: 4 }}>
-                <CHECKOUT variant='contained'>CHECKOUT</CHECKOUT>
-                <KEEPSHOPPING variant='contained' sx={{ mt: 2 }} onClick={() => navigate('/')}>COUTINUE SHOPPING</KEEPSHOPPING>
-              </Box>
+                <Box sx={{ display: 'flex', flexDirection: 'column', mt: 4 }}>
+                  <CHECKOUT variant='contained'>CHECKOUT</CHECKOUT>
+                  <KEEPSHOPPING variant='contained' sx={{ mt: 2 }} onClick={() => navigate('/')}>COUTINUE SHOPPING</KEEPSHOPPING>
+                </Box>
+              </STICKY>
+
+
             </Box>
           </Box>
         </Box >

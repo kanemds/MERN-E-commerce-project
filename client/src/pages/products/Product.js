@@ -43,13 +43,6 @@ const Product = () => {
   const navigate = useNavigate()
   const { id } = useParams()
 
-  // const [addNewCart, {
-  //   data: cartId,
-  //   isLoading,
-  //   isSuccess,
-  //   isError,
-  //   error
-  // }] = useAddNewCartMutation()
 
   const [addNewProduct, {
     data: productId,
@@ -61,13 +54,11 @@ const Product = () => {
 
 
 
-
   const { book } = useGetBooksQuery('booksList', {
     selectFromResult: ({ data }) => ({
       book: data?.entities[id]
     })
   })
-
 
 
   const [bookShopCartId, setBookShopCartId] = useState(localStorage.getItem('BookShopCartId') || null)
@@ -76,32 +67,6 @@ const Product = () => {
 
   const [username, setUsername] = useState(null)
   const [open, setOpen] = React.useState(false)
-
-
-
-  // useEffect(() => {
-  //   if (productIsSuccess) {
-  //     addNewCart({ id: bookShopCartId, user: username, productId, totalprice: quantity * book.price, totalproducts: quantity })
-  //   }
-  // }, [productIsSuccess])
-
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     if (localStorage.getItem('BookShopCartId') == null) {
-  //       localStorage.setItem('BookShopCartId', cartId)
-  //       setBookShopCartId(cartId)
-  //     }
-  //   }
-  // }, [isSuccess])
-
-
-  // const { cart } = useGetCartsQuery('cartsList', {
-  //   selectFromResult: ({ data }) => ({
-  //     cart: data?.entities[bookShopCartId]
-  //   })
-  // })
-
-
 
 
   useEffect(() => {
@@ -120,14 +85,10 @@ const Product = () => {
     })
   })
 
-  console.log(product)
-  console.log(bookShopCartId)
 
   const currentStocks = book?.instocks
 
-
   const banner = currentStocks >= 6 ? 'In Stocks' : 3 >= currentStocks && currentStocks > 0 ? 'Low Stocks' : 'Out of Stock'
-
 
   let amount
   // !! if we return here below code won't run and will display the amount 
@@ -147,8 +108,6 @@ const Product = () => {
   const handleChange = (event) => {
     setQuantity(event.target.value)
   }
-
-
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -232,11 +191,11 @@ const Product = () => {
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }} >
 
                           <Typography id="modal-modal-description" >
-                            {/* SUBTOTAL | {cart?.totalproducts}  item(s) */}
+                            SUBTOTAL | {product?.totalcounts}  item(s)
                           </Typography>
 
                           <Typography id="modal-modal-description" >
-                            {/* CAD $ {cart?.totalprice.toFixed(2)} */}
+                            CAD $ {product?.totalprice.toFixed(2)}
                           </Typography>
                         </Box>
                         <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
