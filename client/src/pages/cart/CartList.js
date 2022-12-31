@@ -6,6 +6,7 @@ import { styled } from '@mui/material/styles'
 import { useGetBooksQuery } from '../books/booksApiSlice'
 import { useUpdateProductMutation, useDeleteProductMutation } from '../products/productApiSlice'
 import LoadingMessage from '../../components/LoadingMessage'
+import { useNavigate } from 'react-router-dom'
 
 const DELETEBUTTON = styled(IconButton)(({ theme }) => ({
   padding: '4px'
@@ -13,6 +14,8 @@ const DELETEBUTTON = styled(IconButton)(({ theme }) => ({
 
 
 const CartList = ({ product }) => {
+
+  const navigate = useNavigate()
 
   const [updateProduct, {
     isLoading,
@@ -51,8 +54,6 @@ const CartList = ({ product }) => {
 
   const handleChange = (event) => {
     setQuantity(event.target.value)
-
-
   }
 
   const menu = (amount) => {
@@ -88,12 +89,14 @@ const CartList = ({ product }) => {
         {
           <Grid key={product.bookId} container sx={{ width: '100%', flexGrow: 1, borderBottom: '1px solid lightGrey', mt: 3 }} spacing={2}>
             <Grid xs={3}>
-              <Box
-                component="img"
-                sx={{ width: '100%', height: '180px' }}
-                src={product.image}
-                alt={product.title}
-              />
+              <Button onClick={() => navigate(`/products/${product.bookId}`)}>
+                <Box
+                  component="img"
+                  sx={{ width: '100%', height: '180px' }}
+                  src={product.image}
+                  alt={product.title}
+                />
+              </Button>
             </Grid>
             <Grid xs={9} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around' }} >
 

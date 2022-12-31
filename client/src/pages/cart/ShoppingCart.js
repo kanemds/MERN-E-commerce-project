@@ -54,7 +54,7 @@ const ShoppingCart = () => {
 
   let content
 
-  if (cartId == null) {
+  if (cartId && product?.details?.length === 0) {
     content = (
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         <Typography variant='h6'>
@@ -65,7 +65,7 @@ const ShoppingCart = () => {
     )
   }
 
-  if (cartId) {
+  if (cartId && product?.details?.length > 0) {
     if (!product) {
       content = (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
