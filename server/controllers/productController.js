@@ -111,28 +111,24 @@ const updateProduct = async (req, res) => {
 const deleteProduct = async (req, res) => {
   const { cartId, productId } = req.body
 
-  console.log(cartId, productId)
-
   if (!cartId && !productId) return res.status(400).json({ message: 'ALL Fields required' })
 
   const currentCart = await Product.findById(cartId).exec()
 
-  console.log(currentCart)
-
   if (!currentCart) return res.status(400).json({ message: 'Cart not Found' })
 
   const currentProduct = currentCart.details.find(product => product.bookId === productId)
-  console.log(currentProduct)
 
   if (!currentProduct) return res.status(400).json({ message: 'Product not Found' })
 
   const newCartList = currentCart.details.filter(product => product.bookId !== productId)
 
-  console.log(newCartList)
-
+  currentCart.totalcounts -= currentProduct.quantity
+  currentCart.totalprice -= currentProduct.total
   currentCart.details = newCartList
 
   currentCart.save()
+
   res.status(201).json({ message: `${currentProduct.title} has been removed` })
 
 }
