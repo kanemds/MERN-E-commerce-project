@@ -66,7 +66,7 @@ const Product = () => {
   const [quantity, setQuantity] = useState(0)
 
   const [username, setUsername] = useState(null)
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = useState(false)
 
 
   useEffect(() => {
@@ -85,9 +85,14 @@ const Product = () => {
   })
 
 
-  const currentStocks = book?.instocks
 
-  const banner = currentStocks >= 6 ? 'In Stocks' : 3 >= currentStocks && currentStocks > 0 ? 'Low Stocks' : 'Out of Stock'
+  const currentProduct = product?.details.find(product => product.bookId === book._id)
+
+  console.log(currentProduct)
+
+  const currentStocks = book?.instocks - currentProduct?.quantity
+
+  const banner = currentStocks >= 6 ? 'In Stocks' : 3 >= currentStocks && currentStocks > 1 ? 'Low Stocks' : currentStocks === 1 ? 'Only 1 Left' : 'Out of Stock'
 
   let amount
   // !! if we return here below code won't run and will display the amount 
