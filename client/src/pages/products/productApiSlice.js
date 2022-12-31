@@ -49,8 +49,18 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: (result, error, arg) => [
         { type: 'Product', id: arg.id }
       ]
+    }),
+    deleteProduct: builder.mutation({
+      query: ({ cartId, productId }) => ({
+        url: '/products',
+        method: 'DELETE',
+        body: { cartId, productId }
+      }),
+      invalidatesTags: (result, error, arg) => [
+        { type: 'Product', id: arg.id }
+      ]
     })
   })
 })
 
-export const { useGetProductsQuery, useAddNewProductMutation, useUpdateProductMutation } = productsApiSlice
+export const { useGetProductsQuery, useAddNewProductMutation, useUpdateProductMutation, useDeleteProductMutation } = productsApiSlice
