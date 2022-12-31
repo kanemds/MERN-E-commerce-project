@@ -79,8 +79,6 @@ const createProduct = async (req, res) => {
 const updateProduct = async (req, res) => {
   const { orderId, details } = req.body
 
-  console.log(details)
-
   const currentCart = await Product.findById(orderId).exec()
 
   if (!currentCart) return res.status(400).json({ message: 'Shopping Cart Not Found' })
@@ -88,7 +86,6 @@ const updateProduct = async (req, res) => {
   const selectedProduct = currentCart.details.find(product => product.bookId === details.bookId)
 
   if (!selectedProduct) return res.status(400).json({ message: 'Select Product Not Found' })
-  console.log(selectedProduct)
 
   selectedProduct.quantity = details.quantity
   selectedProduct.total = selectedProduct.price * details.quantity
@@ -112,19 +109,31 @@ const updateProduct = async (req, res) => {
 }
 
 const deleteProduct = async (req, res) => {
-  const { id } = req.body
+  const { cartId, productId } = req.body
 
-  if (!id) return res.status(400).json({ message: 'Product Id required' })
+  console.log(cartId, productId)
 
-  const currentProduct = await Product.findById(id).exec()
+  if (!cartId && !productId) return res.status(400).json({ message: 'ALL Fields required' })
+
+  const currentCart = await Product.findById(cartId).exec()
+
+  console.log(currentCart)
+
+  if (!currentCart) return res.status(400).json({ message: 'Cart not Found' })
+
+  const currentProduct = currentCart.details.find(product => product.bookId === productId)
+  console.log(currentProduct)
 
   if (!currentProduct) return res.status(400).json({ message: 'Product not Found' })
 
-  const result = await currentProduct.deleteOne()
+  const newCartList = currentCart.details.filter(product => product.bookId !== productId)
 
-  const reply = `Product '${result.productname}' delete`
+  console.log(newCartList)
 
-  res.json(reply)
+  currentCart.details = newCartList
+
+  currentCart.save()
+  res.status(201).json({ message: `${currentProduct.title} has been removed` })
 
 }
 

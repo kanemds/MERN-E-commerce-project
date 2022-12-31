@@ -4,7 +4,7 @@ import Grid from '@mui/material/Unstable_Grid2'
 import ClearIcon from '@mui/icons-material/Clear'
 import { styled } from '@mui/material/styles'
 import { useGetBooksQuery } from '../books/booksApiSlice'
-import { useUpdateProductMutation } from '../products/productApiSlice'
+import { useUpdateProductMutation, useDeleteProductMutation } from '../products/productApiSlice'
 import LoadingMessage from '../../components/LoadingMessage'
 
 const DELETEBUTTON = styled(IconButton)(({ theme }) => ({
@@ -14,8 +14,6 @@ const DELETEBUTTON = styled(IconButton)(({ theme }) => ({
 
 const CartList = ({ product }) => {
 
-  console.log(product)
-
   const [updateProduct, {
     isLoading,
     isSuccess,
@@ -23,13 +21,17 @@ const CartList = ({ product }) => {
     error
   }] = useUpdateProductMutation()
 
+  const [deleteProduct, {
+    isSuccess: isDeleteSucess
+  }] = useDeleteProductMutation()
+
   const { book } = useGetBooksQuery('booksList', {
     selectFromResult: ({ data }) => ({
       book: data?.entities[product.bookId]
     })
   })
 
-  console.log(book)
+
   const [cartId, setCartId] = useState(localStorage.getItem('BookShopCartId') || null)
   const [quantity, setQuantity] = useState(product?.quantity)
 
@@ -38,8 +40,6 @@ const CartList = ({ product }) => {
   }, [quantity])
 
   const currentStocks = book?.instocks
-
-  console.log(currentStocks)
 
 
   let amount
@@ -100,7 +100,7 @@ const CartList = ({ product }) => {
               <Box>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
                   <Typography variant='h6'>{product.title}</Typography>
-                  <DELETEBUTTON ><ClearIcon /></DELETEBUTTON>
+                  <DELETEBUTTON onClick={() => deleteProduct({ cartId, productId: product.bookId })}><ClearIcon /></DELETEBUTTON>
                 </Box>
                 <Typography variant='h7'>Author: {product.author}</Typography>
               </Box>

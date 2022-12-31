@@ -6,7 +6,6 @@ import { Button, Box, Paper, Typography, TextField, IconButton, Select, InputLab
 import LoadingMessage from '../../components/LoadingMessage'
 import { styled } from '@mui/material/styles'
 import { grey } from '@mui/material/colors'
-import { useGetCartsQuery, useAddNewCartMutation } from '../cart/cartApiSlice'
 import { useAddNewProductMutation, useGetProductsQuery } from './productApiSlice'
 
 
@@ -88,9 +87,8 @@ const Product = () => {
 
   const currentProduct = product?.details.find(product => product.bookId === book._id)
 
-  console.log(currentProduct)
 
-  const currentStocks = book?.instocks - currentProduct?.quantity
+  const currentStocks = currentProduct?.quantity ? book?.instocks - currentProduct?.quantity : book?.instocks
 
   const banner = currentStocks >= 6 ? 'In Stocks' : 3 >= currentStocks && currentStocks > 1 ? 'Low Stocks' : currentStocks === 1 ? 'Only 1 Left' : 'Out of Stock'
 
