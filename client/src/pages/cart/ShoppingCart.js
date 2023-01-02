@@ -7,6 +7,8 @@ import CartList from './CartList'
 import { styled } from '@mui/material/styles'
 import { grey, red, pink } from '@mui/material/colors'
 import { useGetProductsQuery } from '../products/productApiSlice'
+import PayButton from '../payments/PayButton'
+import useAuth from '../../hooks/useAuth'
 
 
 
@@ -20,17 +22,7 @@ const KEEPSHOPPING = styled(Button)(({ theme }) => ({
   border: '1px #bdbdbd solid',
 }))
 
-const CHECKOUT = styled(Button)(({ theme }) => ({
-  color: theme.palette.getContrastText(pink[500
-  ]),
-  backgroundColor: pink[500],
-  '&:hover': {
-    backgroundColor: pink[600
-    ],
-    border: '1px #d81b60 solid'
-  },
-  border: '1px #e91e63 solid',
-}))
+
 
 const STICKY = styled(Box)(({ theme }) => ({
   position: 'fixed'
@@ -42,6 +34,7 @@ const STICKY = styled(Box)(({ theme }) => ({
 const ShoppingCart = () => {
 
   const navigate = useNavigate()
+  const { usename } = useAuth()
 
   const [cartId, setCartId] = useState(localStorage.getItem('BookShopCartId') || null)
 
@@ -52,9 +45,7 @@ const ShoppingCart = () => {
     })
   })
 
-  const handleCheckout = () => {
 
-  }
 
   let content
 
@@ -119,7 +110,7 @@ const ShoppingCart = () => {
                 </Box>
 
                 <Box sx={{ display: 'flex', flexDirection: 'column', mt: 4 }}>
-                  <CHECKOUT variant='contained' onClick={handleCheckout}>CHECKOUT</CHECKOUT>
+                  <PayButton />
                   <KEEPSHOPPING variant='contained' sx={{ mt: 2 }} onClick={() => navigate('/')}>COUTINUE SHOPPING</KEEPSHOPPING>
                 </Box>
               </STICKY>
