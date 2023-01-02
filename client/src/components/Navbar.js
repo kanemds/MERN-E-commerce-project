@@ -189,6 +189,11 @@ const Navbar = () => {
           <Box >
             <Button color="inherit" onClick={() => navigate('/dash')}> Dash Board</Button>
             {buttonContent}
+            <IconButton onClick={() => navigate('/carts')}>
+              <ColorBadge badgeContent={quantity}>
+                <ShoppingCartIcon sx={{ color: 'white' }} />
+              </ColorBadge>
+            </IconButton>
             <Button color="inherit" onClick={() => userLogut()}>Logout</Button>
           </Box>
           :

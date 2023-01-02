@@ -1,4 +1,6 @@
 require('express-async-errors')
+require('dotenv').config()
+
 const stripe = require('stripe')(process.env.STRIPE_SECRET)
 
 const payment = async (req, res) => {
@@ -7,7 +9,7 @@ const payment = async (req, res) => {
     submit_type: 'pay',
     mode: 'payment',
     payment_method_types: ['card'],
-    billing_address_collection: { allowed_countries: ['CA'] },
+    shipping_address_collection: { allowed_countries: ['CA'] },
     shipping_options: [
       { shipping_rate: 'shr_1LNP85K4K0yDBdautvs6d1Jl' },
       { shipping_rate: 'shr_1LNPAbK4K0yDBdauAezenimx' },
@@ -15,8 +17,7 @@ const payment = async (req, res) => {
     ],
     line_items: [
       {
-        // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-        price: '{{PRICE_ID}}',
+        price_data: { currency: 'cad', product_data: { name: 'T-shirt' }, unit_amount: 2000 },
         quantity: 1,
       },
     ],
@@ -28,6 +29,8 @@ const payment = async (req, res) => {
   }
 
   const session = await stripe.checkout.sessions.create(info)
+  console.log(session)
+  console.log(session.url)
 
   // below it's from original code "form controll"
   // res.redirect(303, session.url)
