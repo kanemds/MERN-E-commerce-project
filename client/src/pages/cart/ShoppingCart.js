@@ -52,6 +52,10 @@ const ShoppingCart = () => {
     })
   })
 
+  const handleCheckout = () => {
+
+  }
+
   let content
 
   if (cartId && product?.details?.length === 0) {
@@ -115,7 +119,7 @@ const ShoppingCart = () => {
                 </Box>
 
                 <Box sx={{ display: 'flex', flexDirection: 'column', mt: 4 }}>
-                  <CHECKOUT variant='contained'>CHECKOUT</CHECKOUT>
+                  <CHECKOUT variant='contained' onClick={handleCheckout}>CHECKOUT</CHECKOUT>
                   <KEEPSHOPPING variant='contained' sx={{ mt: 2 }} onClick={() => navigate('/')}>COUTINUE SHOPPING</KEEPSHOPPING>
                 </Box>
               </STICKY>
