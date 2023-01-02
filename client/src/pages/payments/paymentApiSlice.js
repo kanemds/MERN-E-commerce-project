@@ -1,5 +1,4 @@
 import { createEntityAdapter } from "@reduxjs/toolkit"
-import { response } from "express"
 import { apiSlice } from "../../app/api/apiSlice"
 
 const paymentAdapter = createEntityAdapter({})
@@ -30,6 +29,18 @@ export const paymentsApiSlice = apiSlice.injectEndpoints({
           ]
         } else return [{ type: 'Payment', id: 'LIST' }]
       }
+    }),
+    addNewPayment: builder.mutation({
+      query: newPaymentData => ({
+        url: '/create-checkout-session',
+        method: 'POST',
+        body: newPaymentData
+      }),
+      invalidatesTags: [
+        { type: 'Payment', id: 'LIST' }
+      ]
     })
   })
 })
+
+export const { useGetPaymentsQuery, useAddNewPaymentMutation } = paymentsApiSlice
