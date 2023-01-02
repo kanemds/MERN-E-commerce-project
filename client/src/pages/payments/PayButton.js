@@ -4,6 +4,8 @@ import { grey, red, pink } from '@mui/material/colors'
 import React from 'react'
 import useAuth from '../../hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
+import { useAddNewPaymentMutation } from './paymentApiSlice'
+import { useEffect } from 'react'
 
 const CHECKOUT = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText(pink[500
@@ -17,13 +19,31 @@ const CHECKOUT = styled(Button)(({ theme }) => ({
   border: '1px #e91e63 solid',
 }))
 
-const PayButton = () => {
+const PayButton = ({ product }) => {
+
+  console.log(product)
 
   const { username } = useAuth()
   const navigate = useNavigate()
 
-  const handleCheckout = () => {
+  const [addNewPayment, {
+    data,
+    isSuccess,
+    isLoading,
+    isError,
+    error
+  }] = useAddNewPaymentMutation()
 
+
+
+  useEffect(() => {
+    if (isSuccess) {
+      window.location.href = data.url
+    }
+  }, [isSuccess])
+
+  const handleCheckout = () => {
+    addNewPayment({ username, product })
   }
 
   let content

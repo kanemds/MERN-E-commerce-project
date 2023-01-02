@@ -110,7 +110,7 @@ const ShoppingCart = () => {
                 </Box>
 
                 <Box sx={{ display: 'flex', flexDirection: 'column', mt: 4 }}>
-                  <PayButton />
+                  <PayButton product={product} />
                   <KEEPSHOPPING variant='contained' sx={{ mt: 2 }} onClick={() => navigate('/')}>COUTINUE SHOPPING</KEEPSHOPPING>
                 </Box>
               </STICKY>

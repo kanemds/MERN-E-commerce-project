@@ -25,6 +25,7 @@ import Product from './pages/products/Product'
 import Image from './components/Image'
 import './App.css'
 import ShoppingCart from './pages/cart/ShoppingCart'
+import PaymentSuccess from './pages/payments/PaymentSuccess'
 
 function App() {
 
@@ -51,6 +52,9 @@ function App() {
 
             {/* protected */}
             <Route element={<PersistLogin />}>
+
+              <Route path='payment-success' element={<PaymentSuccess />} />
+
               {/* <Route element={<RequireAuth allowedRoles={[...Object.values(ROLES)]} />}> */}
               <Route element={<RequireAuth allowedRoles={[ROLES.Employee, ROLES.Manager, ROLES.Admin]} />}>
                 {/* prevent default 60s unsubscribe */}
@@ -84,6 +88,7 @@ function App() {
               </Route>
             </Route>
             {/* protected end */}
+
           </Route>
         </Route>
       </Routes>
