@@ -7,6 +7,7 @@ const auth = require('./api/authRouters')
 const book = require('./api/bookRouters')
 const cart = require('./api/cartRouters')
 const product = require('./api/productRouters')
+const stripe = require('./api/stripe')
 
 router.get('^/$|/index(.html)?', (req, res) => {
   res.sendFile(path.join(__dirname, '../', 'views', 'index.html'))
@@ -20,6 +21,7 @@ router.use('/auth', auth)
 router.use('/books', book)
 router.use('/carts', cart)
 router.use('/products', product)
+router.use('/create-checkout-session', stripe)
 
 
 module.exports = router
