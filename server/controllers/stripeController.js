@@ -1,6 +1,8 @@
 require('express-async-errors')
 require('dotenv').config()
+const Order = require('../models/Order')
 const User = require('../models/User')
+const Product = require('../models/Product')
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET)
 
@@ -8,15 +10,15 @@ const payment = async (req, res) => {
 
   const { username, product } = req.body
 
-  console.log(product)
 
-  const currentUser = await User.findOne({ username }).select({ username: 1, email: 1 }).lean().exec()
+  const currentUser = await User.findOne({ username }).exec()
   if (!currentUser) return res.status(400).json({ message: 'No User Found' })
+
 
   const customer = await stripe.customers.create({
     metadata: {
-      user: JSON.stringify(currentUser),
-      // cart: JSON.stringify(product) must be a string under 500 characters
+      userId: (currentUser._id).toString(),
+      cartId: product._id
     }
   })
 
@@ -36,9 +38,6 @@ const payment = async (req, res) => {
       quantity: item.quantity,
     }
   })
-
-
-
 
   const info = {
     submit_type: 'pay',
@@ -63,7 +62,7 @@ const payment = async (req, res) => {
   }
 
   const session = await stripe.checkout.sessions.create(info)
-  console.log('session', session)
+  // console.log('session', session)
 
 
   // below it's from original code "form controll"
@@ -74,11 +73,39 @@ const payment = async (req, res) => {
 }
 
 
+// after payment successed, save all the info to mongodb
 
-// This is your Stripe CLI webhook secret for testing your endpoint locally.
-const endpointSecret = process.env.SIGNING_SECRET
+const createOrder = async (customer, data) => {
+  const { cartId } = customer.metadata
+  const { userId } = customer.metadata
+
+  const paidItems = await Product.findById(cartId).exec()
+  const paidUser = await User.findById(userId).select('-password').lean().exec()
+
+  const newOrder = new Order({
+    user: paidUser,
+    customerId: data.customer,
+    paymentId: data.payment_intent,
+    products: paidItems,
+    subtotal: data.amount_subtotal,
+    total: data.amount_total,
+    shipping: data.customer_details,
+    payment_status: data.payment_status
+  })
+
+  const saveOrder = await newOrder.save()
+  console.log("Processed Order", saveOrder)
+  // send email event here if needed
+}
+
+
+
 
 const webHook = (req, res) => {
+
+  // This is your Stripe CLI webhook secret for testing your endpoint locally.
+  const endpointSecret = process.env.SIGNING_SECRET
+
   const sig = req.headers['stripe-signature']
 
   let data
@@ -111,6 +138,7 @@ const webHook = (req, res) => {
       .then(customer => {
         console.log(customer)
         console.log('data', data)
+        createOrder(customer, data)
       })
       .catch(error => console.log(error.message))
   }

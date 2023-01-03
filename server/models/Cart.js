@@ -13,8 +13,7 @@ const cartSchema = new mongoose.Schema({
     ref: 'Product',
     // from which Shcema 
     required: true
-  }
-  ,
+  },
   totalprice: {
     type: Number,
     required: true
