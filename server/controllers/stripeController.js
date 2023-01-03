@@ -41,6 +41,9 @@ const payment = async (req, res) => {
       { shipping_rate: 'shr_1LNP9vK4K0yDBdaujqxdZlnA' },
     ],
     line_items,
+    phone_number_collections: {
+      enabled: true
+    },
     mode: 'payment',
     // to the location when payment is successed
     success_url: `${process.env.CLIENT_URL}/payment-success`,
@@ -59,4 +62,30 @@ const payment = async (req, res) => {
   res.status(201).json({ url: session.url })
 }
 
-module.exports = payment
+
+
+// This is your Stripe CLI webhook secret for testing your endpoint locally.
+const endpointSecret = process.env.SIGNING_SECRET
+
+const webHook = (req, res) => {
+  const sig = req.headers['stripe-signature']
+
+  let event
+
+  try {
+    event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret)
+  } catch (err) {
+    res.status(400).send(`Webhook Error: ${err.message}`)
+    return
+  }
+
+  // Handle the event
+
+
+  // Return a 200 res to acknowledge receipt of the event
+  res.send().end()
+}
+
+
+
+module.exports = { payment, webHook }
