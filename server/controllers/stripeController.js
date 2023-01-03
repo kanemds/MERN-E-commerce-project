@@ -75,16 +75,18 @@ const webHook = (req, res) => {
   try {
     event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret)
   } catch (err) {
-    res.status(400).send(`Webhook Error: ${err.message}`)
-    return
+    // On error, log and return the error message
+    console.log(`❌ Error message: ${err.message}`)
+    return res.status(400).send(`Webhook Error: ${err.message}`)
   }
 
-  // Handle the event
+  // Successfully constructed event
+  console.log('✅ Success:', event.id)
 
-
-  // Return a 200 res to acknowledge receipt of the event
-  res.send().end()
+  // Return a response to acknowledge receipt of the event
+  res.json({ received: true })
 }
+
 
 
 

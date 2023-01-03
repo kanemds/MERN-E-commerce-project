@@ -12,8 +12,6 @@ const connectDB = require('./config/dbConnection')
 const fileUpload = require('express-fileupload') // reading req.files object
 
 
-
-
 const PORK = 3002
 
 
@@ -32,7 +30,18 @@ app.use(cors({
   // methods:['GET','POST'] only accept
   credentials: true // cookies
 }))
-app.use(express.json())
+
+// Use JSON parser for all non-webhook routes
+app.use((req, res, next) => {
+  if (req.originalUrl === '/webhook') {
+    next()
+  } else {
+    express.json()(req, res, next)
+  }
+})
+
+
+// app.use(express.json())
 app.use(fileUpload())
 app.use(cookieParser())
 app.use('/', require('./routes/root'))
