@@ -2,22 +2,19 @@ const mongoose = require('mongoose')
 
 const orderSchema = new mongoose.Schema({
   user: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Object,
     required: true,
-    // from which Shcema 
-    ref: 'User'
   },
   customerId: {
-    type: String
+    type: String,
+    required: true,
   },
   paymentId: {
-    type: String
+    type: String,
+    required: true,
   },
-  productId: {
-    type: [mongoose.Schema.Types.ObjectId],
-    // from which Shcema 
-    ref: 'Product',
-    // from which Shcema 
+  products: {
+    type: Object,
     required: true
   },
   subtotal: {
@@ -39,12 +36,10 @@ const orderSchema = new mongoose.Schema({
   payment_status: {
     type: String,
     required: true
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
   }
-
-})
+},
+  {
+    timestamps: true
+  })
 
 module.exports = mongoose.model('Order', orderSchema)
