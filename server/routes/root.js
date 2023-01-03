@@ -21,7 +21,7 @@ router.use('/auth', auth)
 router.use('/books', book)
 router.use('/carts', cart)
 router.use('/products', product)
-router.use('/create-checkout-session', stripe)
+router.use('/', stripe)
 
 
 module.exports = router
