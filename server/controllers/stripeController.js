@@ -5,6 +5,31 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET)
 
 const payment = async (req, res) => {
 
+  const { username, product } = req.body
+
+  console.log(username)
+  console.log(product)
+
+  const line_items = product.details.map(item => {
+    return {
+      price_data: {
+        currency: 'cad',
+        product_data: {
+          name: item.title,
+          images: [item.image],
+          metadata: {
+            product_id: item._id
+          }
+        },
+        unit_amount: item.price * 100,
+      },
+      quantity: item.quantity,
+    }
+  })
+
+
+
+
   const info = {
     submit_type: 'pay',
     mode: 'payment',
@@ -15,12 +40,7 @@ const payment = async (req, res) => {
       { shipping_rate: 'shr_1LNPAbK4K0yDBdauAezenimx' },
       { shipping_rate: 'shr_1LNP9vK4K0yDBdaujqxdZlnA' },
     ],
-    line_items: [
-      {
-        price_data: { currency: 'cad', product_data: { name: 'T-shirt' }, unit_amount: 2000 },
-        quantity: 1,
-      },
-    ],
+    line_items,
     mode: 'payment',
     // to the location when payment is successed
     success_url: `${process.env.CLIENT_URL}/payment-success`,
@@ -30,7 +50,7 @@ const payment = async (req, res) => {
 
   const session = await stripe.checkout.sessions.create(info)
   console.log(session)
-  console.log(session.url)
+
 
   // below it's from original code "form controll"
   // res.redirect(303, session.url)
