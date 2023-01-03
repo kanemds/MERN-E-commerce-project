@@ -1,5 +1,6 @@
 require('express-async-errors')
 require('dotenv').config()
+const User = require('../models/User')
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET)
 
@@ -7,8 +8,17 @@ const payment = async (req, res) => {
 
   const { username, product } = req.body
 
-  console.log(username)
   console.log(product)
+
+  const currentUser = await User.findOne({ username }).select({ username: 1, email: 1 }).lean().exec()
+  if (!currentUser) return res.status(400).json({ message: 'No User Found' })
+
+  const customer = await stripe.customers.create({
+    metadata: {
+      user: JSON.stringify(currentUser),
+      // cart: JSON.stringify(product) must be a string under 500 characters
+    }
+  })
 
   const line_items = product.details.map(item => {
     return {
@@ -18,7 +28,7 @@ const payment = async (req, res) => {
           name: item.title,
           images: [item.image],
           metadata: {
-            product_id: item._id
+            product_id: item.bookId
           }
         },
         unit_amount: item.price * 100,
@@ -40,8 +50,9 @@ const payment = async (req, res) => {
       { shipping_rate: 'shr_1LNPAbK4K0yDBdauAezenimx' },
       { shipping_rate: 'shr_1LNP9vK4K0yDBdaujqxdZlnA' },
     ],
+    customer: customer.id,
     line_items,
-    phone_number_collections: {
+    phone_number_collection: {
       enabled: true
     },
     mode: 'payment',
@@ -52,7 +63,7 @@ const payment = async (req, res) => {
   }
 
   const session = await stripe.checkout.sessions.create(info)
-  console.log(session)
+  console.log('session', session)
 
 
   // below it's from original code "form controll"
@@ -70,18 +81,43 @@ const endpointSecret = process.env.SIGNING_SECRET
 const webHook = (req, res) => {
   const sig = req.headers['stripe-signature']
 
-  let event
+  let data
+  let eventType
 
-  try {
-    event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret)
-  } catch (err) {
-    // On error, log and return the error message
-    console.log(`❌ Error message: ${err.message}`)
-    return res.status(400).send(`Webhook Error: ${err.message}`)
+  if (endpointSecret) {
+
+    let event
+
+    try {
+      event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret)
+    } catch (err) {
+      // On error, log and return the error message
+      // console.log(`❌ Error message: ${err.message}`)
+      return res.status(400).send(`Webhook Error: ${err.message}`)
+    }
+
+    data = event.data.object
+    eventType = event.type
+
+  } else {
+    data = req.body.data.object
+    eventType = req.body.type
   }
 
+  // only handle one event
+  if (eventType === 'checkout.session.completed') {
+    stripe.customers
+      .retrieve(data.customer)
+      .then(customer => {
+        console.log(customer)
+        console.log('data', data)
+      })
+      .catch(error => console.log(error.message))
+  }
+
+
   // Successfully constructed event
-  console.log('✅ Success:', event.id)
+  // console.log('✅ Success:', event.id)
 
   // Return a response to acknowledge receipt of the event
   res.json({ received: true })
