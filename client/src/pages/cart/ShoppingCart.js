@@ -36,7 +36,6 @@ const ShoppingCart = () => {
   const navigate = useNavigate()
   const { username } = useAuth()
 
-  console.log(username)
 
   const [cartId, setCartId] = useState(localStorage.getItem('BookShopCartId') || null)
 
