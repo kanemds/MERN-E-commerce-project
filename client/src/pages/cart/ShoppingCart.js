@@ -34,7 +34,9 @@ const STICKY = styled(Box)(({ theme }) => ({
 const ShoppingCart = () => {
 
   const navigate = useNavigate()
-  const { usename } = useAuth()
+  const { username } = useAuth()
+
+  console.log(username)
 
   const [cartId, setCartId] = useState(localStorage.getItem('BookShopCartId') || null)
 

@@ -15,7 +15,6 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import LoadingMessage from './LoadingMessage'
 import { useNavigate, useLocation, Link as RouterLink } from 'react-router-dom'
 import { useUserLogoutMutation } from '../pages/auth/authApiSlice'
-import { useGetCartsQuery } from '../pages/cart/cartApiSlice'
 import { useGetProductsQuery } from '../pages/products/productApiSlice'
 import useAuth from '../hooks/useAuth'
 
@@ -29,10 +28,8 @@ const BOOKS_REGEX = /^\/dash\/books(\/)?$/
 const ColorBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
     color: "white",
-    backgroundColor: pink[500
-    ]
+    backgroundColor: pink[500]
   }
-
 }))
 
 const Navbar = () => {
@@ -197,8 +194,14 @@ const Navbar = () => {
             <Button color="inherit" onClick={() => userLogut()}>Logout</Button>
           </Box>
           :
-          <Button color="inherit" onClick={() => userLogut()}>Logout</Button>
-
+          <Box>
+            <IconButton onClick={() => navigate('/carts')}>
+              <ColorBadge badgeContent={quantity}>
+                <ShoppingCartIcon sx={{ color: 'white' }} />
+              </ColorBadge>
+            </IconButton>
+            <Button color="inherit" onClick={() => userLogut()}>Logout</Button>
+          </Box>
       }
 
     </AppBar >

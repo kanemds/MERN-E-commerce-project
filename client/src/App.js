@@ -22,7 +22,6 @@ import NewBookForm from './pages/books/NewBookForm'
 import BooksPrefetch from './redux/BooksPrefetch'
 import Products from './pages/products/Products'
 import Product from './pages/products/Product'
-import Image from './components/Image'
 import './App.css'
 import ShoppingCart from './pages/cart/ShoppingCart'
 import PaymentSuccess from './pages/payments/PaymentSuccess'
@@ -41,48 +40,55 @@ function App() {
             <Route path='login' element={<Login />} />
             <Route path='register' element={<Register />} />
 
-            <Route path='products' >
-              <Route index element={<Products />} />
-              <Route path=':id' element={<Product />} />
-            </Route>
 
-            <Route path='carts'>
-              <Route index element={<ShoppingCart />} />
-            </Route>
 
             {/* protected */}
             <Route element={<PersistLogin />}>
 
-              <Route path='payment-success' element={<PaymentSuccess />} />
+              <Route path='products' >
+                <Route index element={<Products />} />
+                <Route path=':id' element={<Product />} />
+              </Route>
 
-              {/* <Route element={<RequireAuth allowedRoles={[...Object.values(ROLES)]} />}> */}
-              <Route element={<RequireAuth allowedRoles={[ROLES.Employee, ROLES.Manager, ROLES.Admin]} />}>
-                {/* prevent default 60s unsubscribe */}
-                <Route element={<Prefetch />}>
-                  <Route path='dash' element={<DashBoardLayout />}>
 
-                    <Route index element={<DashBoard />} />
-                    <Route element={<RequireAuth allowedRoles={[ROLES.Manager, ROLES.Admin]} />}>
-                      <Route path='books'>
-                        <Route index element={<BooksList />} />
-                        <Route path=':id' element={<EditBook />} />
-                        <Route path='new' element={<NewBookForm />} />
+
+              <Route path='carts'>
+                <Route index element={<ShoppingCart />} />
+              </Route>
+
+              <Route element={<RequireAuth allowedRoles={[...Object.values(ROLES)]} />}>
+
+                <Route path='payment-success' element={<PaymentSuccess />} />
+
+                <Route element={<RequireAuth allowedRoles={[ROLES.Employee, ROLES.Manager, ROLES.Admin]} />}>
+                  {/* prevent default 60s unsubscribe */}
+                  <Route element={<Prefetch />}>
+                    <Route path='dash' element={<DashBoardLayout />}>
+
+                      <Route index element={<DashBoard />} />
+                      <Route element={<RequireAuth allowedRoles={[ROLES.Manager, ROLES.Admin]} />}>
+                        <Route path='books'>
+                          <Route index element={<BooksList />} />
+                          <Route path=':id' element={<EditBook />} />
+                          <Route path='new' element={<NewBookForm />} />
+                        </Route>
+
+                        <Route path='users'>
+                          <Route index element={<UsersList />} />
+                          <Route path=':id' element={<EditUser />} />
+                          <Route path='new' element={<NewUserForm />} />
+                        </Route>
+
                       </Route>
-                      <Route path='users'>
-                        <Route index element={<UsersList />} />
-                        <Route path=':id' element={<EditUser />} />
-                        <Route path='new' element={<NewUserForm />} />
+
+
+                      <Route path='notes'>
+                        <Route index element={<NotesList />} />
+                        <Route path=':id' element={<EditNote />} />
+                        <Route path='new' element={<NewNote />} />
                       </Route>
 
                     </Route>
-
-
-                    <Route path='notes'>
-                      <Route index element={<NotesList />} />
-                      <Route path=':id' element={<EditNote />} />
-                      <Route path='new' element={<NewNote />} />
-                    </Route>
-
                   </Route>
                 </Route>
               </Route>

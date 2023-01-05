@@ -25,6 +25,7 @@ const login = async (req, res) => {
 
   const accessToken = jwt.sign({
     'UserInfo': {
+      'userId': currentUser._id.toString(),
       'username': currentUser.username,
       'roles': currentUser.roles
     }
@@ -74,9 +75,9 @@ const refresh = (req, res) => {
 
       const accessToken = jwt.sign({
         'UserInfo': {
+          'userId': currentUser._id.toString(),
           'username': currentUser.username,
           'roles': currentUser.roles
-
         }
       },
         process.env.ACCESS_TOKEN_SECRET,
