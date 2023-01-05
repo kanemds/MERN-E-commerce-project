@@ -1,13 +1,14 @@
-import { Button } from '@mui/material'
+import { Button, Box, Typography, Modal } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { grey, red, pink } from '@mui/material/colors'
-import React from 'react'
+import React, { useState } from 'react'
 import useAuth from '../../hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
 import { useAddNewPaymentMutation } from './paymentApiSlice'
 import { useEffect } from 'react'
 import { useGetBooksQuery } from '../books/booksApiSlice'
-import { createReducer, current } from '@reduxjs/toolkit'
+import LoadingMessage from '../../components/LoadingMessage'
+
 
 const CHECKOUT = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText(pink[500
@@ -21,11 +22,26 @@ const CHECKOUT = styled(Button)(({ theme }) => ({
   border: '1px #e91e63 solid',
 }))
 
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 600,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+}
+
 const PayButton = ({ product }) => {
 
 
   const { username } = useAuth()
   const navigate = useNavigate()
+
+  const [isEnough, setIsEnough] = useState(false)
+  const [open, setOpen] = useState(false)
 
   const [addNewPayment, {
     data,
@@ -51,10 +67,6 @@ const PayButton = ({ product }) => {
   const { ids, entities } = books
 
 
-  const currentProduct = product.details
-
-  console.log(currentProduct)
-
   // let productId = []
   // product.details.map(book => productId.push(book.bookId))
 
@@ -64,18 +76,29 @@ const PayButton = ({ product }) => {
   //   })
   // })
 
-  // const selectedBooks = books.filter(book => productId.indexOf(book._id) !== -1)
+
 
   // console.log(selectedBooks)
-  let currentProductInstock = []
-  const dif = currentProduct.map(book => {
-    currentProductInstock.push({ id: book.bookId, isInStock: book.quantity <= entities[book.bookId].instocks })
+  let productInstock = []
+  let notAvailible
+  const currentProduct = product.details
+  currentProduct.map(book => {
+    productInstock.push({ id: book.bookId, isInStock: book.quantity <= entities[book.bookId].instocks, quantity: entities[book.bookId].instocks, title: entities[book.bookId].title })
+    notAvailible = productInstock.filter(item => item.isInStock === false)
   })
 
-  console.log(currentProductInstock)
+  console.log(notAvailible)
 
-  if (currentProductInstock === true) console.log('true')
-  if (currentProductInstock === false) console.log('false')
+
+
+
+  useEffect(() => {
+    if (notAvailible.length >= 1) {
+      setIsEnough(false)
+    } else {
+      setIsEnough(true)
+    }
+  }, [notAvailible, isBookSuccess])
 
   // when add data to stripe backend success go to stripe website
   useEffect(() => {
@@ -88,11 +111,46 @@ const PayButton = ({ product }) => {
     addNewPayment({ username, product })
   }
 
+  const handleOpen = () => setOpen(true)
+
+  const handleClose = () => setOpen(false)
+
+  const info = (
+    <Modal
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={style}>
+        <Typography id="modal-modal-title" variant="h6" component="h2">
+          Opps! Products have been sold, please adjust quantities.
+        </Typography>
+        {notAvailible.map(product =>
+          <Typography key={product.id} id="modal-modal-description" sx={{ mt: 2 }}>
+            "{product.title}" is currently {product.quantity >= 1 ? `${product.quantity} Left` : 'Out of Stock'}
+          </Typography>
+        )}
+      </Box>
+    </Modal>
+  )
+
+
   let content
+
+  if (isBookLoading) return content = <LoadingMessage />
 
   if (!username) return content = <CHECKOUT variant='contained' onClick={() => navigate('/login')}>CHECK OUT</CHECKOUT>
 
-  content = <CHECKOUT variant='contained' onClick={handleCheckout}>CHECK OUT</CHECKOUT>
+  if (!isEnough) return content = (
+    <>
+      {info}
+      < CHECKOUT variant='contained' onClick={handleOpen} > CHECK OUT</CHECKOUT >
+    </>
+  )
+
+  if (isEnough) return content = <CHECKOUT variant='contained' onClick={handleCheckout}>CHECK OUT</CHECKOUT>
+
 
   return content
 }
