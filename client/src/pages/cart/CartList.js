@@ -47,13 +47,11 @@ const CartList = ({ product }) => {
 
   let amount
   // !! if we return here below code won't run and will display the amount 
-  // if (currentStocks >= product.quantity && product.quantity > 6) amount = product.quantity
-  // if (currentStocks >= 6 && product.quantity <= 6) amount = 6
-  // if (currentStocks < 6) amount = currentStocks
+  if (currentStocks >= product.quantity && product.quantity > 6) amount = product.quantity
+  if (currentStocks >= 6 && product.quantity <= 6) amount = 6
+  if (currentStocks < 6) amount = product.quantity
 
-  if (product.quantity > 6) amount = product.quantity
-  if (product.quantity <= 6) amount = 6
-  if (product.quantity < 6) amount = product.quantity
+
 
 
   const handleChange = (event) => {
