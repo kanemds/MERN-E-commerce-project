@@ -21,7 +21,7 @@ const CHECKOUT = styled(Button)(({ theme }) => ({
 
 const PayButton = ({ product }) => {
 
-  console.log(product)
+
 
   const { username } = useAuth()
   const navigate = useNavigate()
