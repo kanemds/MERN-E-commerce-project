@@ -51,10 +51,14 @@ const CartList = ({ product }) => {
   if (currentStocks >= 6 && product.quantity <= 6) amount = 6
   if (currentStocks < 6) amount = product.quantity
 
+  const banner = currentStocks >= 6 ? 'In Stocks' : 3 >= currentStocks && currentStocks > 1 ? 'Low Stocks' : currentStocks === 1 ? 'Only 1 Left' : ''
 
 
 
   const handleChange = (event) => {
+    if (currentStocks <= 0) {
+      setQuantity(0)
+    }
     setQuantity(event.target.value)
   }
 
@@ -113,10 +117,19 @@ const CartList = ({ product }) => {
               <Typography variant='h7' >CAD $ {product.price.toFixed(2)}</Typography>
 
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Typography variant='h7' >{selectedQuantity}</Typography>
-                <Typography variant='h7' >SUBTOTAL: CAD $  {product.total.toFixed(2)}</Typography>
-              </Box>
+                {currentStocks <= 0 ?
+                  <Typography>Item currently Out of Stock</Typography>
+                  :
+                  <>
+                    <Typography variant='h7' >{selectedQuantity}</Typography>
+                    <Typography variant='h7' >SUBTOTAL: CAD $  {product.total.toFixed(2)}</Typography>
+                  </>
+                }
 
+              </Box>
+              <Typography>
+                {banner}
+              </Typography>
             </Grid>
           </Grid>
         }

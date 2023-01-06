@@ -27,7 +27,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 600,
+  width: 700,
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
@@ -124,7 +124,7 @@ const PayButton = ({ product }) => {
     >
       <Box sx={style}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          Opps! Products have been sold, please adjust quantities.
+          Opps! Some items are not available, please review the changes.
         </Typography>
         {notAvailible.map(product =>
           <Typography key={product.id} id="modal-modal-description" sx={{ mt: 2 }}>

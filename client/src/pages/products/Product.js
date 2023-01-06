@@ -96,6 +96,7 @@ const Product = () => {
   // !! if we return here below code won't run and will display the amount 
   if (currentStocks >= 6) amount = 6
   if (currentStocks < 6) amount = currentStocks
+  if (currentStocks <= 0) amount = 0
 
 
 
