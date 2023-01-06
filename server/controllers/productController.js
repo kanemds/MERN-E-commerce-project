@@ -96,6 +96,10 @@ const updateProduct = async (req, res) => {
     details.quantity = inventory.instocks
   }
 
+  if (inventory.instocks > details.quantity && inventory.instocks === 1) {
+    details.quantity = inventory.instocks
+  }
+
   selectedProduct.quantity = details.quantity
   selectedProduct.total = selectedProduct.price * details.quantity
 

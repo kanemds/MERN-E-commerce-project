@@ -49,7 +49,10 @@ const CartList = ({ product }) => {
   // !! if we return here below code won't run and will display the amount 
   if (currentStocks >= product.quantity && product.quantity > 6) amount = product.quantity
   if (currentStocks >= 6 && product.quantity <= 6) amount = 6
-  if (currentStocks < 6) amount = product.quantity
+  if (currentStocks <= product.quantity) amount = currentStocks
+  if (currentStocks < 6 && product.quantity < 6) amount = product.quantity
+  if (currentStocks === 1 && product.quantity < currentStocks) amount = 1
+  if (currentStocks <= 0) amount = 0
 
   const banner = currentStocks >= 6 ? 'In Stocks' : 3 >= currentStocks && currentStocks > 1 ? 'Low Stocks' : currentStocks === 1 ? 'Only 1 Left' : ''
 
