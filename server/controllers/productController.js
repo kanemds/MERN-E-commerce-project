@@ -80,12 +80,21 @@ const updateProduct = async (req, res) => {
   const { orderId, details } = req.body
 
   const currentCart = await Product.findById(orderId).exec()
+  console.log(currentCart)
 
   if (!currentCart) return res.status(400).json({ message: 'Shopping Cart Not Found' })
 
   const selectedProduct = currentCart.details.find(product => product.bookId === details.bookId)
 
   if (!selectedProduct) return res.status(400).json({ message: 'Select Product Not Found' })
+
+  const inventory = await Book.findById(details.bookId).exec()
+
+  if (!inventory) return res.status(400).json({ message: 'Select Product Not Found' })
+
+  if (inventory.instocks < details.quantity) {
+    details.quantity = inventory.instocks
+  }
 
   selectedProduct.quantity = details.quantity
   selectedProduct.total = selectedProduct.price * details.quantity
