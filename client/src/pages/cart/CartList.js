@@ -34,7 +34,7 @@ const CartList = ({ product }) => {
     })
   })
 
-
+  console.log(product.quantity)
   const [cartId, setCartId] = useState(localStorage.getItem('BookShopCartId') || null)
   const [quantity, setQuantity] = useState(product?.quantity)
 
@@ -44,14 +44,17 @@ const CartList = ({ product }) => {
 
   const currentStocks = book?.instocks
 
-
   let amount
   // !! if we return here below code won't run and will display the amount 
   if (currentStocks >= product.quantity && product.quantity > 6) amount = product.quantity
-  if (currentStocks >= 6 && product.quantity <= 6) amount = 6
-  if (currentStocks < 6) amount = product.quantity
+  if (currentStocks >= 6 && 6 > product.quantity >= 0) amount = 6
 
-  const banner = currentStocks >= 6 ? 'In Stocks' : 3 >= currentStocks && currentStocks > 1 ? 'Low Stocks' : currentStocks === 1 ? 'Only 1 Left' : ''
+  if (0 <= currentStocks <= 6 && 0 <= product.quantity <= 6 && currentStocks <= product.quantity) amount = product.quantity
+  if (currentStocks <= 6 && 0 <= product.quantity && currentStocks >= product.quantity) amount = currentStocks
+
+  // if (currentStocks >= product.quantity && product.quantity === 0) amount = currentStocks
+
+  const banner = currentStocks >= 6 ? 'In Stocks' : 5 >= currentStocks && currentStocks > 1 ? 'Low Stocks' : currentStocks === 1 ? 'Only 1 Left' : ''
 
 
 
@@ -59,8 +62,11 @@ const CartList = ({ product }) => {
     if (currentStocks <= 0) {
       setQuantity(0)
     }
+
     setQuantity(event.target.value)
   }
+
+  console.log(quantity)
 
   const menu = (amount) => {
     let menuItems = []
@@ -80,6 +86,7 @@ const CartList = ({ product }) => {
           onChange={handleChange}
         >
           {menu(amount)}
+
         </Select>
       </FormControl>
     </Box >

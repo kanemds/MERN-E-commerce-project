@@ -81,19 +81,23 @@ const PayButton = ({ product }) => {
   // console.log(selectedBooks)
   let productInstock = []
   let notAvailible
+  let zeroStock
   const currentProduct = product.details
   currentProduct.map(book => {
     productInstock.push({ id: book.bookId, isInStock: book.quantity <= entities[book.bookId].instocks, quantity: entities[book.bookId].instocks, title: entities[book.bookId].title })
     notAvailible = productInstock.filter(item => item.isInStock === false)
+    zeroStock = currentProduct.filter(item => item.quantity === 0)
   })
 
+
+  console.log('zeroStock', zeroStock)
   console.log(notAvailible)
 
 
 
 
   useEffect(() => {
-    if (notAvailible.length >= 1) {
+    if (notAvailible.length >= 1 || zeroStock.length >= 1) {
       setIsEnough(false)
     } else {
       setIsEnough(true)
@@ -127,6 +131,11 @@ const PayButton = ({ product }) => {
           Opps! Some items are not available, please review the changes.
         </Typography>
         {notAvailible.map(product =>
+          <Typography key={product.id} id="modal-modal-description" sx={{ mt: 2 }}>
+            "{product.title}" is currently {product.quantity >= 1 ? `${product.quantity} Left` : 'Out of Stock'}
+          </Typography>
+        )}
+        {zeroStock.map(product =>
           <Typography key={product.id} id="modal-modal-description" sx={{ mt: 2 }}>
             "{product.title}" is currently {product.quantity >= 1 ? `${product.quantity} Left` : 'Out of Stock'}
           </Typography>
