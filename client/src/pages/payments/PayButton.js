@@ -81,13 +81,17 @@ const PayButton = ({ product }) => {
   // console.log(selectedBooks)
   let productInstock = []
   let notAvailible
+  let inventoryIds = []
   let zeroStock
   const currentProduct = product.details
   currentProduct.map(book => {
     productInstock.push({ id: book.bookId, isInStock: book.quantity <= entities[book.bookId].instocks, instocks: entities[book.bookId].instocks, quantityRequired: book.quantity, missingQuantity: book.quantity - entities[book.bookId].instocks, title: entities[book.bookId].title })
+    inventoryIds.push(book.bookId)
     notAvailible = productInstock.filter(item => item.isInStock === false)
     zeroStock = currentProduct.filter(item => item.quantity === 0)
   })
+
+
 
   console.log('productInstock', productInstock)
   console.log('currentProduct', currentProduct)
@@ -95,6 +99,17 @@ const PayButton = ({ product }) => {
   console.log('notAvailible', notAvailible)
 
 
+  // var result = result1.filter(function (o1) {
+  //   return !result2.some(function (o2) {
+  //     return o1.id === o2.id // return the ones with equal id
+  //   })
+  // })
+  // // if you want to be more clever...
+  // let result = result1.filter(o1 => !result2.some(o2 => o1.id === o2.id))
+
+  // const A = [{id:1}, {id:4}, {id:3}, {id:2}]
+  // const B = [{id:0}, {id:2}, {id:1}, {id:2}]
+  // console.log(A.filter(a => !B.map(b=>b.id).includes(a.id)))
 
 
   useEffect(() => {
@@ -113,7 +128,7 @@ const PayButton = ({ product }) => {
   }, [isSuccess])
 
   const handleCheckout = () => {
-    addNewPayment({ username, product })
+    addNewPayment({ username, product, createdAt: new Date().getTime(), inventoryIds })
   }
 
   const handleOpen = () => setOpen(true)
