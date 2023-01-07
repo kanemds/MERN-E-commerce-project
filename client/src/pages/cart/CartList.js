@@ -17,6 +17,12 @@ const CartList = ({ product }) => {
 
   const navigate = useNavigate()
 
+  const {
+    data,
+    isLoading: isBookLoading,
+    isSuccess: isBookSuccess
+  } = useGetBooksQuery()
+
   const [updateProduct, {
     isLoading,
     isSuccess,
@@ -34,39 +40,44 @@ const CartList = ({ product }) => {
     })
   })
 
-  console.log(product.quantity)
+  const currentStocks = book?.instocks
+
   const [cartId, setCartId] = useState(localStorage.getItem('BookShopCartId') || null)
   const [quantity, setQuantity] = useState(product?.quantity)
+  const [isReady, setIsReady] = useState(false)
 
   useEffect(() => {
     updateProduct({ orderId: cartId, details: { bookId: product.bookId, quantity } })
   }, [quantity])
 
-  const currentStocks = book?.instocks
+
 
   let amount
   // !! if we return here below code won't run and will display the amount 
   if (currentStocks >= product.quantity && product.quantity > 6) amount = product.quantity
   if (currentStocks >= 6 && 6 > product.quantity >= 0) amount = 6
 
-  if (0 <= currentStocks <= 6 && 0 <= product.quantity <= 6 && currentStocks <= product.quantity) amount = product.quantity
+  if (0 <= currentStocks && product.quantity <= 6 && currentStocks <= product.quantity) amount = currentStocks
   if (currentStocks <= 6 && 0 <= product.quantity && currentStocks >= product.quantity) amount = currentStocks
 
   // if (currentStocks >= product.quantity && product.quantity === 0) amount = currentStocks
 
+  // useEffect(() => {
+  //   if (isBookSuccess) {
+  //     setTimeout(() => { isBookLoading }, 2000)
+  //   }
+  // }, [currentStocks])
+
+
+
   const banner = currentStocks >= 6 ? 'In Stocks' : 5 >= currentStocks && currentStocks > 1 ? 'Low Stocks' : currentStocks === 1 ? 'Only 1 Left' : ''
 
 
-
   const handleChange = (event) => {
-    if (currentStocks <= 0) {
-      setQuantity(0)
-    }
-
     setQuantity(event.target.value)
   }
 
-  console.log(quantity)
+
 
   const menu = (amount) => {
     let menuItems = []
@@ -75,6 +86,9 @@ const CartList = ({ product }) => {
     }
     return menuItems
   }
+
+
+
 
   const selectedQuantity = (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -86,7 +100,6 @@ const CartList = ({ product }) => {
           onChange={handleChange}
         >
           {menu(amount)}
-
         </Select>
       </FormControl>
     </Box >
@@ -94,7 +107,9 @@ const CartList = ({ product }) => {
 
   let content
 
-  if (!book && !product) content = <LoadingMessage />
+
+
+  if (!book && !product && isLoading && !quantity && isBookLoading) return content = <LoadingMessage />
 
   if (book && product) {
     content = (

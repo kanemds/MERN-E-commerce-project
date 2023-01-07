@@ -84,14 +84,15 @@ const PayButton = ({ product }) => {
   let zeroStock
   const currentProduct = product.details
   currentProduct.map(book => {
-    productInstock.push({ id: book.bookId, isInStock: book.quantity <= entities[book.bookId].instocks, quantity: entities[book.bookId].instocks, title: entities[book.bookId].title })
+    productInstock.push({ id: book.bookId, isInStock: book.quantity <= entities[book.bookId].instocks, instocks: entities[book.bookId].instocks, quantityRequired: book.quantity, missingQuantity: book.quantity - entities[book.bookId].instocks, title: entities[book.bookId].title })
     notAvailible = productInstock.filter(item => item.isInStock === false)
     zeroStock = currentProduct.filter(item => item.quantity === 0)
   })
 
-
+  console.log('productInstock', productInstock)
+  console.log('currentProduct', currentProduct)
   console.log('zeroStock', zeroStock)
-  console.log(notAvailible)
+  console.log('notAvailible', notAvailible)
 
 
 
@@ -102,7 +103,7 @@ const PayButton = ({ product }) => {
     } else {
       setIsEnough(true)
     }
-  }, [notAvailible, isBookSuccess])
+  }, [notAvailible, zeroStock, books])
 
   // when add data to stripe backend success go to stripe website
   useEffect(() => {
@@ -132,12 +133,12 @@ const PayButton = ({ product }) => {
         </Typography>
         {notAvailible.map(product =>
           <Typography key={product.id} id="modal-modal-description" sx={{ mt: 2 }}>
-            "{product.title}" is currently {product.quantity >= 1 ? `${product.quantity} Left` : 'Out of Stock'}
+            "{product.title}" is currently {product.instocks >= 1 ? `${product.instocks} Left.` : 'Out of Stock, please remove product.'}
           </Typography>
         )}
         {zeroStock.map(product =>
-          <Typography key={product.id} id="modal-modal-description" sx={{ mt: 2 }}>
-            "{product.title}" is currently {product.quantity >= 1 ? `${product.quantity} Left` : 'Out of Stock'}
+          <Typography key={product.bookId} id="modal-modal-description" sx={{ mt: 2 }}>
+            "{product.title}" is currently {product.quantity >= 1 ? `${product.quantity} Left.` : 'Out of Stock, please remove product.'}
           </Typography>
         )}
       </Box>
