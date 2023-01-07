@@ -3,16 +3,38 @@ require('dotenv').config()
 const Order = require('../models/Order')
 const User = require('../models/User')
 const Product = require('../models/Product')
+const Book = require('../models/Book')
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET)
 
 const payment = async (req, res) => {
 
-  const { username, product } = req.body
-
+  const { username, product, createdAt, inventoryIds } = req.body
 
   const currentUser = await User.findOne({ username }).exec()
   if (!currentUser) return res.status(400).json({ message: 'No User Found' })
+
+
+  const timeOut = createdAt + 5 * 60 * 1000 // 5 mins
+
+  let cartItems = {}
+  product.details.forEach(item => cartItems[item.bookId] = { quantity: item.quantity })
+
+  // find cart items obj products from mongodb, make sure put in .lean() return as regular object not mongoDB object
+  const books = await Book.find({ _id: { $in: inventoryIds } }).lean().exec()
+
+
+
+  const newStocks = books.map(item => {
+    return {
+      ...item,
+      instocks: item.instocks - cartItems[item._id.toString()].quantity
+
+    }
+  })
+
+  console.log(newStocks)
+
 
 
   const customer = await stripe.customers.create({
@@ -136,8 +158,6 @@ const webHook = (req, res) => {
     stripe.customers
       .retrieve(data.customer)
       .then(customer => {
-        console.log(customer)
-        console.log('data', data)
         createOrder(customer, data)
       })
       .catch(error => console.log(error.message))
