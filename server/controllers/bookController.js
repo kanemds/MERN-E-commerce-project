@@ -108,6 +108,10 @@ const updateBook = async (req, res) => {
 
 }
 
+const updateStocks = async (req, res) => {
+
+}
+
 const deleteBook = async (req, res) => {
   const { id } = req.body
 
@@ -131,4 +135,4 @@ const deleteBook = async (req, res) => {
   res.json(reply)
 }
 
-module.exports = { getALlBooks, createImage, updateBook, deleteBook }
+module.exports = { getALlBooks, createImage, updateBook, updateStocks, deleteBook }

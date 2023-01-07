@@ -17,6 +17,7 @@ const payment = async (req, res) => {
 
   const timeOut = createdAt + 5 * 60 * 1000 // 5 mins
 
+  // new cart object as id:{quantity}
   let cartItems = {}
   product.details.forEach(item => cartItems[item.bookId] = { quantity: item.quantity })
 
@@ -24,7 +25,7 @@ const payment = async (req, res) => {
   const books = await Book.find({ _id: { $in: inventoryIds } }).lean().exec()
 
 
-
+  // subtract cartItems quantity from inventory
   const newStocks = books.map(item => {
     return {
       ...item,
@@ -33,7 +34,7 @@ const payment = async (req, res) => {
     }
   })
 
-  console.log(newStocks)
+  await newStocks.save()
 
 
 
