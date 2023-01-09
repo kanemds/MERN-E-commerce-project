@@ -44,15 +44,15 @@ const CartList = ({ product }) => {
 
   const [cartId, setCartId] = useState(localStorage.getItem('BookShopCartId') || null)
   const [quantity, setQuantity] = useState(product?.quantity)
-  const [previous, setPrevious] = useState(product?.quantity || 0)
+  const [previous, setPrevious] = useState(product?.previous || 0)
   const [isReady, setIsReady] = useState(false)
 
 
-  console.log(quantity)
-  console.log(previous)
+  console.log('quantity', quantity)
+  console.log('previous', previous)
 
   useEffect(() => {
-    updateProduct({ orderId: cartId, details: { bookId: product.bookId, quantity } })
+    updateProduct({ orderId: cartId, details: { bookId: product.bookId, quantity, previous } })
   }, [quantity])
 
 
