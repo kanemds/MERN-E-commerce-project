@@ -2,7 +2,7 @@ require('express-async-errors')
 const Book = require('../models/Book')
 const storage = require('../middleware/firebase')
 const { ref, uploadBytes, getDownloadURL, deleteObject } = require('firebase/storage')
-
+const Product = require('../models/Product')
 // const toBuffer = require('base64-arraybuffer')
 
 const getALlBooks = async (req, res) => {
@@ -107,11 +107,24 @@ const updateBook = async (req, res) => {
 }
 
 const updateStocks = async (req, res) => {
-  const { product, createdAt, inventoryIds } = req.body
+
+
+  const { product, cart, inventoryIds, createdAt } = req.body
 
   // new cart object as id:{quantity}
-  let cartItems = {}
-  product.details.forEach(item => cartItems[item.bookId] = { quantity: item.quantity })
+  console.log('product', product)
+
+  const cartProduct = await Product.findById(cart).lean().exec()
+
+  console.log('cart', cartProduct)
+
+
+  let selectedItems = {}
+  product.details.forEach(item => selectedItems[item.bookId] = { quantity: item.quantity })
+
+
+  // let cartItems = {}
+  // cartProduct.forEach(item => selectedItems[item.bookId] = { quantity: item.quantity })
 
   // find cart items obj products from mongodb, make sure put in .lean() return as regular object not mongoDB object
   const books = await Book.find({ _id: { $in: inventoryIds } }).lean().exec()
@@ -120,7 +133,7 @@ const updateStocks = async (req, res) => {
   books.forEach(async item => {
     let product
     product = await Book.findById(item._id).exec()
-    product.instocks = item.instocks - cartItems[item._id.toString()].quantity
+    product.instocks = item.instocks - selectedItems[item._id.toString()].quantity
     console.log('subtract', product.instocks)
     await product.save()
   })
@@ -137,8 +150,7 @@ const updateStocks = async (req, res) => {
     })
   }
 
-
-  setTimeout(() => backToStock(), 13 * 1000)
+  setTimeout(() => backToStock(), 30 * 60 * 1000)
 
 }
 

@@ -39,12 +39,12 @@ const ShoppingCart = () => {
 
   const [cartId, setCartId] = useState(localStorage.getItem('BookShopCartId') || null)
 
-
   const { product } = useGetProductsQuery('productList', {
     selectFromResult: ({ data }) => ({
       product: data?.entities[cartId]
     })
   })
+
 
 
 
@@ -111,7 +111,7 @@ const ShoppingCart = () => {
                 </Box>
 
                 <Box sx={{ display: 'flex', flexDirection: 'column', mt: 4 }}>
-                  <PayButton product={product} />
+                  <PayButton product={product} cartId={cartId} />
                   <KEEPSHOPPING variant='contained' sx={{ mt: 2 }} onClick={() => navigate('/')}>COUTINUE SHOPPING</KEEPSHOPPING>
                 </Box>
               </STICKY>
