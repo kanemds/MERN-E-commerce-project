@@ -50,6 +50,16 @@ export const booksApiSlice = apiSlice.injectEndpoints({
         type: 'Book', id: arg.id
       }]
     }),
+    updateStocks: builder.mutation({
+      query: updateStocksData => ({
+        url: '/books/stocks',
+        method: 'PATCH',
+        body: updateStocksData
+      }),
+      invalidatesTags: (result, error, arg) => [{
+        type: 'Book', id: arg.id
+      }]
+    }),
     deleteBook: builder.mutation({
       query: ({ id }) => ({
         url: '/books',
@@ -62,7 +72,7 @@ export const booksApiSlice = apiSlice.injectEndpoints({
     })
   })
 })
-export const { useGetBooksQuery, useAddNewBookMutation, useUpdateBookMutation, useDeleteBookMutation } = booksApiSlice
+export const { useGetBooksQuery, useAddNewBookMutation, useUpdateBookMutation, useUpdateStocksMutation, useDeleteBookMutation } = booksApiSlice
 
 export const selectBooksResult = booksApiSlice.endpoints.getBooks.select()
 

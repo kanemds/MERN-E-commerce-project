@@ -80,7 +80,6 @@ const updateProduct = async (req, res) => {
   const { orderId, details } = req.body
 
   const currentCart = await Product.findById(orderId).exec()
-  console.log(currentCart)
 
   if (!currentCart) return res.status(400).json({ message: 'Shopping Cart Not Found' })
 
@@ -114,12 +113,8 @@ const updateProduct = async (req, res) => {
   currentCart.totalcounts = newCounts
   currentCart.totalprice = newTotal
 
-
-
   currentCart.save()
   res.status(201).json({ message: 'Quantity Updated' })
-
-
 }
 
 const deleteProduct = async (req, res) => {

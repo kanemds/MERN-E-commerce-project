@@ -6,7 +6,7 @@ import useAuth from '../../hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
 import { useAddNewPaymentMutation } from './paymentApiSlice'
 import { useEffect } from 'react'
-import { useGetBooksQuery } from '../books/booksApiSlice'
+import { useGetBooksQuery, useUpdateStocksMutation } from '../books/booksApiSlice'
 import LoadingMessage from '../../components/LoadingMessage'
 
 
@@ -51,6 +51,11 @@ const PayButton = ({ product }) => {
     error
   }] = useAddNewPaymentMutation()
 
+  const [updateStocks, {
+    isLoading: isUpdateStocksLoading,
+    isSuccess: isUpdateStocksSuccess,
+  }] = useUpdateStocksMutation()
+
 
   const {
     data: books,
@@ -93,10 +98,10 @@ const PayButton = ({ product }) => {
 
 
 
-  console.log('productInstock', productInstock)
-  console.log('currentProduct', currentProduct)
-  console.log('zeroStock', zeroStock)
-  console.log('notAvailible', notAvailible)
+  // console.log('productInstock', productInstock)
+  // console.log('currentProduct', currentProduct)
+  // console.log('zeroStock', zeroStock)
+  // console.log('notAvailible', notAvailible)
 
 
   // var result = result1.filter(function (o1) {
@@ -120,6 +125,19 @@ const PayButton = ({ product }) => {
     }
   }, [notAvailible, zeroStock, books])
 
+
+  useEffect(() => {
+    if (isSuccess) {
+      window.location.href = data.url
+    }
+  }, [isSuccess])
+
+  // useEffect(() => {
+  //   if (isUpdateStocksSuccess) {
+  //     addNewPayment({ username, product, createdAt: new Date().getTime(), inventoryIds })
+  //   }
+  // }, [isUpdateStocksSuccess])
+
   // when add data to stripe backend success go to stripe website
   useEffect(() => {
     if (isSuccess) {
@@ -129,6 +147,8 @@ const PayButton = ({ product }) => {
 
   const handleCheckout = () => {
     addNewPayment({ username, product, createdAt: new Date().getTime(), inventoryIds })
+    updateStocks({ product, createdAt: new Date().getTime(), inventoryIds })
+
   }
 
   const handleOpen = () => setOpen(true)

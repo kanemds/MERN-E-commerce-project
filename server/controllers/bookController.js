@@ -2,6 +2,7 @@ require('express-async-errors')
 const Book = require('../models/Book')
 const storage = require('../middleware/firebase')
 const { ref, uploadBytes, getDownloadURL, deleteObject } = require('firebase/storage')
+const { updateOne } = require('../models/Book')
 // const toBuffer = require('base64-arraybuffer')
 
 const getALlBooks = async (req, res) => {
@@ -56,8 +57,6 @@ const updateBook = async (req, res) => {
 
   const image = await req.files?.file
 
-
-
   if (!id || !title || !description || !author || !category || !inStocks || !price) {
     return res.status(400).json({ message: 'All fields are required' })
   }
@@ -108,6 +107,50 @@ const updateBook = async (req, res) => {
 
 }
 
+const updateStocks = async (req, res) => {
+  const { product, createdAt, inventoryIds } = req.body
+
+
+  const expiredAt = createdAt + 1000
+  const timeOut = expiredAt === new Date().getTime()
+
+
+  // new cart object as id:{quantity}
+  let cartItems = {}
+  product.details.forEach(item => cartItems[item.bookId] = { quantity: item.quantity })
+
+  // find cart items obj products from mongodb, make sure put in .lean() return as regular object not mongoDB object
+  const books = await Book.find({ _id: { $in: inventoryIds } }).lean().exec()
+
+  console.log(books)
+
+
+  if (timeOut) {
+    // subtract cartItems quantity from inventory
+    books.forEach(async item => {
+      let product
+      product = await Book.findById(item._id).exec()
+      product.instocks = item.instocks + cartItems[item._id.toString()].quantity
+      console.log(product)
+      await product.save()
+    })
+
+    res.status(201).json({ message: 'Cart item(s) will be reserved for the next 30 mins' })
+
+  } else {
+
+    books.forEach(async item => {
+      let product
+      product = await Book.findById(item._id).exec()
+      product.instocks = item.instocks - cartItems[item._id.toString()].quantity
+      console.log(product)
+      await product.save()
+    })
+    res.status(201).json({ message: 'Cart item(s) is not longer reserved.' })
+  }
+
+}
+
 const deleteBook = async (req, res) => {
   const { id } = req.body
 
@@ -131,4 +174,4 @@ const deleteBook = async (req, res) => {
   res.json(reply)
 }
 
-module.exports = { getALlBooks, createImage, updateBook, deleteBook }
+module.exports = { getALlBooks, createImage, updateBook, updateStocks, deleteBook }
