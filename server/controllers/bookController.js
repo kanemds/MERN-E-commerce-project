@@ -120,7 +120,7 @@ const updateStocks = async (req, res) => {
 
 
   let selectedItems = {}
-  product.details.forEach(item => selectedItems[item.bookId] = { quantity: item.quantity })
+  product.details.forEach(item => selectedItems[item.bookId] = { quantity: item.quantity, previous: item.previous })
 
 
   // let cartItems = {}

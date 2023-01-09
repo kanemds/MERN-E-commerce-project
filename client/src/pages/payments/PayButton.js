@@ -34,15 +34,16 @@ const style = {
   p: 4,
 }
 
-const PayButton = ({ product, cartId, previous }) => {
+const PayButton = ({ product, cartId }) => {
 
+  console.log(product)
 
   const { username } = useAuth()
   const navigate = useNavigate()
 
   const [isEnough, setIsEnough] = useState(false)
   const [open, setOpen] = useState(false)
-  const [cart, setCart] = useState(cartId || 0)
+  const [cart, setCart] = useState(cartId || null)
 
   const [addNewPayment, {
     data,
@@ -148,7 +149,7 @@ const PayButton = ({ product, cartId, previous }) => {
 
   const handleCheckout = () => {
     addNewPayment({ username, product, inventoryIds, createdAt: new Date().getTime() })
-    updateStocks({ product, inventoryIds, cart, createdAt: new Date().getTime(), previous })
+    updateStocks({ product, inventoryIds, cart, createdAt: new Date().getTime() })
 
   }
 
