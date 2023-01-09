@@ -125,6 +125,19 @@ const PayButton = ({ product }) => {
     }
   }, [notAvailible, zeroStock, books])
 
+
+  useEffect(() => {
+    if (isSuccess) {
+      window.location.href = data.url
+    }
+  }, [isSuccess])
+
+  // useEffect(() => {
+  //   if (isUpdateStocksSuccess) {
+  //     addNewPayment({ username, product, createdAt: new Date().getTime(), inventoryIds })
+  //   }
+  // }, [isUpdateStocksSuccess])
+
   // when add data to stripe backend success go to stripe website
   useEffect(() => {
     if (isSuccess) {
@@ -133,8 +146,9 @@ const PayButton = ({ product }) => {
   }, [isSuccess])
 
   const handleCheckout = () => {
-    updateStocks({ product, createdAt: new Date().getTime(), inventoryIds })
     addNewPayment({ username, product, createdAt: new Date().getTime(), inventoryIds })
+    updateStocks({ product, createdAt: new Date().getTime(), inventoryIds })
+
   }
 
   const handleOpen = () => setOpen(true)

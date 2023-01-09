@@ -52,7 +52,7 @@ export const booksApiSlice = apiSlice.injectEndpoints({
     }),
     updateStocks: builder.mutation({
       query: updateStocksData => ({
-        url: '/books',
+        url: '/books/stocks',
         method: 'PATCH',
         body: updateStocksData
       }),

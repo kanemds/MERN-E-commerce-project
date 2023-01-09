@@ -5,8 +5,8 @@ router.route('/')
   .get(getALlBooks)
   .post(createImage)
   .patch(updateBook)
-  .patch(updateStocks)
   .delete(deleteBook)
 
+router.patch('/stocks', updateStocks)
 module.exports = router
 

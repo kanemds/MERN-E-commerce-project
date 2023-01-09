@@ -11,31 +11,12 @@ const payment = async (req, res) => {
 
   const { username, product, createdAt, inventoryIds } = req.body
 
+  console.log('stripe', createdAt)
+
   const currentUser = await User.findOne({ username }).exec()
   if (!currentUser) return res.status(400).json({ message: 'No User Found' })
 
-
-  const timeOut = createdAt + 5 * 60 * 1000 // 5 mins
-
-  // new cart object as id:{quantity}
-  let cartItems = {}
-  product.details.forEach(item => cartItems[item.bookId] = { quantity: item.quantity })
-
-  // find cart items obj products from mongodb, make sure put in .lean() return as regular object not mongoDB object
-  const books = await Book.find({ _id: { $in: inventoryIds } }).lean().exec()
-
-
-  // subtract cartItems quantity from inventory
-  const newStocks = books.map(item => {
-    return {
-      ...item,
-      instocks: item.instocks - cartItems[item._id.toString()].quantity
-
-    }
-  })
-
-  await newStocks.save()
-
+  const unixTimestamp = Math.floor(createdAt / 1000)
 
 
   const customer = await stripe.customers.create({
@@ -82,6 +63,7 @@ const payment = async (req, res) => {
     success_url: `${process.env.CLIENT_URL}/payment-success`,
     // to the location when press back or cancel the payment
     cancel_url: `${process.env.CLIENT_URL}/carts`,
+    expires_at: unixTimestamp + 30 * 60
   }
 
   const session = await stripe.checkout.sessions.create(info)
@@ -94,7 +76,6 @@ const payment = async (req, res) => {
   // since using onClick event, we're using this
   res.status(201).json({ url: session.url })
 }
-
 
 // after payment successed, save all the info to mongodb
 

@@ -109,7 +109,7 @@ const CartList = ({ product }) => {
 
 
 
-  if (!book && !product && isLoading && !quantity && isBookLoading) return content = <LoadingMessage />
+  if (!book || !product || isLoading || !quantity || isBookLoading) return content = <LoadingMessage />
 
   if (book && product) {
     content = (
