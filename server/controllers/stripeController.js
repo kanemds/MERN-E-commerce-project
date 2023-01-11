@@ -32,7 +32,6 @@ const payment = async (req, res) => {
         currency: 'cad',
         product_data: {
           name: item.title,
-          // images: [item.image],  not working some reasons
           metadata: {
             product_id: item.bookId
           }

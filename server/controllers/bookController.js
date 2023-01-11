@@ -109,18 +109,19 @@ const updateBook = async (req, res) => {
 const updateStocks = async (req, res) => {
 
 
-  const { product, cart, inventoryIds, createdAt } = req.body
+  const { product, cart, inventoryIds } = req.body
 
   // new cart object as id:{quantity}
-  console.log('product', product)
+
 
   const cartProduct = await Product.findById(cart).lean().exec()
 
-  console.log('cart', cartProduct)
+
 
 
   let selectedItems = {}
   product.details.forEach(item => selectedItems[item.bookId] = { quantity: item.quantity, previous: item.previous })
+
 
 
   // let cartItems = {}
@@ -133,25 +134,38 @@ const updateStocks = async (req, res) => {
   books.forEach(async item => {
     let product
     product = await Book.findById(item._id).exec()
-    product.instocks = item.instocks - selectedItems[item._id.toString()].quantity
+    product.instocks = item.instocks - (selectedItems[item._id.toString()].quantity - selectedItems[item._id.toString()].previous)
     console.log('subtract', product.instocks)
     await product.save()
   })
+
+  product.details.forEach(async (item, index) => {
+    let selectedProduct
+    selectedProduct = await Product.findById(cart).exec()
+    if (selectedProduct.details[index].bookId === item.bookId) {
+      selectedProduct.details[index].previous = item.quantity
+      await selectedProduct.save()
+    }
+
+    // console.log(match)
+    // match.previous = selectedItems[item.bookId].quantity
+  })
+
   res.status(201).json({ message: 'Cart item(s) will be reserved for the next 30 mins' })
 
-  const backToStock = () => {
-    books.forEach(async item => {
-      let product
-      product = await Book.findById(item._id).exec()
-      // resplace back the origin quantity from books
-      product.instocks = item.instocks
-      console.log('expired', product.instocks)
-      await product.save()
-    })
-  }
 
-  setTimeout(() => backToStock(), 30 * 60 * 1000)
 
+
+  // const backToStock = () => {
+  //   books.forEach(async item => {
+  //     let product
+  //     product = await Book.findById(item._id).exec()
+  //     // resplace back the origin quantity from books
+  //     product.instocks = item.instocks
+  //     console.log('expired', product.instocks)
+  //     await product.save()
+  //   })
+  // }
 }
 
 const deleteBook = async (req, res) => {

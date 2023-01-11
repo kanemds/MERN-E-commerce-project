@@ -45,12 +45,9 @@ const ShoppingCart = () => {
     })
   })
 
-
-
-
   let content
 
-  if (cartId && product?.details?.length === 0) {
+  if (cartId || product?.details?.length === 0 || !product) {
     content = (
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         <Typography variant='h6'>
