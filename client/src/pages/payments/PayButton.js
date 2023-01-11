@@ -8,6 +8,7 @@ import { useAddNewPaymentMutation } from './paymentApiSlice'
 import { useEffect } from 'react'
 import { useGetBooksQuery, useUpdateStocksMutation } from '../books/booksApiSlice'
 import LoadingMessage from '../../components/LoadingMessage'
+import { useUpdateProductMutation, useProductReservedMutation } from '../products/productApiSlice'
 
 
 const CHECKOUT = styled(Button)(({ theme }) => ({
@@ -44,8 +45,7 @@ const PayButton = ({ product, cartId }) => {
   const [open, setOpen] = useState(false)
   const [cart, setCart] = useState(cartId || null)
   const [pending, setPending] = useState(false)
-
-  console.log(product)
+  const [save, setSave] = useState(false)
 
   const [addNewPayment, {
     data,
@@ -60,6 +60,8 @@ const PayButton = ({ product, cartId }) => {
     isSuccess: isUpdateStocksSuccess,
   }] = useUpdateStocksMutation()
 
+  const [updateProduct] = useUpdateProductMutation()
+  const [productReserved] = useProductReservedMutation()
 
   const {
     data: books,
@@ -135,14 +137,6 @@ const PayButton = ({ product, cartId }) => {
     }
   }, [pending])
 
-  console.log(pending)
-
-
-  // useEffect(() => {
-  //   if (isUpdateStocksSuccess) {
-  //     addNewPayment({ username, product, createdAt: new Date().getTime(), inventoryIds })
-  //   }
-  // }, [isUpdateStocksSuccess])
 
   // when add data to stripe backend success go to stripe website
   useEffect(() => {
@@ -151,8 +145,13 @@ const PayButton = ({ product, cartId }) => {
     }
   }, [isSuccess])
 
+  useEffect(() => {
+    productReserved({ pending, save })
+  }, [pending, save])
+
   const handleCheckout = () => {
     setPending(true)
+    setSave(true)
     addNewPayment({ username, product, inventoryIds, createdAt: new Date().getTime() })
     updateStocks({ product, inventoryIds, cart, createdAt: new Date().getTime() })
   }

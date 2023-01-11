@@ -50,6 +50,16 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         { type: 'Product', id: arg.id }
       ]
     }),
+    productReserved: builder.mutation({
+      query: reservedProductData => ({
+        url: '/products/reserved',
+        method: 'PATCH',
+        body: reservedProductData
+      }),
+      invalidatesTags: (result, error, arg) => [
+        { type: 'Product', id: arg.id }
+      ]
+    }),
     deleteProduct: builder.mutation({
       query: ({ cartId, productId }) => ({
         url: '/products',
@@ -63,4 +73,4 @@ export const productsApiSlice = apiSlice.injectEndpoints({
   })
 })
 
-export const { useGetProductsQuery, useAddNewProductMutation, useUpdateProductMutation, useDeleteProductMutation } = productsApiSlice
+export const { useGetProductsQuery, useAddNewProductMutation, useUpdateProductMutation, useProductReservedMutation, useDeleteProductMutation } = productsApiSlice

@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { getAllProducts, createProduct, updateProduct, deleteProduct } = require('../../controllers/productController')
+const { getAllProducts, createProduct, updateProduct, productReserved, deleteProduct } = require('../../controllers/productController')
 
 router.route('/')
   .get(getAllProducts)
@@ -7,4 +7,5 @@ router.route('/')
   .patch(updateProduct)
   .delete(deleteProduct)
 
+router.patch('/reserved', productReserved)
 module.exports = router

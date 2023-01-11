@@ -118,6 +118,11 @@ const updateProduct = async (req, res) => {
   res.status(201).json({ message: 'Quantity Updated' })
 }
 
+const productReserved = async (req, res) => {
+  const { pending, save } = req.body
+  console.log(pending, save)
+}
+
 const deleteProduct = async (req, res) => {
   const { cartId, productId } = req.body
 
@@ -143,4 +148,4 @@ const deleteProduct = async (req, res) => {
 
 }
 
-module.exports = { getAllProducts, createProduct, updateProduct, deleteProduct }
+module.exports = { getAllProducts, createProduct, updateProduct, productReserved, deleteProduct }

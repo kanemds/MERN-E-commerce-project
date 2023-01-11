@@ -45,8 +45,8 @@ const CartList = ({ product }) => {
   const [cartId, setCartId] = useState(localStorage.getItem('BookShopCartId') || null)
   const [quantity, setQuantity] = useState(product?.quantity)
   const [previous, setPrevious] = useState(product?.previous)
-
-  const [isReady, setIsReady] = useState(false)
+  const [save, setSave] = useState(product?.save)
+  console.log(save)
 
 
 
@@ -61,12 +61,20 @@ const CartList = ({ product }) => {
 
   let amount
   // !! if we return here below code won't run and will display the amount 
-  if (currentStocks >= product.quantity && product.quantity > 6) amount = product.quantity
-  if (currentStocks >= 6 && 6 > product.quantity >= 0) amount = 6
+  if (!save) {
+    if (currentStocks >= product.quantity && product.quantity >= 6) amount = product.quantity
+    if (currentStocks >= 6 && 6 >= product.quantity) amount = 6
+    if (currentStocks <= 6 && currentStocks <= product.quantity) amount = currentStocks
+    if (currentStocks <= 6 && currentStocks >= product.quantity) amount = currentStocks
+  }
 
-  if (0 <= currentStocks && product.quantity <= 6 && currentStocks <= product.quantity) amount = currentStocks
-  if (currentStocks <= 6 && 0 <= product.quantity && currentStocks >= product.quantity) amount = currentStocks
-
+  if (save) {
+    const reSelectedQuantity = currentStocks + product.quantity
+    if (reSelectedQuantity >= product.quantity && product.quantity >= 6) amount = product.quantity
+    if (reSelectedQuantity >= 6 && 6 >= product.quantity) amount = 6
+    if (reSelectedQuantity <= 6 && reSelectedQuantity <= product.quantity) amount = reSelectedQuantity
+    if (reSelectedQuantity <= 6 && reSelectedQuantity >= product.quantity) amount = reSelectedQuantity
+  }
   // if (currentStocks >= product.quantity && product.quantity === 0) amount = currentStocks
 
   // useEffect(() => {
@@ -82,6 +90,10 @@ const CartList = ({ product }) => {
 
   const handleChange = (event) => {
     setQuantity(event.target.value)
+  }
+
+  const handleDelete = () => {
+    deleteProduct({ cartId, productId: product.bookId })
   }
 
 
@@ -138,7 +150,7 @@ const CartList = ({ product }) => {
               <Box>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
                   <Typography variant='h6'>{product.title}</Typography>
-                  <DELETEBUTTON onClick={() => deleteProduct({ cartId, productId: product.bookId })}><ClearIcon /></DELETEBUTTON>
+                  <DELETEBUTTON onClick={handleDelete}><ClearIcon /></DELETEBUTTON>
                 </Box>
                 <Typography variant='h7'>Author: {product.author}</Typography>
               </Box>
