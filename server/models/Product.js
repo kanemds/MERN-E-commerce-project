@@ -7,13 +7,39 @@ const productSchema = new mongoose.Schema({
       type: String,
       required: true
     },
-    image: { type: String, required: true },
-    title: { type: String, required: true },
-    author: { type: String, required: true },
-    previous: { type: Number, default: 0, required: true },
-    quantity: { type: Number, required: true },
-    price: { type: Number, required: true },
-    total: { type: Number, required: true }
+    image: {
+      type: String,
+      required: true
+    },
+    title: {
+      type: String,
+      required: true
+    },
+    author: {
+      type: String,
+      required: true
+    },
+    previous: {
+      type: Number,
+      default: 0,
+      required: true
+    },
+    quantity: {
+      type: Number,
+      required: true
+    },
+    price: {
+      type: Number,
+      required: true
+    },
+    total: {
+      type: Number,
+      required: true
+    },
+    save: {
+      type: Boolean,
+      default: false
+    }
   }],
   totalcounts: {
     type: Number,
@@ -22,6 +48,10 @@ const productSchema = new mongoose.Schema({
   totalprice: {
     type: Number,
     required: true
+  },
+  pending: {
+    type: Boolean,
+    default: false
   }
 }, {
   timestamps: true

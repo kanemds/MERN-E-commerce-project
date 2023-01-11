@@ -108,21 +108,14 @@ const updateBook = async (req, res) => {
 
 const updateStocks = async (req, res) => {
 
-
   const { product, cart, inventoryIds } = req.body
 
   // new cart object as id:{quantity}
 
-
   const cartProduct = await Product.findById(cart).lean().exec()
-
-
-
 
   let selectedItems = {}
   product.details.forEach(item => selectedItems[item.bookId] = { quantity: item.quantity, previous: item.previous })
-
-
 
   // let cartItems = {}
   // cartProduct.forEach(item => selectedItems[item.bookId] = { quantity: item.quantity })
@@ -146,26 +139,10 @@ const updateStocks = async (req, res) => {
       selectedProduct.details[index].previous = item.quantity
       await selectedProduct.save()
     }
-
-    // console.log(match)
-    // match.previous = selectedItems[item.bookId].quantity
   })
 
   res.status(201).json({ message: 'Cart item(s) will be reserved for the next 30 mins' })
 
-
-
-
-  // const backToStock = () => {
-  //   books.forEach(async item => {
-  //     let product
-  //     product = await Book.findById(item._id).exec()
-  //     // resplace back the origin quantity from books
-  //     product.instocks = item.instocks
-  //     console.log('expired', product.instocks)
-  //     await product.save()
-  //   })
-  // }
 }
 
 const deleteBook = async (req, res) => {
