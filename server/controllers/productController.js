@@ -100,6 +100,7 @@ const updateProduct = async (req, res) => {
     details.quantity += 1
   }
 
+  selectedProduct.quantity = details.previous
   selectedProduct.quantity = details.quantity
   selectedProduct.total = selectedProduct.price * details.quantity
 

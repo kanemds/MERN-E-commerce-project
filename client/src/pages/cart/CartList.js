@@ -40,12 +40,14 @@ const CartList = ({ product }) => {
     })
   })
 
-  const currentStocks = book?.instocks
+  const currentStocks = book?.instocks || 0
 
   const [cartId, setCartId] = useState(localStorage.getItem('BookShopCartId') || null)
   const [quantity, setQuantity] = useState(product?.quantity)
-  const [previous, setPrevious] = useState(product?.previous || 0)
+  const [previous, setPrevious] = useState(product?.previous)
+
   const [isReady, setIsReady] = useState(false)
+
 
 
   console.log('quantity', quantity)

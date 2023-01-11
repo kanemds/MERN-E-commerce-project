@@ -36,7 +36,6 @@ const style = {
 
 const PayButton = ({ product, cartId }) => {
 
-  console.log(product)
 
   const { username } = useAuth()
   const navigate = useNavigate()
@@ -44,6 +43,9 @@ const PayButton = ({ product, cartId }) => {
   const [isEnough, setIsEnough] = useState(false)
   const [open, setOpen] = useState(false)
   const [cart, setCart] = useState(cartId || null)
+  const [pending, setPending] = useState(false)
+
+  console.log(product)
 
   const [addNewPayment, {
     data,
@@ -127,12 +129,14 @@ const PayButton = ({ product, cartId }) => {
     }
   }, [notAvailible, zeroStock, books])
 
-
   useEffect(() => {
-    if (isSuccess) {
-      window.location.href = data.url
+    if (pending) {
+      setTimeout(() => console.log('run'), 5000)
     }
-  }, [isSuccess])
+  }, [pending])
+
+  console.log(pending)
+
 
   // useEffect(() => {
   //   if (isUpdateStocksSuccess) {
@@ -148,10 +152,11 @@ const PayButton = ({ product, cartId }) => {
   }, [isSuccess])
 
   const handleCheckout = () => {
+    setPending(true)
     addNewPayment({ username, product, inventoryIds, createdAt: new Date().getTime() })
     updateStocks({ product, inventoryIds, cart, createdAt: new Date().getTime() })
-
   }
+
 
   const handleOpen = () => setOpen(true)
 
