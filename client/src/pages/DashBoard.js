@@ -61,6 +61,10 @@ const DashBoard = () => {
             <Link to='/dash/books' component={RouterLink} underline='none' sx={{ m: 3 }}>View Books</Link>
             <Link to='/dash/books/new' component={RouterLink} underline='none' sx={{ m: 3 }}>create new book</Link>
           </Container>
+          <Container>
+            <Link to='/dash/orders' component={RouterLink} underline='none' sx={{ m: 3 }}>View Orders</Link>
+
+          </Container>
         </Box>
       }
 
