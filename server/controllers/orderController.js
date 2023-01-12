@@ -1,5 +1,5 @@
 const Order = require('../models/Order')
-const Product = require('../model/Product')
+const Product = require('../models/Product')
 const User = require('../models/User')
 
 const getAllOrder = async (req, res) => {

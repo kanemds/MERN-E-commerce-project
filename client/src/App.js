@@ -25,6 +25,7 @@ import Product from './pages/products/Product'
 import './App.css'
 import ShoppingCart from './pages/cart/ShoppingCart'
 import PaymentSuccess from './pages/payments/PaymentSuccess'
+import OrdersList from './pages/order/OrdersList'
 
 function App() {
 
@@ -77,6 +78,11 @@ function App() {
                           <Route index element={<UsersList />} />
                           <Route path=':id' element={<EditUser />} />
                           <Route path='new' element={<NewUserForm />} />
+                        </Route>
+
+                        <Route path='orders'>
+                          <Route index element={<OrdersList />} />
+
                         </Route>
 
                       </Route>
