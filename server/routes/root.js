@@ -7,6 +7,7 @@ const auth = require('./api/authRouters')
 const book = require('./api/bookRouters')
 const cart = require('./api/cartRouters')
 const product = require('./api/productRouters')
+const order = require('./api/orderRouters')
 const stripe = require('./api/stripe')
 
 router.get('^/$|/index(.html)?', (req, res) => {
@@ -21,6 +22,7 @@ router.use('/auth', auth)
 router.use('/books', book)
 router.use('/carts', cart)
 router.use('/products', product)
+router.use('/orders', order)
 router.use('/', stripe)
 
 
