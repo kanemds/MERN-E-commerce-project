@@ -21,7 +21,6 @@ const OrdersList = () => {
   })
 
 
-
   let content
 
   if (isLoading) content = <LoadingMessage />
@@ -29,9 +28,11 @@ const OrdersList = () => {
   if (isError) content = <Typography> {error?.data?.message}</Typography>
 
   if (isSuccess) {
-    const { ids, entities } = orders
 
-    const tableContent = ids?.length && ids.map(orderId => <Order key={orderId} orderId={orderId} />)
+    const { ids } = orders
+
+
+    const tableContent = ids.map(orderId => <Order key={orderId} orderId={orderId} />)
 
     content = (
       <TableContainer component={Paper}>
