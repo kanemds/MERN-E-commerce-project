@@ -45,8 +45,7 @@ const CartList = ({ product }) => {
   const [cartId, setCartId] = useState(localStorage.getItem('BookShopCartId') || null)
   const [quantity, setQuantity] = useState(product?.quantity)
   const [previous, setPrevious] = useState(product?.previous)
-  const [save, setSave] = useState(product?.save)
-  console.log(save)
+  const [isSave, setIsSave] = useState(product?.issave)
 
 
 
@@ -61,28 +60,24 @@ const CartList = ({ product }) => {
 
   let amount
   // !! if we return here below code won't run and will display the amount 
-  if (!save) {
-    if (currentStocks >= product.quantity && product.quantity >= 6) amount = product.quantity
-    if (currentStocks >= 6 && 6 >= product.quantity) amount = 6
-    if (currentStocks <= 6 && currentStocks <= product.quantity) amount = currentStocks
-    if (currentStocks <= 6 && currentStocks >= product.quantity) amount = currentStocks
-  }
 
-  if (save) {
+  if (isSave) {
     const reSelectedQuantity = currentStocks + product.quantity
+    console.log(currentStocks)
+    console.log(reSelectedQuantity)
     if (reSelectedQuantity >= product.quantity && product.quantity >= 6) amount = product.quantity
     if (reSelectedQuantity >= 6 && 6 >= product.quantity) amount = 6
     if (reSelectedQuantity <= 6 && reSelectedQuantity <= product.quantity) amount = reSelectedQuantity
     if (reSelectedQuantity <= 6 && reSelectedQuantity >= product.quantity) amount = reSelectedQuantity
   }
-  // if (currentStocks >= product.quantity && product.quantity === 0) amount = currentStocks
 
-  // useEffect(() => {
-  //   if (isBookSuccess) {
-  //     setTimeout(() => { isBookLoading }, 2000)
-  //   }
-  // }, [currentStocks])
 
+  if (!isSave) {
+    if (currentStocks >= product.quantity && product.quantity >= 6) amount = product.quantity
+    if (currentStocks >= 6 && 6 >= product.quantity) amount = 6
+    if (currentStocks <= 6 && currentStocks <= product.quantity) amount = currentStocks
+    if (currentStocks <= 6 && currentStocks >= product.quantity) amount = currentStocks
+  }
 
 
   const banner = currentStocks >= 6 ? 'In Stocks' : 5 >= currentStocks && currentStocks > 1 ? 'Low Stocks' : currentStocks === 1 ? 'Only 1 Left' : ''

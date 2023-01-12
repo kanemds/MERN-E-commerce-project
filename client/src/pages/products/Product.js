@@ -63,7 +63,6 @@ const Product = () => {
   const [bookShopCartId, setBookShopCartId] = useState(localStorage.getItem('BookShopCartId') || null)
 
   const [quantity, setQuantity] = useState(0)
-
   const [username, setUsername] = useState(null)
   const [open, setOpen] = useState(false)
 
@@ -83,12 +82,18 @@ const Product = () => {
     })
   })
 
-
-
   const currentProduct = product?.details.find(product => product.bookId === book._id)
 
+  let requiredQuantity
 
-  const currentStocks = currentProduct?.quantity ? book?.instocks - currentProduct?.quantity : book?.instocks
+  if (currentProduct?.issave) {
+    requiredQuantity = book?.instocks + currentProduct?.quantity
+  } else {
+    requiredQuantity = currentProduct?.quantity
+  }
+
+  const currentStocks = currentProduct?.quantity ? book?.instocks : book?.instocks
+
 
   const banner = currentStocks >= 6 ? 'In Stocks' : 3 >= currentStocks && currentStocks > 1 ? 'Low Stocks' : currentStocks === 1 ? 'Only 1 Left' : 'Out of Stock'
 
@@ -97,7 +102,6 @@ const Product = () => {
   if (currentStocks >= 6) amount = 6
   if (currentStocks < 6) amount = currentStocks
   if (currentStocks <= 0) amount = 0
-
 
 
   const menu = (amount) => {
@@ -211,19 +215,12 @@ const Product = () => {
                 </Modal>
               </Box>
             </Grid>
-
           </Grid >
-
         </Box >
-
-
-
       </Box >
     )
   }
-
   return content
-
 }
 
 export default Product

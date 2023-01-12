@@ -44,8 +44,8 @@ const PayButton = ({ product, cartId }) => {
   const [isEnough, setIsEnough] = useState(false)
   const [open, setOpen] = useState(false)
   const [cart, setCart] = useState(cartId || null)
-  const [pending, setPending] = useState(false)
-  const [save, setSave] = useState(false)
+  const [pending, setPending] = useState(product?.pending)
+  const [isSave, setIsSave] = useState(false)
 
   const [addNewPayment, {
     data,
@@ -131,11 +131,6 @@ const PayButton = ({ product, cartId }) => {
     }
   }, [notAvailible, zeroStock, books])
 
-  useEffect(() => {
-    if (pending) {
-      setTimeout(() => console.log('run'), 5000)
-    }
-  }, [pending])
 
 
   // when add data to stripe backend success go to stripe website
@@ -145,13 +140,15 @@ const PayButton = ({ product, cartId }) => {
     }
   }, [isSuccess])
 
-  useEffect(() => {
-    productReserved({ pending, save })
-  }, [pending, save])
+
 
   const handleCheckout = () => {
-    setPending(true)
-    setSave(true)
+    if (!pending) {
+      productReserved({ pending: true, isSave: true, cart })
+    } else {
+      productReserved({ isSave: true, cart })
+    }
+
     addNewPayment({ username, product, inventoryIds, createdAt: new Date().getTime() })
     updateStocks({ product, inventoryIds, cart, createdAt: new Date().getTime() })
   }
