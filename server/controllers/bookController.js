@@ -132,6 +132,7 @@ const updateStocks = async (req, res) => {
     await product.save()
   })
 
+
   product.details.forEach(async (item, index) => {
     let selectedProduct
     selectedProduct = await Product.findById(cart).exec()

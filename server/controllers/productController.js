@@ -119,8 +119,17 @@ const updateProduct = async (req, res) => {
 }
 
 const productReserved = async (req, res) => {
-  const { pending, save } = req.body
-  console.log(pending, save)
+  const { pending, isSave, cart } = req.body
+
+  const currentCart = await Product.findById(cart).exec()
+  currentCart.pending = pending
+
+  currentCart.details.forEach(item => {
+    item.issave = isSave
+  })
+
+  await currentCart.save()
+  res.status(201).json({ message: 'Cart Item(s) has been reserved' })
 }
 
 const deleteProduct = async (req, res) => {
@@ -136,13 +145,23 @@ const deleteProduct = async (req, res) => {
 
   if (!currentProduct) return res.status(400).json({ message: 'Product not Found' })
 
+  const currentBook = await Book.findById(productId).exec()
+
+  if (!currentBook) return res.status(400).json({ message: 'Book not Found' })
+
+  if (currentProduct.issave) {
+    currentBook.instocks += currentProduct.quantity
+  }
+
+  await currentBook.save()
+
   const newCartList = currentCart.details.filter(product => product.bookId !== productId)
 
   currentCart.totalcounts -= currentProduct.quantity
   currentCart.totalprice -= currentProduct.total
   currentCart.details = newCartList
 
-  currentCart.save()
+  await currentCart.save()
 
   res.status(201).json({ message: `${currentProduct.title} has been removed` })
 
