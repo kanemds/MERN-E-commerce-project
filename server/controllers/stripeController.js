@@ -1,9 +1,7 @@
 require('express-async-errors')
 require('dotenv').config()
-const Order = require('../models/Order')
+const { createOrder } = require('../controllers/orderController')
 const User = require('../models/User')
-const Product = require('../models/Product')
-const Book = require('../models/Book')
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET)
 
@@ -76,30 +74,6 @@ const payment = async (req, res) => {
   res.status(201).json({ url: session.url })
 }
 
-// after payment successed, save all the info to mongodb
-
-const createOrder = async (customer, data) => {
-  const { cartId } = customer.metadata
-  const { userId } = customer.metadata
-
-  const paidItems = await Product.findById(cartId).exec()
-  const paidUser = await User.findById(userId).select('-password').lean().exec()
-
-  const newOrder = new Order({
-    user: paidUser,
-    customerId: data.customer,
-    paymentId: data.payment_intent,
-    products: paidItems,
-    subtotal: data.amount_subtotal,
-    total: data.amount_total,
-    shipping: data.customer_details,
-    payment_status: data.payment_status
-  })
-
-  const saveOrder = await newOrder.save()
-  console.log("Processed Order", saveOrder)
-  // send email event here if needed
-}
 
 
 
@@ -139,6 +113,7 @@ const webHook = (req, res) => {
     stripe.customers
       .retrieve(data.customer)
       .then(customer => {
+        // after payment successed, save all the info to mongodb
         createOrder(customer, data)
       })
       .catch(error => console.log(error.message))
