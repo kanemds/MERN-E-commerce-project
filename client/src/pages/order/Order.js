@@ -20,7 +20,7 @@ const Order = ({ orderId }) => {
       day: 'numeric', month: 'long'
     })
 
-    const handleEdit = () => navigate(``)
+    const handleEdit = () => navigate(`/dash/orders/${orderId}`)
 
     return (
       <TableBody>

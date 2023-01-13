@@ -29,8 +29,18 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
           ]
         } else return [{ type: 'Order', id: 'LIST' }]
       }
+    }),
+    updateOrder: builder.mutation({
+      query: updateOrderData => ({
+        url: '/orders',
+        method: 'PATCH',
+        body: updateOrderData
+      }),
+      invalidatesTags: (result, error, arg) => [{
+        type: 'Order', id: arg.id
+      }]
     })
   })
 })
 
-export const { useGetOrdersQuery } = ordersApiSlice
+export const { useGetOrdersQuery, useUpdateOrderMutation } = ordersApiSlice

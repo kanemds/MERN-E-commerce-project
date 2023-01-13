@@ -26,6 +26,7 @@ import './App.css'
 import ShoppingCart from './pages/cart/ShoppingCart'
 import PaymentSuccess from './pages/payments/PaymentSuccess'
 import OrdersList from './pages/order/OrdersList'
+import EditOrder from './pages/order/EditOrder'
 
 function App() {
 
@@ -82,7 +83,7 @@ function App() {
 
                         <Route path='orders'>
                           <Route index element={<OrdersList />} />
-
+                          <Route path=':id' element={<EditOrder />} />
                         </Route>
 
                       </Route>
