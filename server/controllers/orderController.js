@@ -33,11 +33,44 @@ const createOrder = async (customer, data) => {
 }
 
 const updateOrder = async (req, res) => {
+  const { id, name, email, street, city, country, postalCode, phone } = req.body
+
+  console.log(req.body)
+
+  const currentOrder = await Order.findById(id).exec()
+
+  console.log(currentOrder)
+  console.log(name)
+
+  const { address } = currentOrder.shipping
+
+  currentOrder.shipping.name = name
+  currentOrder.shipping.email = email
+  address.line1 = street
+  address.city = city
+  address.country = country
+  address.postal_code = postalCode
+  currentOrder.shipping.phone = phone
+
+  await currentOrder.save()
+  res.status(200).json({ message: 'Order info Update Success' })
 
 }
 
 const deleteOrder = async (req, res) => {
+  const { id } = req.body
 
+  if (!id) res.status(400).json({ message: 'Order Id reqiured' })
+
+  const order = await Order.findById(id).exec()
+
+  if (!order) res.status(400).json({ message: 'Order Not Found' })
+
+  const result = await order.deleteOne()
+
+  const reply = `Order ${result.title} with ID ${result._id} deleted`
+
+  res.json(reply)
 }
 
 

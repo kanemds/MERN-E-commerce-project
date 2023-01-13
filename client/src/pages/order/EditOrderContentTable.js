@@ -10,9 +10,10 @@ const Container = styled.img`
 `
 
 
+
+
 const EditOrderContentTable = ({ product }) => {
 
-  console.log(product)
 
   return (
     <TableBody>
