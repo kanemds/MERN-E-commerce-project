@@ -8,6 +8,7 @@ import { useNavigate, Link as RouterLink } from 'react-router-dom'
 import EditOrderContentTable from './EditOrderContentTable'
 import { styled } from '@mui/system'
 import { useState } from 'react'
+import { useEffect } from 'react'
 
 const DisabledTextField = styled(TextField)(() => ({
   ".MuiInputBase-input.Mui-disabled": {
@@ -21,7 +22,7 @@ const DisabledTextField = styled(TextField)(() => ({
 
 const EditOrderForm = ({ order }) => {
 
-
+  const navigate = useNavigate()
 
   const [name, setName] = useState(order.shipping.name)
   const [email, setEmail] = useState(order.shipping.email)
@@ -41,7 +42,15 @@ const EditOrderForm = ({ order }) => {
 
   const [deleteOrder] = useDeleteOrderMutation()
 
+  useEffect(() => {
+    if (isSuccess) {
+      navigate('/dash/orders')
+    }
+  }, [isSuccess])
+
+
   const handleUpdate = async (e) => {
+    e.preventDefault()
     if (canSave) {
       await updateOrder({ id: order._id, name, email, street, city, country, postalCode, phone })
     }
@@ -58,11 +67,11 @@ const EditOrderForm = ({ order }) => {
   let content = (
     <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
       {error ?
-        <Paper sx={{ width: '600px', height: '400px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <Paper sx={{ width: '800px', height: '400px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
           <Typography variant='h5' sx={{ mb: 5 }}>{error?.data?.message}</Typography>
         </Paper>
         :
-        <Paper sx={{ width: '600px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', p: 3 }}>
+        <Paper sx={{ width: '800px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', p: 3 }}>
           <Typography variant='h5' sx={{ p: 3 }} >Edit Order</Typography>
           <DisabledTextField fullWidth autoComplete='off' type='text' label='User Name' variant='outlined' required sx={{ m: 3 }}
             value={order.user.username}
@@ -118,7 +127,7 @@ const EditOrderForm = ({ order }) => {
           </Box>
 
           <TableContainer component={Paper}>
-            <Table sx={{ maxWidth: 600 }} aria-label="simple table">
+            <Table sx={{ maxWidth: 800 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
                   <TableCell align="center">Product Image</TableCell>

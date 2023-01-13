@@ -5,6 +5,10 @@ const orderSchema = new mongoose.Schema({
     type: Object,
     required: true,
   },
+  cartId: {
+    type: String,
+    required: true,
+  },
   customerId: {
     type: String,
     required: true,

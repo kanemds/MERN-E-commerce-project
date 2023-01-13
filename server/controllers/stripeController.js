@@ -57,7 +57,7 @@ const payment = async (req, res) => {
     },
     mode: 'payment',
     // to the location when payment is successed
-    success_url: `${process.env.CLIENT_URL}/payment-success`,
+    success_url: `${process.env.CLIENT_URL}/payment-success/${product._id}`,
     // to the location when press back or cancel the payment
     cancel_url: `${process.env.CLIENT_URL}/carts`,
     expires_at: unixTimestamp + 30 * 60
