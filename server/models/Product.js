@@ -1,7 +1,10 @@
 const mongoose = require('mongoose')
 
 const productSchema = new mongoose.Schema({
-
+  paymentId: {
+    type: String,
+    default: null
+  },
   details: [{
     bookId: {
       type: String,

@@ -15,6 +15,7 @@ const Order = ({ orderId }) => {
     })
   })
 
+
   if (order) {
     const purchasedAt = new Date(order?.createdAt).toLocaleString('en-US', {
       day: 'numeric', month: 'long'

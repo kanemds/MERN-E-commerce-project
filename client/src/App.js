@@ -60,7 +60,7 @@ function App() {
 
               <Route element={<RequireAuth allowedRoles={[...Object.values(ROLES)]} />}>
 
-                <Route path='payment-success' element={<PaymentSuccess />} />
+                <Route path='payment-success/:id' element={<PaymentSuccess />} />
 
                 <Route element={<RequireAuth allowedRoles={[ROLES.Employee, ROLES.Manager, ROLES.Admin]} />}>
                   {/* prevent default 60s unsubscribe */}

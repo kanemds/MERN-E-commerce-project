@@ -1,10 +1,11 @@
+require('express-async-errors')
 const Order = require('../models/Order')
 const Product = require('../models/Product')
 const User = require('../models/User')
 
 const getAllOrder = async (req, res) => {
   const orders = await Order.find().lean()
-  if (!orders?.length) return res.status(400).json({ message: 'No Orders Found' })
+  if (!orders?.length) return res.status(400).json({ message: 'No Order Found' })
 
   res.status(200).json(orders)
 }
@@ -18,6 +19,7 @@ const createOrder = async (customer, data) => {
 
   const newOrder = new Order({
     user: paidUser,
+    cartId: cartId,
     customerId: data.customer,
     paymentId: data.payment_intent,
     products: paidItems,
@@ -30,6 +32,11 @@ const createOrder = async (customer, data) => {
   const saveOrder = await newOrder.save()
   console.log("Processed Order", saveOrder)
   // send email event here if needed
+
+  paidItems.paymentId = saveOrder._id
+  paidItems.save()
+
+
 }
 
 const updateOrder = async (req, res) => {
@@ -37,22 +44,30 @@ const updateOrder = async (req, res) => {
 
   console.log(req.body)
 
+  if (!id || !name || !email || !street || !city || !country || !postalCode || !phone) {
+    res.status(400).json({ message: 'All Fieled Required' })
+  }
+
   const currentOrder = await Order.findById(id).exec()
 
-  console.log(currentOrder)
-  console.log(name)
+  if (!currentOrder) return res.status(400).json({ message: 'No Order Found' })
 
-  const { address } = currentOrder.shipping
+
+
+  console.log(currentOrder.shipping)
 
   currentOrder.shipping.name = name
   currentOrder.shipping.email = email
-  address.line1 = street
-  address.city = city
-  address.country = country
-  address.postal_code = postalCode
+  currentOrder.shipping.address.line1 = street
+  currentOrder.shipping.address.city = city
+  currentOrder.shipping.address.country = country
+  currentOrder.shipping.address.postal_code = postalCode
   currentOrder.shipping.phone = phone
 
+
   await currentOrder.save()
+
+
   res.status(200).json({ message: 'Order info Update Success' })
 
 }
@@ -60,7 +75,7 @@ const updateOrder = async (req, res) => {
 const deleteOrder = async (req, res) => {
   const { id } = req.body
 
-  if (!id) res.status(400).json({ message: 'Order Id reqiured' })
+  if (!id) res.status(400).json({ messsage: 'Order Id reqiured' })
 
   const order = await Order.findById(id).exec()
 

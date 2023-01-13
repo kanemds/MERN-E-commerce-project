@@ -16,6 +16,7 @@ import LoadingMessage from './LoadingMessage'
 import { useNavigate, useLocation, Link as RouterLink } from 'react-router-dom'
 import { useUserLogoutMutation } from '../pages/auth/authApiSlice'
 import { useGetProductsQuery } from '../pages/products/productApiSlice'
+import { useGetOrdersQuery } from '../pages/order/ordersApiSlice'
 import useAuth from '../hooks/useAuth'
 
 
@@ -46,6 +47,7 @@ const Navbar = () => {
     isSuccess: isProductsSuccess
   } = useGetProductsQuery()
 
+
   useEffect(() => {
     if (isProductsSuccess) {
       setCartId(localStorage.getItem('BookShopCartId'))
@@ -58,6 +60,19 @@ const Navbar = () => {
       product: data?.entities[cartId]
     })
   })
+
+  const { order } = useGetOrdersQuery('ordersList', {
+    selectFromResult: ({ data }) => ({
+      order: data?.entities[product?.paymentId]
+    })
+  })
+
+  useEffect(() => {
+    if (order?.payment_status === 'paid') {
+      setCartId(null)
+    }
+  }, [order])
+
 
 
   const quantity = product ? product?.totalcounts : 0
