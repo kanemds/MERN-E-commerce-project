@@ -52,15 +52,11 @@ const Note = ({ noteId }) => {
             </Button>
           </TableCell>
         </TableRow>
-
       </TableBody>
     )
-
   } else {
     return null
   }
-
-
 }
 
 const memoizedNote = memo(Note)

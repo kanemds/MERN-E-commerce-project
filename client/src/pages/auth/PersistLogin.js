@@ -54,9 +54,9 @@ const PersistLogin = () => {
     content = <LoadingMessage />
   } else if (isError) { // persist && !token
     content = (
-      <Box>
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         <Typography>{error.data?.message}</Typography>
-        <Link to='/' component={RouterLink} underline="none" >Please Try Again</Link>
+        <Link to='/' component={RouterLink} underline="none" >Back To Home Page</Link>
       </Box>
     )
   } else if (isSuccess && trueSuccess) { // persist && token
