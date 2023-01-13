@@ -42,33 +42,26 @@ const createOrder = async (customer, data) => {
 const updateOrder = async (req, res) => {
   const { id, name, email, street, city, country, postalCode, phone } = req.body
 
-  console.log(req.body)
-
   if (!id || !name || !email || !street || !city || !country || !postalCode || !phone) {
-    res.status(400).json({ message: 'All Fieled Required' })
+    res.status(400).json({ message: 'All Fields are Required' })
   }
 
   const currentOrder = await Order.findById(id).exec()
 
   if (!currentOrder) return res.status(400).json({ message: 'No Order Found' })
 
-
-
-  console.log(currentOrder.shipping)
-
-  currentOrder.shipping.name = name
-  currentOrder.shipping.email = email
-  currentOrder.shipping.address.line1 = street
-  currentOrder.shipping.address.city = city
-  currentOrder.shipping.address.country = country
-  currentOrder.shipping.address.postal_code = postalCode
-  currentOrder.shipping.phone = phone
-
+  currentOrder.set({
+    shipping: {
+      name: name,
+      email: email,
+      phone: phone,
+      address: { line1: street, city: city, country: country, postal_code: postalCode }
+    }
+  })
 
   await currentOrder.save()
 
-
-  res.status(200).json({ message: 'Order info Update Success' })
+  res.json({ message: `Order  info Updated` })
 
 }
 

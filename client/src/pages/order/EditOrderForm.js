@@ -118,7 +118,11 @@ const EditOrderForm = ({ order }) => {
               </Box>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', m: 1 }}>
                 <Typography>Shipping Fee:</Typography>
-                <Typography>$ {((order.total - order.subtotal) / 100).toFixed(2)}</Typography>
+                {order.total - order.subtotal === 0 ?
+                  <Typography>Free</Typography>
+                  :
+                  <Typography>$ {((order.total - order.subtotal) / 100).toFixed(2)}</Typography>
+                }
               </Box>
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', m: 1 }}>
