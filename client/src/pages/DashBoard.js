@@ -37,37 +37,38 @@ const DashBoard = () => {
   const currentTime = new Intl.DateTimeFormat('en-US', optionOne).format(date)
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
       <Typography variant='h5'>{currentTime}</Typography>
+      <Box>
+        {!isManager && !isAdmin ?
+          <Box sx={{ minHeight: '400px', minWidth: '400px' }}>
+            <Container >
+              <Link to='/dash/notes' component={RouterLink} underline='none' sx={{ m: 3 }}>View Notes</Link>
+              <Link to='/dash/notes/new' component={RouterLink} underline='none' sx={{ m: 3 }}>create new note</Link>
+            </Container>
+          </Box>
+          :
+          <Box sx={{ minHeight: '400px', minWidth: '400px' }}>
+            <Container >
+              <Link to='/dash/notes' component={RouterLink} underline='none' sx={{ m: 3 }}>View Notes</Link>
+              <Link to='/dash/notes/new' component={RouterLink} underline='none' sx={{ m: 3 }}>create new note</Link>
+            </Container>
+            <Container>
+              <Link to='/dash/users' component={RouterLink} underline='none' sx={{ m: 3 }}>View Users</Link>
+              <Link to='/dash/users/new' component={RouterLink} underline='none' sx={{ m: 3 }}>create new user</Link>
+            </Container>
+            <Container>
+              <Link to='/dash/books' component={RouterLink} underline='none' sx={{ m: 3 }}>View Books</Link>
+              <Link to='/dash/books/new' component={RouterLink} underline='none' sx={{ m: 3 }}>create new book</Link>
+            </Container>
+            <Container>
+              <Link to='/dash/orders' component={RouterLink} underline='none' sx={{ m: 3 }}>View Orders</Link>
+            </Container>
+          </Box>
+        }
+      </Box>
 
-      {!isManager && !isAdmin ?
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px', minWidth: '400px' }}>
-          <Container >
-            <Link to='/dash/notes' component={RouterLink} underline='none' sx={{ m: 3 }}>View Notes</Link>
-            <Link to='/dash/notes/new' component={RouterLink} underline='none' sx={{ m: 3 }}>create new note</Link>
-          </Container>
-        </Box>
-        :
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px', minWidth: '400px' }}>
-          <Container >
-            <Link to='/dash/notes' component={RouterLink} underline='none' sx={{ m: 3 }}>View Notes</Link>
-            <Link to='/dash/notes/new' component={RouterLink} underline='none' sx={{ m: 3 }}>create new note</Link>
-          </Container>
-          <Container>
-            <Link to='/dash/users' component={RouterLink} underline='none' sx={{ m: 3 }}>View Users</Link>
-            <Link to='/dash/users/new' component={RouterLink} underline='none' sx={{ m: 3 }}>create new user</Link>
-          </Container>
-          <Container>
-            <Link to='/dash/books' component={RouterLink} underline='none' sx={{ m: 3 }}>View Books</Link>
-            <Link to='/dash/books/new' component={RouterLink} underline='none' sx={{ m: 3 }}>create new book</Link>
-          </Container>
-          <Container>
-            <Link to='/dash/orders' component={RouterLink} underline='none' sx={{ m: 3 }}>View Orders</Link>
-          </Container>
-        </Box>
-      }
-
-    </Box>
+    </Box >
   )
 }
 

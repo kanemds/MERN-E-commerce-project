@@ -8,6 +8,7 @@ import { useGetOrdersQuery } from '../order/ordersApiSlice'
 import { useGetProductsQuery } from '../products/productApiSlice'
 import LoadingMessage from '../../components/LoadingMessage'
 import { useEffect } from 'react'
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 
 const Container = styled.img`
     width:100%;
@@ -58,6 +59,9 @@ const PaymentSuccess = () => {
 
         <Paper sx={{ width: '800px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', p: 3 }}>
           <Typography variant='h5' sx={{ m: 3 }}>Thank you for Shopping with Us!</Typography>
+          <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+            <Link to='/carts' component={RouterLink} underline="none" sx={{ mb: 3, mr: 5, display: 'flex', justifyContent: 'center', alignItems: 'center' }} >Keep Shopping<ShoppingCartIcon /></Link>
+          </Box>
           <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
 
             <Box sx={{ width: '40%' }}>

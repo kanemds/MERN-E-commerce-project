@@ -13,6 +13,11 @@ const Item = styled(Box)(({ theme }) => ({
   // color: theme.palette.text.secondary,
 }))
 
+const STICKY = styled(Box)(({ theme }) => ({
+  position: 'fixed'
+}))
+
+
 const Bottom = styled(Grid)(() => ({
   display: 'flex',
   flexDirection: 'column',
@@ -29,49 +34,57 @@ const Footer = () => {
 
 
   return (
-    <>
+    <Box sx={{ width: '100%' }}>
       {
         username && pathname.includes('/dash') ?
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', height: '5vh', borderTop: 3, borderColor: 'primary.main' }}>
+          <STICKY sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', height: '80px', width: '100%', borderTop: 3, borderColor: 'primary.main', backgroundColor: 'white' }}>
             <Typography variant='h5' sx={{ ml: 2 }}>Status: {status} </Typography>
             <Typography sx={{ ml: 3, mr: 3 }}>|</Typography>
             <Typography variant='h5'> User Name: {username}</Typography>
-          </Box>
+          </STICKY>
           :
-          <Box sx={{ flexGrow: 1, height: '20vh', borderTop: 3, borderColor: 'primary.main', mt: 20 }
-          } >
-            <Grid container sx={{ m: 4 }}>
-              <Bottom xs={6} >
-                <Item sx={{ mt: 1 }}><Typography variant='h4'>Address</Typography></Item>
-                <Item>
-                  <Typography variant='h5'>
+          pathname === '/' ?
+            <Box sx={{ flexGrow: 1, height: '250px', width: '100%', borderTop: 3, borderColor: 'primary.main', backgroundColor: 'white' }}>
+              <Grid container sx={{ m: 2 }}>
+                <Bottom xs={4} >
+                  <Item ><Typography variant='h5'>Address</Typography></Item>
+                  <Item>
+                    <Typography variant='h6'>
 
-                    K Book Shop <br />
-                    (604) 888-8888 <br />
-                    555 Foo Drive <br />
-                    Vancouver, B.C <br />
-                  </Typography>
-                </Item>
-              </Bottom>
-              <Bottom xs={6} >
-                <Item sx={{ mt: 1 }}><Typography variant='h4'>Hours</Typography></Item>
-                <Item >
-                  <Typography variant='h5'>
-                    Sunday 9AM - 6PM <br />
-                    Monday 9AM - 6PM <br />
-                    Tuesday 9AM - 6PM <br />
-                    Wednesday 9AM - 6PM <br />
-                    Thursday 9AM - 6PM <br />
-                    Friday 9AM - 6PM <br />
-                    Saturday 9AM - 6PM <br />
-                  </Typography>
-                </Item>
-              </Bottom>
-            </Grid>
-          </Box >
+                      K Book Shop <br />
+                      (604) 888-8888 <br />
+                      555 Foo Drive <br />
+                      Vancouver, B.C <br />
+                    </Typography>
+                  </Item>
+                </Bottom>
+                <Bottom xs={4} >
+                  <Item><Typography variant='h5'>Week Days Hours</Typography></Item>
+                  <Item >
+                    <Typography variant='h6'>
+                      Monday 9AM - 8PM <br />
+                      Tuesday 9AM - 8PM <br />
+                      Wednesday 9AM - 8PM <br />
+                      Thursday 9AM - 8PM <br />
+                      Friday 9AM - 6PM <br />
+                    </Typography>
+                  </Item>
+                </Bottom>
+                <Bottom xs={4} >
+                  <Item ><Typography variant='h5'>Weekend Hours</Typography></Item>
+                  <Item >
+                    <Typography variant='h6'>
+                      Saturday 9AM - 6PM <br />
+                      Sunday 9AM - 8PM <br />
+                    </Typography>
+                  </Item>
+                </Bottom>
+              </Grid>
+            </Box >
+            :
+            ''
       }
-    </>
-  )
+    </Box >)
 }
 
 export default Footer
