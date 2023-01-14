@@ -10,10 +10,7 @@ import Grid from '@mui/material/Unstable_Grid2'
 
 const Public = () => {
 
-  // force to top when refresh
-  window.onbeforeunload = function () {
-    window.scrollTo(0, 0)
-  }
+
 
   const types = Object.values(CATEGORY)
 
@@ -45,22 +42,10 @@ const Public = () => {
   if (books) {
 
     content = (
-      <Box sx={{ mt: 20 }} >
+      <Box >
 
-        <Box position="fixed" sx={{ height: '70%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        <Box position="fixed" sx={{ height: 'calc(70%)', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start', width: '360px' }}>
           {types?.map((category) =>
-
-            // <Button
-            //   key={category}
-
-            //   onClick={() => handleClick(category, index)}
-            //   sx={{ m: 2 }}
-
-            //   color={selected === category ? "primary" : "primary"}
-            //   size={selected === category ? "large" : "small"}
-            //   variant={selected === category ? "contained" : "text"}
-            // > {category}
-            // </Button>
 
             <Link key={category} to={category} activeClass="active" className='scroll' spy={true} smooth={true} offset={-380} duration={600} >
               {category}
@@ -71,10 +56,8 @@ const Public = () => {
         {types?.map((category) => {
           let currentCategory = books.filter(book => book.category === category)
           return (
-            <Paper key={category} id={`${category}`} sx={{ mt: 35, mb: 35, ml: '30%', maxWidth: '50%' }}>
-
+            <Paper key={category} id={`${category}`} sx={{ m: '300px', ml: '400px', width: '700px' }} >
               <FrontPageDisplay currentCategory={currentCategory} />
-
             </Paper>
           )
         }

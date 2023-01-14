@@ -19,13 +19,13 @@ const Layout = () => {
 
   const WrapperCustomer = styled(Container)(() => ({
     marginTop: '80px',
-    height: '100%',
+    height: 'calc(100% - 250px - 80px)',
     width: '100%',
   }))
 
   const WrapperUser = styled(Container)(() => ({
     marginTop: '80px',
-    height: '100%',
+    height: 'calc(100vh - 80px - 80px)',
     width: '100%'
 
   }))

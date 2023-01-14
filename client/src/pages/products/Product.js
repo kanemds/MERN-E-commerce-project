@@ -153,30 +153,34 @@ const Product = () => {
 
   if (book) {
     content = (
-      <Box sx={{ display: 'flex', justifyContent: 'center', height: 500 }}>
-        <Box sx={{ flexGrow: 1, p: 1, maxWidth: 800 }}>
-          <Grid container spacing={4}>
-            <Grid xs={5}>
-              <Box
-                component="img"
-                sx={{ height: 400, width: '100%' }}
-                src={book.image}
-                alt={book.title}
-              />
-              <Typography variant='h7'>Author: {book.author}</Typography>
-            </Grid>
-            <Grid xs={7} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around' }}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                <Typography variant='h5'>{book.title}</Typography>
-                <br />
-                <Typography variant='h7'>{book.description}</Typography>
-                <br />
-              </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
+
+      <Box sx={{ height: 900, width: '100%', minWidth: 900, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Grid container spacing={4}>
+          <Grid xs={4} >
+            <Box
+              component="img"
+              sx={{ height: 400, width: '100%' }}
+              src={book.image}
+              alt={book.title}
+            />
+            <Typography variant='h7'>Author: {book.author}</Typography>
+          </Grid>
+
+          <Grid xs={8} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+              <Typography variant='h5'>{book.title}</Typography>
+              <br />
+              <Typography variant='h7'>{book.description}</Typography>
+              <br />
+            </Box>
+
+            <Box>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly', mb: 3 }}>
                 <Typography variant='h6'>Price: ${book.price.toFixed(2)}</Typography>
 
                 {selectedQuantity}
               </Box >
+
               <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                 <Button disabled={!canSave} variant='contained' sx={{ width: '80%' }} onClick={handleSubmit}>Add to Cart</Button>
                 <Modal
@@ -214,10 +218,11 @@ const Product = () => {
                   </Box>
                 </Modal>
               </Box>
-            </Grid>
-          </Grid >
-        </Box >
-      </Box >
+            </Box>
+          </Grid>
+        </Grid >
+      </Box>
+
     )
   }
   return content

@@ -7,7 +7,7 @@ import { memo } from 'react'
 import styled from 'styled-components'
 
 const Container = styled.img`
-    width:auto;
+    width:100%;
     height: 100%;
     padding: 0;
     margin: 0;
@@ -35,7 +35,7 @@ const Book = ({ bookId }) => {
             {book.category}
           </TableCell>
           <TableCell align="left">
-            <Paper sx={{ height: 140, width: 110, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Paper sx={{ height: 140, width: 100, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <Container src={book.image} />
             </Paper>
           </TableCell>
