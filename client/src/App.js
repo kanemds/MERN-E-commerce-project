@@ -27,6 +27,7 @@ import ShoppingCart from './pages/cart/ShoppingCart'
 import PaymentSuccess from './pages/payments/PaymentSuccess'
 import OrdersList from './pages/order/OrdersList'
 import EditOrder from './pages/order/EditOrder'
+import NotFound from './components/NotFound'
 
 function App() {
 
@@ -36,6 +37,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Layout />} >
+          <Route path='*' element={< NotFound />} />
           {/* Public */}
           <Route element={<BooksPrefetch />}>
             <Route index element={<Public />} />

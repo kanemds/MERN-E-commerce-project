@@ -156,9 +156,6 @@ const EditOrderForm = ({ order }) => {
 
     </Box >
   )
-
-
-
   return content
 }
 
