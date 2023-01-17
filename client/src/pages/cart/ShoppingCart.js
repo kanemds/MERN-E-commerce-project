@@ -67,46 +67,47 @@ const ShoppingCart = () => {
       )
     } else {
       content = (
-        <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', minWidth: 650 }}>
           <Box >
             <Typography variant='h5'>SHOPPING CART</Typography>
           </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between' }} >
-            <Box sx={{ width: '65%', height: '100%' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-evenly' }} >
+            <Box sx={{ width: '500', height: '100%' }}>
               {product.details.map(product =>
                 <CartList key={product.bookId} product={product} />
               )}
             </Box>
 
-            <Box sx={{ width: '30%' }}>
-              <STICKY sx={{ display: 'flex', flexDirection: 'column', border: '1px solid lightGrey' }}>
-                <Typography sx={{ mt: 4, ml: 2, mr: 2 }}>ORDER SUMMARY | {product.totalcounts} ITEM(S)</Typography>
-                <Box sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  mt: 4, ml: 2, mr: 2
-                }} >
-                  <Typography>SUBTOTAL</Typography>
-                  <Typography>CAD $ {product.totalprice.toFixed(2)}</Typography>
-                </Box>
-                <Box sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  mb: 4, ml: 2, mr: 2
-                }}>
-                  <Typography variant='body2'>Estimated Tax</Typography>
-                  <Typography variant='body2'>TBD</Typography>
-                </Box>
+            <Box sx={{ width: '150px' }}>
+              <STICKY sx={{ display: 'flex', flexDirection: 'column' }}>
+                <Box sx={{ border: '1px solid lightGrey', borderRadius: '3%' }}>
+                  <Typography sx={{ mt: 4, ml: 2, mr: 2 }}>ORDER SUMMARY | {product.totalcounts} ITEM(S)</Typography>
+                  <Box sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    mt: 4, ml: 2, mr: 2
+                  }} >
+                    <Typography>SUBTOTAL</Typography>
+                    <Typography>CAD $ {product.totalprice.toFixed(2)}</Typography>
+                  </Box>
+                  <Box sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    mb: 4, ml: 2, mr: 2
+                  }}>
+                    <Typography variant='body2'>Estimated Tax</Typography>
+                    <Typography variant='body2'>TBD</Typography>
+                  </Box>
 
-                <Box sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  mb: 4, ml: 2, mr: 2
-                }}>
-                  <Typography>ORDER TOTAL</Typography>
-                  <Typography>CAD $ {product.totalprice.toFixed(2)}</Typography>
+                  <Box sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    mb: 4, ml: 2, mr: 2
+                  }}>
+                    <Typography>ORDER TOTAL</Typography>
+                    <Typography>CAD $ {product.totalprice.toFixed(2)}</Typography>
+                  </Box>
                 </Box>
-
                 <Box sx={{ display: 'flex', flexDirection: 'column', mt: 4 }}>
                   <PayButton product={product} cartId={cartId} />
                   <KEEPSHOPPING variant='contained' sx={{ mt: 2 }} onClick={() => navigate('/')}>COUTINUE SHOPPING</KEEPSHOPPING>

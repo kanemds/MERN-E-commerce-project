@@ -28,6 +28,7 @@ import PaymentSuccess from './pages/payments/PaymentSuccess'
 import OrdersList from './pages/order/OrdersList'
 import EditOrder from './pages/order/EditOrder'
 import NotFound from './components/NotFound'
+import About from './pages/About'
 
 function App() {
 
@@ -43,22 +44,19 @@ function App() {
             <Route index element={<Public />} />
             <Route path='login' element={<Login />} />
             <Route path='register' element={<Register />} />
+            <Route path='products' >
+              <Route index element={<Products />} />
+              <Route path=':id' element={<Product />} />
+            </Route>
 
+            <Route path='/about' element={<About />} />
 
+            <Route path='carts'>
+              <Route index element={<ShoppingCart />} />
+            </Route>
 
             {/* protected */}
             <Route element={<PersistLogin />}>
-
-              <Route path='products' >
-                <Route index element={<Products />} />
-                <Route path=':id' element={<Product />} />
-              </Route>
-
-
-
-              <Route path='carts'>
-                <Route index element={<ShoppingCart />} />
-              </Route>
 
               <Route element={<RequireAuth allowedRoles={[...Object.values(ROLES)]} />}>
 
@@ -91,11 +89,11 @@ function App() {
                       </Route>
 
 
-                      <Route path='notes'>
+                      {/* <Route path='notes'>
                         <Route index element={<NotesList />} />
                         <Route path=':id' element={<EditNote />} />
                         <Route path='new' element={<NewNote />} />
-                      </Route>
+                      </Route> */}
 
                     </Route>
                   </Route>

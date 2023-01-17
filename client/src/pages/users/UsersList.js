@@ -40,7 +40,7 @@ const UserList = () => {
     const tableContent = ids?.length && ids.map(userId => <User key={userId} userId={userId} />)
 
     content = (
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ height: '100%' }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>

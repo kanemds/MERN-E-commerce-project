@@ -47,11 +47,6 @@ const CartList = ({ product }) => {
   const [previous, setPrevious] = useState(product?.previous)
   const [isSave, setIsSave] = useState(product?.issave)
 
-
-
-  console.log('quantity', quantity)
-  console.log('previous', previous)
-
   useEffect(() => {
     updateProduct({ orderId: cartId, details: { bookId: product.bookId, quantity, previous } })
   }, [quantity])
@@ -63,8 +58,6 @@ const CartList = ({ product }) => {
 
   if (isSave) {
     const reSelectedQuantity = currentStocks + product.quantity
-    console.log(currentStocks)
-    console.log(reSelectedQuantity)
     if (reSelectedQuantity >= product.quantity && product.quantity >= 6) amount = product.quantity
     if (reSelectedQuantity >= 6 && 6 >= product.quantity) amount = 6
     if (reSelectedQuantity <= 6 && reSelectedQuantity <= product.quantity) amount = reSelectedQuantity
@@ -123,18 +116,18 @@ const CartList = ({ product }) => {
 
 
 
-  if (!book || !product || isLoading || !quantity || isBookLoading) return content = <LoadingMessage />
+  // if (!book || !product || isLoading || !quantity || isBookLoading) return content = <LoadingMessage />
 
   if (book && product) {
     content = (
       <>
         {
-          <Grid key={product.bookId} container sx={{ width: '100%', flexGrow: 1, borderBottom: '1px solid lightGrey', mt: 3 }} spacing={2}>
+          <Grid key={product.bookId} container sx={{ flexGrow: 1, borderBottom: '1px solid lightGrey', mt: 3 }} spacing={2}>
             <Grid xs={3}>
-              <Button onClick={() => navigate(`/products/${product.bookId}`)}>
+              <Button sx={{ width: '100%' }} onClick={() => navigate(`/products/${product.bookId}`)}>
                 <Box
                   component="img"
-                  sx={{ width: '100%', height: '180px' }}
+                  sx={{ height: '180px', width: '100%' }}
                   src={product.image}
                   alt={product.title}
                 />
@@ -161,7 +154,6 @@ const CartList = ({ product }) => {
                     <Typography variant='h7' >SUBTOTAL: CAD $  {product.total.toFixed(2)}</Typography>
                   </>
                 }
-
               </Box>
               <Typography>
                 {banner}

@@ -18,16 +18,15 @@ const Layout = () => {
   const { isEmployee, isManager, isAdmin } = useAuth()
 
   const WrapperCustomer = styled(Container)(() => ({
-    marginTop: '80px',
-    height: 'calc(100% - 250px - 80px)',
+    marginTop: '130px',
+    height: 'calc(100% - 250px - 130px)',
     width: '100%',
   }))
 
   const WrapperUser = styled(Container)(() => ({
-    marginTop: '80px',
-    height: 'calc(100vh - 80px - 80px)',
+    marginTop: '130px',
+    height: 'calc(100vh - 130px - 80px)',
     width: '100%'
-
   }))
 
 
