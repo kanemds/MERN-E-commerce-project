@@ -25,7 +25,8 @@ const Layout = () => {
 
   const WrapperUser = styled(Container)(() => ({
     marginTop: '130px',
-    height: 'calc(100vh - 130px - 80px)',
+    marginBottom: '100px',
+    height: 'cale(100% - 130px - 100px)',
     width: '100%'
   }))
 
