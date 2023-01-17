@@ -35,7 +35,7 @@ const OrdersList = () => {
     const tableContent = ids.map(orderId => <Order key={orderId} orderId={orderId} />)
 
     content = (
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ height: '100%' }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>

@@ -49,7 +49,7 @@ const Register = () => {
 
   useEffect(() => {
     setValidPassword(PWD_REGEX.test(password))
-  }, [password])
+  }, [validPassword])
 
   useEffect(() => {
     const match = comfirm === password
@@ -70,7 +70,7 @@ const Register = () => {
 
 
 
-  const canSave = [validUsername, validEmail, validPassword].every(Boolean) && !isLoading
+  const canSave = [validUsername, validEmail, validPassword, isMatch].every(Boolean) && !isLoading
 
   const handleSubmit = async (e) => {
     e.preventDefault()

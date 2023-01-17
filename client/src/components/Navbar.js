@@ -11,6 +11,7 @@ import PeopleAltIcon from '@mui/icons-material/PeopleAlt'
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd'
 import BookmarksIcon from '@mui/icons-material/Bookmarks'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
+import PaidIcon from '@mui/icons-material/Paid'
 //
 import LoadingMessage from './LoadingMessage'
 import { useNavigate, useLocation, Link as RouterLink } from 'react-router-dom'
@@ -24,6 +25,7 @@ import useAuth from '../hooks/useAuth'
 const NOTES_REGEX = /^\/dash\/notes(\/)?$/
 const USERS_REGEX = /^\/dash\/users(\/)?$/
 const BOOKS_REGEX = /^\/dash\/books(\/)?$/
+const ORDERS_REGEX = /^\/dash\/orders(\/)?$/
 
 
 const ColorBadge = styled(Badge)(({ theme }) => ({
@@ -100,7 +102,7 @@ const Navbar = () => {
   const toNewBook = () => navigate('/dash/books/new')
   const toBooks = () => navigate('/dash/books')
 
-
+  const toOrders = () => navigate('/dash/orders')
 
   let newNoteButton = null
   if (NOTES_REGEX.test(pathname)) {
@@ -159,6 +161,16 @@ const Navbar = () => {
     )
   }
 
+  let ordersButton = null
+  if (!ORDERS_REGEX.test(pathname) && pathname.includes('/dash')) {
+    ordersButton = (
+      <IconButton aria-label="All Orders" onClick={toOrders} >
+        <PaidIcon sx={{ color: 'white' }} />
+      </IconButton>
+    )
+  }
+
+
 
   if (isError) return <Typography>{error.data?.message}</Typography>
 
@@ -168,8 +180,9 @@ const Navbar = () => {
   } else {
     buttonContent = (
       <>
-        {newNoteButton}
-        {notesButton}
+        {/* {newNoteButton}
+        {notesButton} */}
+        {ordersButton}
         {newUserButton}
         {usersButton}
         {newBookButton}
@@ -183,7 +196,9 @@ const Navbar = () => {
     <AppBar position="fixed" sx={{ height: '80px', width: '100%', zindex: 9999, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', p: 3 }}>
 
       <Typography variant="h6" sx={{ ml: 3 }} >
-        <Link to='/' component={RouterLink} underline='none' color='white'>K Book Shop</Link>
+        <Link to='/' component={RouterLink} underline='none' color='white' sx={{ mr: 3 }}>K Book Shop</Link>
+        |
+        <Link to='/about' component={RouterLink} underline='none' color='white' sx={{ ml: 3 }}>About this App</Link>
       </Typography>
 
       {!username ?

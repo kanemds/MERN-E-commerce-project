@@ -6,8 +6,8 @@ import useAuth from '../hooks/useAuth'
 import { styled } from '@mui/material/styles'
 
 const Container = styled(Paper)(({ theme }) => ({
-  minHeight: '250px',
-  minWidth: '250px',
+  height: '200px',
+  width: '200px',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
@@ -15,8 +15,8 @@ const Container = styled(Paper)(({ theme }) => ({
   margin: 20,
   borderRadius: '20%',
   ":hover": {
-    minHeight: '300px',
-    minWidth: '300px',
+    height: '210px',
+    width: '210px',
     backgroundColor: 'Lightgrey'
   }
 }))
@@ -37,38 +37,43 @@ const DashBoard = () => {
   const currentTime = new Intl.DateTimeFormat('en-US', optionOne).format(date)
 
   return (
-    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+    <Box sx={{ minWidth: 650, height: '100%' }}>
       <Typography variant='h5'>{currentTime}</Typography>
-      <Box>
-        {!isManager && !isAdmin ?
-          <Box sx={{ minHeight: '400px', minWidth: '400px' }}>
+      <Box sx={{ mt: 6, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+
+        {/* {!isManager && !isAdmin ?
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Container >
               <Link to='/dash/notes' component={RouterLink} underline='none' sx={{ m: 3 }}>View Notes</Link>
               <Link to='/dash/notes/new' component={RouterLink} underline='none' sx={{ m: 3 }}>create new note</Link>
             </Container>
           </Box>
-          :
-          <Box sx={{ minHeight: '400px', minWidth: '400px' }}>
-            <Container >
+          : */}
+
+
+        {/* <Container >
               <Link to='/dash/notes' component={RouterLink} underline='none' sx={{ m: 3 }}>View Notes</Link>
               <Link to='/dash/notes/new' component={RouterLink} underline='none' sx={{ m: 3 }}>create new note</Link>
-            </Container>
-            <Container>
-              <Link to='/dash/users' component={RouterLink} underline='none' sx={{ m: 3 }}>View Users</Link>
-              <Link to='/dash/users/new' component={RouterLink} underline='none' sx={{ m: 3 }}>create new user</Link>
-            </Container>
-            <Container>
-              <Link to='/dash/books' component={RouterLink} underline='none' sx={{ m: 3 }}>View Books</Link>
-              <Link to='/dash/books/new' component={RouterLink} underline='none' sx={{ m: 3 }}>create new book</Link>
-            </Container>
-            <Container>
-              <Link to='/dash/orders' component={RouterLink} underline='none' sx={{ m: 3 }}>View Orders</Link>
-            </Container>
-          </Box>
-        }
+            </Container> */}
+        <Container>
+          <Link to='/dash/users' component={RouterLink} underline='none' sx={{ m: 3 }}>View Users</Link>
+          <Link to='/dash/users/new' component={RouterLink} underline='none' sx={{ m: 3 }}>create new user</Link>
+        </Container>
+        <Container>
+          <Link to='/dash/books' component={RouterLink} underline='none' sx={{ m: 3 }}>View Books</Link>
+          <Link to='/dash/books/new' component={RouterLink} underline='none' sx={{ m: 3 }}>create new book</Link>
+        </Container>
+        <Container>
+          <Link to='/dash/orders' component={RouterLink} underline='none' sx={{ m: 3 }}>View Orders</Link>
+        </Container>
+
+
+
+        {/* } */}
       </Box>
 
     </Box >
+
   )
 }
 

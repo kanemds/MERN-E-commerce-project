@@ -1,5 +1,5 @@
 import React from 'react'
-import { Typography, Table, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material'
+import { Typography, Table, TableCell, TableContainer, TableHead, TableRow, Paper, Box } from '@mui/material'
 import LoadingMessage from '../../components/LoadingMessage'
 import useAuth from '../../hooks/useAuth'
 import { useGetBooksQuery } from './booksApiSlice'
@@ -42,7 +42,8 @@ const BooksList = () => {
     const tableContent = ids?.length && ids.map(bookId => <Book key={bookId} bookId={bookId} />)
 
     content = (
-      <TableContainer component={Paper}>
+
+      <TableContainer component={Paper} sx={{ height: '100%' }} >
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -57,6 +58,7 @@ const BooksList = () => {
           {tableContent}
         </Table>
       </TableContainer>
+
     )
   }
 
