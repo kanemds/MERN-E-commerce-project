@@ -6,25 +6,23 @@ import FrontPageDisplay from '../components/FrontPageDisplay'
 import { CATEGORY } from '../config/category'
 import { Link } from 'react-scroll'
 import Grid from '@mui/material/Unstable_Grid2'
+import { styled } from '@mui/material/styles'
+
+const Gap = styled(Paper)(({ theme }) => ({
+  [theme.breakpoints.up('md')]: {
+    marginTop: 280,
+    marginBottom: 500
+  }
+}))
+
 
 
 const Public = () => {
 
 
-
   const types = Object.values(CATEGORY)
 
 
-  // const [selected, setSelected] = useState(types[0])
-  // const [movement, setMovement] = useState(0)
-  // const handleClick = (category, index) => {
-  //   setSelected(category)
-  //   document.getElementById(`${category}`).scrollIntoView({
-  //     behavior: 'smooth',
-  //     block: 'center',
-  //     inline: "start"
-  //   })
-  // }
 
   const { books } = useGetBooksQuery('booksList', {
     selectFromResult: ({ data }) => ({
@@ -42,26 +40,30 @@ const Public = () => {
   if (books) {
 
     content = (
-      <Box >
+      <Box sx={{ flexGrow: 1 }}>
+        <Grid container >
+          <Grid xs={12} sm={12} md={3} sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>
+            <Box position="fixed" sx={{ height: 'calc(70%)', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start', width: '360px' }}>
+              {types?.map((category) =>
 
-        <Box position="fixed" sx={{ height: 'calc(70%)', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start', width: '360px' }}>
-          {types?.map((category) =>
-
-            <Link key={category} to={category} activeClass="active" className='scroll' spy={true} smooth={true} offset={-380} duration={600} >
-              {category}
-            </Link>
-          )}
-        </Box>
-
-        {types?.map((category) => {
-          let currentCategory = books.filter(book => book.category === category)
-          return (
-            <Paper key={category} id={`${category}`} sx={{ m: '300px', ml: '400px', width: '700px' }} >
-              <FrontPageDisplay currentCategory={currentCategory} />
-            </Paper>
-          )
-        }
-        )}
+                <Link key={category} to={category} activeClass="active" className='scroll' spy={true} smooth={true} offset={-410} duration={600} >
+                  <Typography variant='h6'>{category}</Typography>
+                </Link>
+              )}
+            </Box>
+          </Grid>
+          <Grid xs={12} sm={12} md={9} >
+            {types?.map((category) => {
+              let currentCategory = books.filter(book => book.category === category)
+              return (
+                <Gap key={category} id={`${category}`}  >
+                  <FrontPageDisplay currentCategory={currentCategory} />
+                </Gap>
+              )
+            }
+            )}
+          </Grid>
+        </Grid>
       </Box >
     )
   }
