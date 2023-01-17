@@ -41,9 +41,9 @@ const UserList = () => {
 
     content = (
       <TableContainer component={Paper} sx={{ height: '100%' }}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Table aria-label="simple table">
           <TableHead>
-            <TableRow>
+            <TableRow sx={{ borderBottom: '1px solid grey', '&:last-child td, &:last-child th': { border: 0 } }}>
               <TableCell>User Name</TableCell>
               <TableCell align="left">Role</TableCell>
               <TableCell align="center">Edit</TableCell>
