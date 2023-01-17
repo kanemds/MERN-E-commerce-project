@@ -46,7 +46,7 @@ const Footer = () => {
           pathname === '/' ?
             <Box sx={{ flexGrow: 1, height: '250px', width: '100%', borderTop: 3, borderColor: 'primary.main', backgroundColor: 'white' }}>
               <Grid container sx={{ m: 2 }}>
-                <Bottom xs={4} >
+                <Bottom xs={12} sm={12} md={4}>
                   <Item ><Typography variant='h5'>Address</Typography></Item>
                   <Item>
                     <Typography variant='h6'>
@@ -58,7 +58,7 @@ const Footer = () => {
                     </Typography>
                   </Item>
                 </Bottom>
-                <Bottom xs={4} >
+                <Bottom xs={12} sm={12} md={4} >
                   <Item><Typography variant='h5'>Week Days Hours</Typography></Item>
                   <Item >
                     <Typography variant='h6'>
@@ -70,7 +70,7 @@ const Footer = () => {
                     </Typography>
                   </Item>
                 </Bottom>
-                <Bottom xs={4} >
+                <Bottom xs={12} sm={12} md={4} >
                   <Item ><Typography variant='h5'>Weekend Hours</Typography></Item>
                   <Item >
                     <Typography variant='h6'>
