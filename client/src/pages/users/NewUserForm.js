@@ -71,7 +71,7 @@ const NewUserForm = () => {
 
   const options = (
 
-    <FormControl sx={{ width: '600px', p: 3 }}>
+    <FormControl sx={{ p: 3 }}>
       <InputLabel sx={{ m: 3 }}>Assigned Position</InputLabel>
       <Select
         input={<OutlinedInput label="Assigned Position" />}
@@ -104,11 +104,11 @@ const NewUserForm = () => {
   const content = (
     <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
       {error ?
-        <Paper sx={{ width: '600px', height: '400px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <Paper sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
           <Typography variant='h5' sx={{ mb: 5 }}>{error?.data?.message}</Typography>
         </Paper>
         :
-        <Paper sx={{ width: '600px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', p: 3 }}>
+        <Paper sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', p: 3 }}>
           <Typography variant='h5' sx={{ p: 3 }} >Create New User</Typography>
           <TextField fullWidth autoComplete='off' type='text' label='User Name' variant='outlined' required sx={{ m: 3 }}
             onChange={e => setUsername(e.target.value)}

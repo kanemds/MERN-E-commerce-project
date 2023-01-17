@@ -3,7 +3,8 @@ import { useUpdateUserMutation, useDeleteUserMutation } from '../users/usersApiS
 import { useNavigate, Link as RouterLink } from 'react-router-dom'
 import { ROLES } from '../../config/roles'
 import { Paper, Box, Button, TextField, Typography, Link, OutlinedInput, InputLabel, MenuItem, FormControl, Select, Switch } from '@mui/material'
-import { current } from '@reduxjs/toolkit'
+import Grid from '@mui/material/Unstable_Grid2'
+
 
 // included
 const USER_REGEX = /^[a-zA-Z0-9-_.]{3,24}$/
@@ -98,14 +99,14 @@ const EditUserForm = ({ currentUser }) => {
 
   let canSave
   if (password) {
-    canSave = [roles.length, validUsername, validPassword].every(Boolean) && !isLoading
+    canSave = [roles.length, validUsername, validPassword, isMatch].every(Boolean) && !isLoading
   } else {
     canSave = [roles.length, validUsername].every(Boolean) && !isLoading
   }
 
   const options = (
-    <FormControl sx={{ width: '600px', p: 3 }}>
-      <InputLabel sx={{ m: 3 }}>Assigned Position</InputLabel>
+    <FormControl fullWidth >
+      <InputLabel >Assigned Position</InputLabel>
       <Select
         input={<OutlinedInput label="Assigned Position" />}
         multiple
@@ -127,11 +128,11 @@ const EditUserForm = ({ currentUser }) => {
   const content = (
     <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
       {error || deletedError ?
-        <Paper sx={{ width: '600px', height: '400px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <Paper sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
           <Typography variant='h5' sx={{ mb: 5 }}>{error?.data?.message || deletedError?.data.message}</Typography>
         </Paper>
         :
-        <Paper sx={{ width: '600px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', p: 3 }}>
+        <Paper sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', p: 3 }}>
           <Typography variant='h5' sx={{ p: 3 }} >Edit User</Typography>
           <TextField fullWidth autoComplete='off' type='text' label='User Name' variant='outlined' required sx={{ m: 3 }}
             value={username} onChange={e => setUsername(e.target.value)}
@@ -164,17 +165,24 @@ const EditUserForm = ({ currentUser }) => {
                 onChange={e => setComfirm(e.target.value)}
               />
               {isMatch || comfirm.length === 0 ? "" : <Typography>Please match with password</Typography>}
-              <Typography variant='h8' >Note: Password required: one number and one "!,@,#,$,%" special charater </Typography>
+              <Typography variant='h8' sx={{ maxWidth: 300 }}>Password required: one number and one "!,@,#,$,%" special charater </Typography>
+
             </>
           }
 
-          <Box sx={{ m: 3 }}>
-            <Button variant="contained" disabled={!canSave} onClick={handleUpdate} sx={{ mr: 3 }}>Update</Button>
-            <Button variant="contained" onClick={handleDelete} sx={{ mr: 3 }}>Delete</Button>
-            <Button variant="contained" ><Link to='/dash/users' component={RouterLink} underline="none" color='white' >Cancel</Link></Button>
+          <Box sx={{ flexGrow: 1, mt: 3 }}>
+            <Grid container spacing={2}>
+              <Grid xs={4} sm={4} md={4}>
+                <Button variant="contained" disabled={!canSave} onClick={handleUpdate} >Update</Button>
+              </Grid>
+              <Grid xs={4} sm={4} md={4}>
+                <Button variant="contained" onClick={handleDelete} >Delete</Button>
+              </Grid>
+              <Grid xs={4} sm={4} md={4}>
+                <Button variant="contained" ><Link to='/dash/users' component={RouterLink} underline="none" color='white' >Cancel</Link></Button>
+              </Grid>
+            </Grid>
           </Box>
-
-
         </Paper>
       }
     </Box >
