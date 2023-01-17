@@ -65,58 +65,57 @@ const EditOrderForm = ({ order }) => {
   const tableContent = order?.products?.details?.length && order?.products?.details?.map(product => <EditOrderContentTable key={product.bookId} product={product} />)
 
   let content = (
-    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+    <Box sx={{ minWidth: 650, display: 'flex', flexWrap: 'wrap', flexDirection: 'column', alignItems: 'center' }}>
       {error ?
-        <Paper sx={{ width: '800px', height: '400px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <Paper sx={{ height: '400px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
           <Typography variant='h5' sx={{ mb: 5 }}>{error?.data?.message}</Typography>
         </Paper>
         :
-        <Paper sx={{ width: '800px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', p: 3 }}>
+        <Paper sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', p: 3 }}>
           <Typography variant='h5' sx={{ p: 3 }} >Edit Order</Typography>
-          <DisabledTextField fullWidth autoComplete='off' type='text' label='User Name' variant='outlined' required sx={{ m: 3 }}
+          <DisabledTextField fullWidth autoComplete='off' type='text' label='User Name' variant='outlined' required
             value={order.user.username}
           />
-          <DisabledTextField fullWidth autoComplete='off' type='text' label='User Email' variant='outlined' required sx={{ m: 3 }}
+          <DisabledTextField fullWidth autoComplete='off' type='text' label='User Email' variant='outlined' required
             value={order.user.email}
           />
 
           <Typography>Ship To:</Typography>
-          <TextField fullWidth autoComplete='off' type='text' label='Receiver Name' variant='outlined' required sx={{ m: 3 }}
+          <TextField fullWidth autoComplete='off' type='text' label='Receiver Name' variant='outlined' required
             value={name} onChange={e => setName(e.target.value)}
           />
-          <TextField fullWidth autoComplete='off' type='text' label='Receiver Email' variant='outlined' required sx={{ m: 3 }}
-            value={email} onChange={e => setEmail(e.target.value)}
+          <TextField fullWidth autoComplete='off' type='text' label='Receiver Email' variant='outlined' required
           />
           <Typography>Address:</Typography>
 
-          <TextField fullWidth autoComplete='off' type='text' label='Street' variant='outlined' required sx={{ m: 3 }}
+          <TextField fullWidth autoComplete='off' type='text' label='Street' variant='outlined' required
             value={street} onChange={e => setStreet(e.target.value)}
           />
-          <TextField fullWidth autoComplete='off' type='text' label='City' variant='outlined' required sx={{ m: 3 }}
+          <TextField fullWidth autoComplete='off' type='text' label='City' variant='outlined' required
             value={city} onChange={e => setCity(e.target.value)}
           />
-          <TextField fullWidth autoComplete='off' type='text' label='Country' variant='outlined' required sx={{ m: 3 }}
+          <TextField fullWidth autoComplete='off' type='text' label='Country' variant='outlined' required
             value={country} onChange={e => setCountry(e.target.value)}
           />
-          <TextField fullWidth autoComplete='off' type='text' label='Postal Code' variant='outlined' required sx={{ m: 3 }}
+          <TextField fullWidth autoComplete='off' type='text' label='Postal Code' variant='outlined' required
             value={postalCode} onChange={e => setPostalCode(e.target.value)}
           />
-          <TextField fullWidth autoComplete='off' type='text' label='Contact Number' variant='outlined' required sx={{ m: 3 }}
+          <TextField fullWidth autoComplete='off' type='text' label='Contact Number' variant='outlined' required
             value={phone} onChange={e => setPhone(e.target.value)}
           />
 
           <Typography>Product Details:</Typography>
           <Box sx={{ width: '80%' }}>
             <Box >
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', m: 1 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Typography >Quantity:</Typography>
                 <Typography>{order.products.totalcounts}</Typography>
               </Box>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', m: 1 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Typography>Subtotal:</Typography>
                 <Typography>$ {(order.total / 100).toFixed(2)}</Typography>
               </Box>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', m: 1 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Typography>Shipping Fee:</Typography>
                 {order.total - order.subtotal === 0 ?
                   <Typography>Free</Typography>
@@ -125,7 +124,7 @@ const EditOrderForm = ({ order }) => {
                 }
               </Box>
             </Box>
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', m: 1 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
               <Typography>Total: $ {(order.total / 100).toFixed(2)}</Typography>
             </Box>
           </Box>
@@ -145,7 +144,7 @@ const EditOrderForm = ({ order }) => {
           </TableContainer>
 
 
-          <Box sx={{ m: 3 }}>
+          <Box >
             <Button variant="contained" disabled={!canSave} onClick={handleUpdate} sx={{ mr: 3 }}>Update</Button>
             <Button variant="contained" onClick={handleDelete} sx={{ mr: 3 }}>Delete</Button>
             <Button variant="contained"><Link to='/dash/orders' component={RouterLink} underline="none" color='white' >Cancel</Link></Button>

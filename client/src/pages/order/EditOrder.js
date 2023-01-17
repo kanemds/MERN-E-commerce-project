@@ -1,3 +1,4 @@
+import { Box } from '@mui/material'
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import LoadingMessage from '../../components/LoadingMessage'
@@ -21,7 +22,9 @@ const EditOrder = () => {
   if (!order) return <LoadingMessage />
 
 
-  return <EditOrderForm order={order} />
+  return (
+    <Box sx={{ height: '100%' }}><EditOrderForm order={order} /></Box>
+  )
 
 }
 

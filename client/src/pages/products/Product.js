@@ -163,14 +163,14 @@ const Product = () => {
               src={book.image}
               alt={book.title}
             />
-            <Typography variant='h7'>Author: {book.author}</Typography>
+            <Typography variant='h6'>Author: {book.author}</Typography>
           </Grid>
 
           <Grid xs={8} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-              <Typography variant='h5'>{book.title}</Typography>
+              <Typography variant='h4'>{book.title}</Typography>
               <br />
-              <Typography variant='h7'>{book.description}</Typography>
+              <Typography variant='h6'>{book.description}</Typography>
               <br />
             </Box>
 
