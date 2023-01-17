@@ -20,6 +20,8 @@ import { useGetProductsQuery } from '../pages/products/productApiSlice'
 import { useGetOrdersQuery } from '../pages/order/ordersApiSlice'
 import useAuth from '../hooks/useAuth'
 
+import Grid from '@mui/material/Unstable_Grid2'
+
 
 
 const NOTES_REGEX = /^\/dash\/notes(\/)?$/
@@ -34,6 +36,15 @@ const ColorBadge = styled(Badge)(({ theme }) => ({
     backgroundColor: pink[500]
   }
 }))
+
+const Gap = styled(Grid)(({ theme }) => ({
+  [theme.breakpoints.down('md')]: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+}))
+
 
 const Navbar = () => {
 
@@ -193,46 +204,52 @@ const Navbar = () => {
 
   return (
 
-    <AppBar position="fixed" sx={{ height: '80px', width: '100%', zindex: 9999, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', p: 3 }}>
+    // <AppBar position="fixed" sx={{ height: '80px', width: '100%', zindex: 9999, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', p: 3 }}>
+    <AppBar position="fixed" sx={{ height: '80px', width: '100%', zindex: 9999 }}>
 
-      <Typography variant="h6" sx={{ ml: 3 }} >
-        <Link to='/' component={RouterLink} underline='none' color='white' sx={{ mr: 3 }}>K Book Shop</Link>
-        |
-        <Link to='/about' component={RouterLink} underline='none' color='white' sx={{ ml: 3 }}>About this App</Link>
-      </Typography>
-
-      {!username ?
-        <Box>
-          <Button color="inherit" onClick={() => navigate('/login')}>Login</Button>
-          <Button color="inherit" onClick={() => navigate('/register')}>Register</Button>
-          <IconButton onClick={() => navigate('/carts')}>
-            <ColorBadge badgeContent={quantity}>
-              <ShoppingCartIcon sx={{ color: 'white' }} />
-            </ColorBadge>
-          </IconButton>
-        </Box>
-        :
-        isEmployee || isManager || isAdmin ?
-          <Box >
-            <Button color="inherit" onClick={() => navigate('/dash')}> Dash Board</Button>
-            {buttonContent}
-            <IconButton onClick={() => navigate('/carts')}>
-              <ColorBadge badgeContent={quantity}>
-                <ShoppingCartIcon sx={{ color: 'white' }} />
-              </ColorBadge>
-            </IconButton>
-            <Button color="inherit" onClick={() => userLogut()}>Logout</Button>
-          </Box>
-          :
-          <Box>
-            <IconButton onClick={() => navigate('/carts')}>
-              <ColorBadge badgeContent={quantity}>
-                <ShoppingCartIcon sx={{ color: 'white' }} />
-              </ColorBadge>
-            </IconButton>
-            <Button color="inherit" onClick={() => userLogut()}>Logout</Button>
-          </Box>
-      }
+      <Grid container sx={{ flexGrow: 1, ml: 3, mr: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Gap xs={12} sm={12} md={5} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+          <Typography variant="h6" >
+            <Link to='/' component={RouterLink} underline='none' color='white' sx={{ mr: 3 }}>K Book Shop</Link>
+            |
+            <Link to='/about' component={RouterLink} underline='none' color='white' sx={{ ml: 3 }}>About this App</Link>
+          </Typography>
+        </Gap>
+        <Gap xs={12} sm={12} md={7} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          {!username ?
+            <Box >
+              <Button color="inherit" onClick={() => navigate('/login')}>Login</Button>
+              <Button color="inherit" onClick={() => navigate('/register')}>Register</Button>
+              <IconButton onClick={() => navigate('/carts')}>
+                <ColorBadge badgeContent={quantity}>
+                  <ShoppingCartIcon sx={{ color: 'white' }} />
+                </ColorBadge>
+              </IconButton>
+            </Box>
+            :
+            isEmployee || isManager || isAdmin ?
+              <Box >
+                <Button color="inherit" onClick={() => navigate('/dash')}> Dash Board</Button>
+                {buttonContent}
+                <IconButton onClick={() => navigate('/carts')}>
+                  <ColorBadge badgeContent={quantity}>
+                    <ShoppingCartIcon sx={{ color: 'white' }} />
+                  </ColorBadge>
+                </IconButton>
+                <Button color="inherit" onClick={() => userLogut()}>Logout</Button>
+              </Box>
+              :
+              <Box>
+                <IconButton onClick={() => navigate('/carts')}>
+                  <ColorBadge badgeContent={quantity}>
+                    <ShoppingCartIcon sx={{ color: 'white' }} />
+                  </ColorBadge>
+                </IconButton>
+                <Button color="inherit" onClick={() => userLogut()}>Logout</Button>
+              </Box>
+          }
+        </Gap>
+      </Grid>
 
     </AppBar >
 
