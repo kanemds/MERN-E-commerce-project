@@ -45,6 +45,13 @@ const Gap = styled(Grid)(({ theme }) => ({
   }
 }))
 
+const SmallButton = styled(Button)(({ theme }) => ({
+  [theme.breakpoints.down('md')]: {
+    width: 0,
+    height: 0
+  }
+}))
+
 
 const Navbar = () => {
 
@@ -229,14 +236,14 @@ const Navbar = () => {
             :
             isEmployee || isManager || isAdmin ?
               <Box >
-                <Button color="inherit" onClick={() => navigate('/dash')}> Dash Board</Button>
+                <SmallButton color="inherit" onClick={() => navigate('/dash')}> Dash Board</SmallButton>
                 {buttonContent}
                 <IconButton onClick={() => navigate('/carts')}>
                   <ColorBadge badgeContent={quantity}>
                     <ShoppingCartIcon sx={{ color: 'white' }} />
                   </ColorBadge>
                 </IconButton>
-                <Button color="inherit" onClick={() => userLogut()}>Logout</Button>
+                <SmallButton color="inherit" onClick={() => userLogut()}>Logout</SmallButton>
               </Box>
               :
               <Box>
@@ -245,7 +252,7 @@ const Navbar = () => {
                     <ShoppingCartIcon sx={{ color: 'white' }} />
                   </ColorBadge>
                 </IconButton>
-                <Button color="inherit" onClick={() => userLogut()}>Logout</Button>
+                <SmallButton color="inherit" onClick={() => userLogut()}>Logout</SmallButton>
               </Box>
           }
         </Gap>
