@@ -132,7 +132,7 @@ const EditUserForm = ({ currentUser }) => {
           <Typography variant='h5' sx={{ mb: 5 }}>{error?.data?.message || deletedError?.data.message}</Typography>
         </Paper>
         :
-        <Paper sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', p: 3 }}>
+        <Paper sx={{ width: '100%', maxWidth: 600, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', p: 3 }}>
           <Typography variant='h5' sx={{ p: 3 }} >Edit User</Typography>
           <TextField fullWidth autoComplete='off' type='text' label='User Name' variant='outlined' required sx={{ m: 3 }}
             value={username} onChange={e => setUsername(e.target.value)}

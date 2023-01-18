@@ -9,6 +9,8 @@ import { useGetProductsQuery } from '../products/productApiSlice'
 import LoadingMessage from '../../components/LoadingMessage'
 import { useEffect } from 'react'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
+import Grid from '@mui/material/Unstable_Grid2'
+
 
 const Container = styled.img`
     width:100%;
@@ -57,32 +59,35 @@ const PaymentSuccess = () => {
     content = (
       <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
 
-        <Paper sx={{ width: '800px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', p: 3 }}>
+        <Paper sx={{ width: '100%', maxWidth: '800px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', p: 3 }}>
           <Typography variant='h5' sx={{ m: 3 }}>Thank you for Shopping with Us!</Typography>
           <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
             <Link to='/' component={RouterLink} underline="none" sx={{ mb: 3, mr: 5, display: 'flex', justifyContent: 'center', alignItems: 'center' }} >Keep Shopping<ShoppingCartIcon /></Link>
           </Box>
-          <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
 
-            <Box sx={{ width: '40%' }}>
-              <Typography> User Info:</Typography>
-              <Typography> User Name: {order.user.username}</Typography>
-              <Typography> Email: {order.user.email}</Typography>
-            </Box>
-
-            <Box sx={{ width: '40%' }}>
-              <Typography>Ship To:</Typography>
-              <Typography> Name: {order.shipping.name}</Typography>
-              <Typography> Email: {order.shipping.email}</Typography>
-              <Typography> Contact: {order.shipping.phone}</Typography>
-
-
-              <Typography>Address:</Typography>
-              <Typography> Steet: {order.shipping.address.line1}</Typography>
-              <Typography> City: {order.shipping.address.city}</Typography>
-              <Typography> Country: {order.shipping.address.country}</Typography>
-              <Typography> Postal Code: {order.shipping.address.postal_code}</Typography>
-            </Box>
+          <Box sx={{ flexGrow: 1, width: '100%' }}>
+            <Grid container spacing={4} sx={{ display: 'flex', justifyContent: 'space-between' }} >
+              <Grid xs={12} sm={6} md={6}>
+                <Box>
+                  <Typography> User Info:</Typography>
+                  <Typography> User Name: {order.user.username}</Typography>
+                  <Typography> Email: {order.user.email}</Typography>
+                </Box>
+              </Grid>
+              <Grid xs={12} sm={6} md={6}>
+                <Box>
+                  <Typography>Ship To:</Typography>
+                  <Typography> Name: {order.shipping.name}</Typography>
+                  <Typography> Email: {order.shipping.email}</Typography>
+                  <Typography> Contact: {order.shipping.phone}</Typography>
+                  <Typography>Address:</Typography>
+                  <Typography> Steet: {order.shipping.address.line1}</Typography>
+                  <Typography> City: {order.shipping.address.city}</Typography>
+                  <Typography> Country: {order.shipping.address.country}</Typography>
+                  <Typography> Postal Code: {order.shipping.address.postal_code}</Typography>
+                </Box>
+              </Grid>
+            </Grid>
           </Box>
 
           <Typography variant='h5' sx={{ m: 3 }} >Product Details:</Typography>
@@ -114,8 +119,10 @@ const PaymentSuccess = () => {
           <TableContainer component={Paper}>
             <Table sx={{ maxWidth: 800 }} aria-label="simple table">
               <TableHead>
-                <TableRow>
-                  <TableCell align="center">Product Image</TableCell>
+                <TableRow sx={{ borderBottom: '1px solid grey', '&:last-child td, &:last-child th': { border: 0 } }}>
+                  <Box sx={{ display: { xs: 'none', sm: 'inline' } }}>
+                    <TableCell align="center">Product Image</TableCell>
+                  </Box>
                   <TableCell align="center">Name</TableCell>
                   <TableCell align="center">Price</TableCell>
                   <TableCell align="center">Quantities</TableCell>
@@ -124,11 +131,13 @@ const PaymentSuccess = () => {
               {order?.products?.details?.map(product =>
                 <TableBody key={product.bookId}>
                   <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                    <TableCell align="center" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                      <Paper sx={{ height: 100, width: 80, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <Container src={product.image} />
-                      </Paper>
-                    </TableCell>
+                    <Box sx={{ display: { xs: 'none', sm: 'inline' } }}>
+                      <TableCell align="center" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <Paper sx={{ height: 100, width: 80, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                          <Container src={product.image} />
+                        </Paper>
+                      </TableCell>
+                    </Box>
                     <TableCell align="center">{product.title}</TableCell>
                     <TableCell align="center" >${product.price.toFixed(2)}</TableCell>
                     <TableCell align="center">{product.quantity}</TableCell>

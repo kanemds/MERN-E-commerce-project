@@ -52,18 +52,18 @@ const Login = () => {
   }
 
   const content = (
-    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-      <Paper sx={{ width: '600px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', p: 3 }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <Paper sx={{ width: '100%', maxWidth: 600, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', p: 3 }}>
         <Typography variant='h5' sx={{ p: 3 }} >Login</Typography>
         <Typography>{error}</Typography>
-        <TextField fullWidth autoComplete='off' type='text' label='User Name' variant='outlined' required sx={{ m: 3 }}
+        <TextField fullWidth autoComplete='off' type='text' label='User Name' variant='outlined' required sx={{ mt: 3 }}
           onChange={e => setUsername(e.target.value)}
         />
-        <TextField fullWidth autoComplete='off' type='Password' label='Password' variant='outlined' required sx={{ m: 3 }}
+        <TextField fullWidth autoComplete='off' type='Password' label='Password' variant='outlined' required sx={{ mt: 3 }}
           onChange={e => setPassword(e.target.value)}
         />
 
-        <Box sx={{ m: 3 }}>
+        <Box sx={{ mt: 3 }}>
           <Button disabled={!canSave} onClick={handleSubmit} >Log In</Button>
           <Button><Link to='/' component={RouterLink} underline="none" >Cancel</Link></Button>
         </Box>
@@ -72,8 +72,9 @@ const Login = () => {
           <Typography>Trust This Device</Typography>
           <Checkbox checked={persist} onChange={() => setPersist(prev => !prev)} />
         </Box>
+
       </Paper>
-    </Box >
+    </Box>
   )
 
   return content

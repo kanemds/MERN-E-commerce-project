@@ -238,7 +238,7 @@ const Navbar = () => {
               <Box >
                 <SmallButton color="inherit" onClick={() => navigate('/dash')}> Dash Board</SmallButton>
                 {buttonContent}
-                <IconButton onClick={() => navigate('/carts')}>
+                <IconButton onClick={() => navigate('/carts')} sx={{ mr: 2 }}>
                   <ColorBadge badgeContent={quantity}>
                     <ShoppingCartIcon sx={{ color: 'white' }} />
                   </ColorBadge>
