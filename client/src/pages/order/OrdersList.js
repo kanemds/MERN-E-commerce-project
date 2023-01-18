@@ -44,7 +44,7 @@ const OrdersList = () => {
                 <Grid xs={8} sm={6} md={4} >
                   <TableCell>Order Id</TableCell>
                 </Grid>
-                <Grid xs={0} sm={3} md={2} sx={{ display: 'flex' }}>
+                <Grid xs={0} sm={3} md={2}>
                   <TableCell sx={{ display: { xs: 'none', sm: 'inline', md: 'inline' } }}>Purchased At</TableCell>
                 </Grid>
                 <Grid xs={0} sm={0} md={2} >

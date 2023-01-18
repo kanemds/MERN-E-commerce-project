@@ -9,6 +9,7 @@ import EditOrderContentTable from './EditOrderContentTable'
 import { styled } from '@mui/system'
 import { useState } from 'react'
 import { useEffect } from 'react'
+import Grid from '@mui/material/Unstable_Grid2'
 
 const DisabledTextField = styled(TextField)(() => ({
   ".MuiInputBase-input.Mui-disabled": {
@@ -65,7 +66,7 @@ const EditOrderForm = ({ order }) => {
   const tableContent = order?.products?.details?.length && order?.products?.details?.map(product => <EditOrderContentTable key={product.bookId} product={product} />)
 
   let content = (
-    <Box sx={{ minWidth: 650, display: 'flex', flexWrap: 'wrap', flexDirection: 'column', alignItems: 'center' }}>
+    <Box sx={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'column', alignItems: 'center' }}>
       {error ?
         <Paper sx={{ height: '400px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
           <Typography variant='h5' sx={{ mb: 5 }}>{error?.data?.message}</Typography>
@@ -77,34 +78,36 @@ const EditOrderForm = ({ order }) => {
             value={order.user.username}
           />
           <DisabledTextField fullWidth autoComplete='off' type='text' label='User Email' variant='outlined' required
+            sx={{ mt: 3 }}
             value={order.user.email}
           />
 
-          <Typography>Ship To:</Typography>
+          <Typography sx={{ mt: 3 }}>Ship To:</Typography>
           <TextField fullWidth autoComplete='off' type='text' label='Receiver Name' variant='outlined' required
-            value={name} onChange={e => setName(e.target.value)}
+            value={name} onChange={e => setName(e.target.value)} sx={{ mt: 3 }}
           />
           <TextField fullWidth autoComplete='off' type='text' label='Receiver Email' variant='outlined' required
+            sx={{ mt: 3 }}
           />
-          <Typography>Address:</Typography>
+          <Typography sx={{ mt: 3 }}>Address:</Typography>
 
           <TextField fullWidth autoComplete='off' type='text' label='Street' variant='outlined' required
-            value={street} onChange={e => setStreet(e.target.value)}
+            value={street} onChange={e => setStreet(e.target.value)} sx={{ mt: 3 }}
           />
           <TextField fullWidth autoComplete='off' type='text' label='City' variant='outlined' required
-            value={city} onChange={e => setCity(e.target.value)}
+            value={city} onChange={e => setCity(e.target.value)} sx={{ mt: 3 }}
           />
           <TextField fullWidth autoComplete='off' type='text' label='Country' variant='outlined' required
-            value={country} onChange={e => setCountry(e.target.value)}
+            value={country} onChange={e => setCountry(e.target.value)} sx={{ mt: 3 }}
           />
           <TextField fullWidth autoComplete='off' type='text' label='Postal Code' variant='outlined' required
-            value={postalCode} onChange={e => setPostalCode(e.target.value)}
+            value={postalCode} onChange={e => setPostalCode(e.target.value)} sx={{ mt: 3 }}
           />
           <TextField fullWidth autoComplete='off' type='text' label='Contact Number' variant='outlined' required
-            value={phone} onChange={e => setPhone(e.target.value)}
+            value={phone} onChange={e => setPhone(e.target.value)} sx={{ mt: 3 }}
           />
 
-          <Typography>Product Details:</Typography>
+          <Typography sx={{ mt: 3 }}>Product Details:</Typography>
           <Box sx={{ width: '80%' }}>
             <Box >
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -129,14 +132,24 @@ const EditOrderForm = ({ order }) => {
             </Box>
           </Box>
 
-          <TableContainer component={Paper}>
-            <Table sx={{ maxWidth: 800 }} aria-label="simple table">
+          <TableContainer component={Paper} sx={{ mt: 3 }}>
+            <Table aria-label="simple table">
               <TableHead>
-                <TableRow>
-                  <TableCell align="center">Product Image</TableCell>
-                  <TableCell align="center">Name</TableCell>
-                  <TableCell align="center">Price</TableCell>
-                  <TableCell align="center">Quantities</TableCell>
+                <TableRow sx={{ borderBottom: '1px solid grey', '&:last-child td, &:last-child th': { border: 0 } }}>
+                  <Grid container sx={{ display: 'flex', alignItems: 'center' }} >
+                    <Grid xs={0} sm={4}>
+                      <TableCell sx={{ display: { xs: 'none', sm: 'inline', md: 'inline' } }} >Product Image</TableCell>
+                    </Grid>
+                    <Grid xs={5} sm={3}>
+                      <TableCell >Name</TableCell>
+                    </Grid>
+                    <Grid xs={3} sm={2}>
+                      <TableCell >Price</TableCell>
+                    </Grid>
+                    <Grid xs={4} sm={3}>
+                      <TableCell>Quantities</TableCell>
+                    </Grid>
+                  </Grid>
                 </TableRow>
               </TableHead>
               {tableContent}
@@ -144,15 +157,21 @@ const EditOrderForm = ({ order }) => {
           </TableContainer>
 
 
-          <Box >
-            <Button variant="contained" disabled={!canSave} onClick={handleUpdate} sx={{ mr: 3 }}>Update</Button>
-            <Button variant="contained" onClick={handleDelete} sx={{ mr: 3 }}>Delete</Button>
-            <Button variant="contained"><Link to='/dash/orders' component={RouterLink} underline="none" color='white' >Cancel</Link></Button>
+          <Box sx={{ flexGrow: 1, mt: 5 }}>
+            <Grid container spacing={3}>
+              <Grid xs={4}>
+                <Button variant="contained" disabled={!canSave} onClick={handleUpdate} >Update</Button>
+              </Grid>
+              <Grid xs={4}>
+                <Button variant="contained" onClick={handleDelete}>Delete</Button>
+              </Grid>
+              <Grid xs={4}>
+                <Button variant="contained"><Link to='/dash/orders' component={RouterLink} underline="none" color='white' >Cancel</Link></Button>
+              </Grid>
+            </Grid>
           </Box>
-
         </Paper>
       }
-
     </Box >
   )
   return content
