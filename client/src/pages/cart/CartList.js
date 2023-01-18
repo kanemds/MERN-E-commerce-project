@@ -7,6 +7,9 @@ import { useGetBooksQuery } from '../books/booksApiSlice'
 import { useUpdateProductMutation, useDeleteProductMutation } from '../products/productApiSlice'
 import LoadingMessage from '../../components/LoadingMessage'
 import { useNavigate } from 'react-router-dom'
+import json2mq from 'json2mq'
+import useMediaQuery from '@mui/material/useMediaQuery'
+
 
 const DELETEBUTTON = styled(IconButton)(({ theme }) => ({
   padding: '4px'
@@ -94,12 +97,19 @@ const CartList = ({ product }) => {
     return menuItems
   }
 
+  const matches = useMediaQuery(
+    json2mq({
+      maxWidth: 599
+    }),
+  )
 
+
+  let qty = matches ? 'Qty' : 'QUANTITY'
 
 
   const selectedQuantity = (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-      <Typography sx={{ mr: 2 }}>QUANTITY</Typography>
+      <Typography sx={{ mr: 2 }}>{qty}</Typography>
       <FormControl >
         <Select
           sx={{ height: 30, width: 65 }}
@@ -123,39 +133,39 @@ const CartList = ({ product }) => {
       <>
         {
           <Grid key={product.bookId} container sx={{ flexGrow: 1, borderBottom: '1px solid lightGrey', mt: 3 }} spacing={2}>
-            <Grid xs={3}>
+            <Grid xs={4}>
               <Button sx={{ width: '100%' }} onClick={() => navigate(`/products/${product.bookId}`)}>
                 <Box
                   component="img"
-                  sx={{ height: '180px', width: '100%' }}
+                  sx={{ height: '140px', width: '100px' }}
                   src={product.image}
                   alt={product.title}
                 />
               </Button>
             </Grid>
-            <Grid xs={9} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around' }} >
+            <Grid xs={8} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around' }} >
 
               <Box>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
                   <Typography variant='h6'>{product.title}</Typography>
                   <DELETEBUTTON onClick={handleDelete}><ClearIcon /></DELETEBUTTON>
                 </Box>
-                <Typography variant='h7'>Author: {product.author}</Typography>
+                <Typography variant='h7' sx={{ mt: 1 }}>Author: {product.author}</Typography>
               </Box>
 
-              <Typography variant='h7' >CAD $ {product.price.toFixed(2)}</Typography>
+              <Typography variant='h7' sx={{ mt: 1 }}>CAD $ {product.price.toFixed(2)}</Typography>
 
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <Box >
                 {currentStocks <= 0 ?
                   <Typography>Item currently Out of Stock</Typography>
                   :
-                  <>
-                    <Typography variant='h7' >{selectedQuantity}</Typography>
-                    <Typography variant='h7' >SUBTOTAL: CAD $  {product.total.toFixed(2)}</Typography>
-                  </>
+                  <Box >
+                    <Box sx={{ mt: 1 }}> <Typography variant='h7' >{selectedQuantity}</Typography></Box>
+                    <Box sx={{ mt: 1 }} > <Typography variant='h7' >SUBTOTAL: CAD $  {product.total.toFixed(2)}</Typography></Box>
+                  </Box>
                 }
               </Box>
-              <Typography>
+              <Typography sx={{ mt: 1 }}>
                 {banner}
               </Typography>
             </Grid>
