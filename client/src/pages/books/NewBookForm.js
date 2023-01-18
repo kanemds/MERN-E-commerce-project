@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { useAddNewBookMutation } from './booksApiSlice'
 import { CATEGORY } from '../../config/category'
 import { useNavigate } from 'react-router-dom'
+import Grid from '@mui/material/Unstable_Grid2'
 
 const DisabledTextField = styled(TextField)(() => ({
   ".MuiInputBase-input.Mui-disabled": {
@@ -16,7 +17,7 @@ const DisabledTextField = styled(TextField)(() => ({
 }))
 
 const Container = styled.img`
-    width:auto;
+    width:300px;
     height: 100%;
     padding: 0;
     margin: 0;
@@ -110,6 +111,12 @@ const NewBookForm = () => {
     setCategory(event.target.value)
   }
 
+  const handlePrice = e => {
+    setPrice(e.target.value)
+  }
+
+  console.log(price)
+
   const handleSubmit = (e) => {
     e.preventDefault()
     const formData = new FormData()
@@ -137,96 +144,102 @@ const NewBookForm = () => {
     <Paper sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
       <Typography variant='h5' sx={{ p: 3 }} >New Book</Typography>
       {error ?
-        <Paper sx={{ width: '600px', height: '400px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <Paper sx={{ width: '300px', height: '400px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
           <Typography variant='h5' sx={{ mb: 5 }}>{error?.data?.message}</Typography>
         </Paper>
         :
-        <Box sx={{ width: '80%', display: 'flex', justifyContent: 'space-around' }} >
+        <Box sx={{ flexGrow: 1 }} >
+          <Grid container spacing={4} sx={{ p: 3 }}>
+            <Grid xs={12} sm={12} md={5}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                {
+                  image && preview ?
 
-          <Box>
-            {
-              image && preview ?
+                    <ImageListItem >
+                      <Paper sx={{ height: 400, width: 300, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <Container src={preview} />
+                      </Paper>
+                    </ImageListItem>
+                    :
+                    <Paper sx={{ height: 400, width: 300, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <Typography variant='h5'>Product Preview</Typography>
+                    </Paper>
+                }
+                <Button variant="contained" onClick={handleClear} sx={{ mt: 3 }}>Clear</Button>
+              </Box>
+            </Grid>
+            <Grid xs={12} sm={12} md={7}>
+              <Box>
+                <TextField fullWidth autoComplete='off' type='text' label='Title' variant='outlined' required sx={{ mt: 3 }}
+                  onChange={e => setTitle(e.target.value)}
+                />
+                <TextField fullWidth rows={8} multiline autoComplete='off' type='text' label='Description' variant='outlined' required sx={{ mt: 3 }}
+                  onChange={e => setDescription(e.target.value)}
+                />
+                <TextField fullWidth autoComplete='off' type='text' label='Author' variant='outlined' required sx={{ mt: 3 }}
+                  onChange={e => setAuthor(e.target.value)}
+                />
+                <TextField fullWidth autoComplete='off' type='number' label='InStocks' variant='outlined' required sx={{ mt: 3 }}
+                  value={inStocks}
+                  InputProps={{
+                    inputProps: { min: 0 }
+                  }}
+                  onChange={e => setInStocks(e.target.value)}
+                />
+                <TextField fullWidth autoComplete='off' type='number' label='Price' variant='outlined' required sx={{ mt: 3 }}
+                  value={price}
+                  InputProps={{
+                    inputProps: { min: 0 }
+                  }}
+                  onChange={handlePrice}
+                />
 
-                <ImageListItem >
-                  <Paper sx={{ height: 600, width: 500, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <Container src={preview} />
-                  </Paper>
-                </ImageListItem>
-                :
-                <Paper sx={{ height: 600, width: 500, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Typography variant='h5'>Product Preview</Typography>
-                </Paper>
-            }
+                <FormControl required fullWidth sx={{ mt: 3 }}>
+                  <InputLabel id="demo-simple-select-label">category</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={category}
+                    label="Category"
+                    onChange={handleChange}
+                  >
+                    {type.map((name, index) =>
+                      <MenuItem key={index} value={name}>{name}</MenuItem>
+                    )}
+                  </Select>
+                </FormControl>
 
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <DisabledTextField fullWidth autoComplete='off' type='text' label='File Name' variant='outlined' required sx={{ mt: 3 }}
+                  disabled={true}
+                  value={imageName}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end" >
+                        <Box >
+                          <label htmlFor="contained-button-file">
+                            <Button variant="contained" color="primary" component="span" >
+                              Upload Image
+                            </Button>
+                          </label>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            style={{ display: 'none' }}
+                            id="contained-button-file"
+                            onChange={handleImage}
+                          />
+                        </Box>
+                      </InputAdornment>
+                    ),
+                  }}
 
-              <Button variant="contained" onClick={handleClear}>Clear</Button>
-            </Box>
-          </Box>
-          <Box>
-            <TextField fullWidth autoComplete='off' type='text' label='Title' variant='outlined' required sx={{ m: 3 }}
-              onChange={e => setTitle(e.target.value)}
-            />
-            <TextField fullWidth rows={8} multiline autoComplete='off' type='text' label='Description' variant='outlined' required sx={{ m: 3 }}
-              onChange={e => setDescription(e.target.value)}
-            />
-            <TextField fullWidth autoComplete='off' type='text' label='Author' variant='outlined' required sx={{ m: 3 }}
-              onChange={e => setAuthor(e.target.value)}
-            />
-            <TextField fullWidth autoComplete='off' type='number' label='InStocks' variant='outlined' required sx={{ m: 3 }}
-              value={inStocks}
-              onChange={e => setInStocks(e.target.value)}
-            />
-            <TextField fullWidth autoComplete='off' type='number' label='Price' variant='outlined' required sx={{ m: 3 }}
-              value={price}
-              onChange={e => setPrice(e.target.value)}
-            />
-
-            <FormControl required fullWidth sx={{ m: 3 }}>
-              <InputLabel id="demo-simple-select-label">category</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={category}
-                label="Category"
-                onChange={handleChange}
-              >
-                {type.map((name, index) =>
-                  <MenuItem key={index} value={name}>{name}</MenuItem>
-                )}
-              </Select>
-            </FormControl>
-
-            <DisabledTextField fullWidth autoComplete='off' type='text' label='File Name' variant='outlined' required sx={{ m: 3 }}
-              disabled={true}
-              value={imageName}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <Box >
-                      <label htmlFor="contained-button-file">
-                        <Button variant="contained" color="primary" component="span" >
-                          Upload Image
-                        </Button>
-                      </label>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        style={{ display: 'none' }}
-                        id="contained-button-file"
-                        onChange={handleImage}
-                      />
-                    </Box>
-                  </InputAdornment>
-                ),
-              }}
-
-            />
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Button disabled={!canSave} variant="contained" onClick={handleSubmit}>Submit</Button>
-            </Box>
-          </Box>
-
+                />
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 3 }}>
+                  <Button disabled={!canSave} variant="contained" onClick={handleSubmit}>Submit</Button>
+                </Box>
+              </Box>
+            </Grid>
+          </Grid>
         </Box >
       }
     </Paper >
