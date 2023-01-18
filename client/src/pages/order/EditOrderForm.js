@@ -10,6 +10,8 @@ import { styled } from '@mui/system'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import Grid from '@mui/material/Unstable_Grid2'
+import json2mq from 'json2mq'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 const DisabledTextField = styled(TextField)(() => ({
   ".MuiInputBase-input.Mui-disabled": {
@@ -24,6 +26,14 @@ const DisabledTextField = styled(TextField)(() => ({
 const EditOrderForm = ({ order }) => {
 
   const navigate = useNavigate()
+
+  const matches = useMediaQuery(
+    json2mq({
+      maxWidth: 600,
+    }),
+  )
+
+  let Qty = matches ? 'Qty' : 'Quantities'
 
   const [name, setName] = useState(order.shipping.name)
   const [email, setEmail] = useState(order.shipping.email)
@@ -143,11 +153,11 @@ const EditOrderForm = ({ order }) => {
                     <Grid xs={5} sm={3}>
                       <TableCell >Name</TableCell>
                     </Grid>
-                    <Grid xs={3} sm={2}>
-                      <TableCell >Price</TableCell>
+                    <Grid xs={3} sm={2.8}>
+                      <TableCell >Price/each</TableCell>
                     </Grid>
-                    <Grid xs={4} sm={3}>
-                      <TableCell>Quantities</TableCell>
+                    <Grid xs={4} sm={2}>
+                      <TableCell sx={{ display: 'flex', justifyContent: 'center' }}>{Qty}</TableCell>
                     </Grid>
                   </Grid>
                 </TableRow>

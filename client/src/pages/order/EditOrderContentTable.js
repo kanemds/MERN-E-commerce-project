@@ -32,11 +32,11 @@ const EditOrderContentTable = ({ product }) => {
           <Grid xs={5} sm={3}>
             <TableCell>{product.title}</TableCell>
           </Grid>
-          <Grid xs={3} sm={2}>
+          <Grid xs={3} sm={2.8}>
             <TableCell  >${product.price.toFixed(2)}</TableCell>
           </Grid>
-          <Grid xs={4} sm={3} sx={{ display: 'flex', justifyContent: 'center' }}>
-            <TableCell >{product.quantity}</TableCell>
+          <Grid xs={4} sm={2} >
+            <TableCell sx={{ display: 'flex', justifyContent: 'center' }}>{product.quantity}</TableCell>
           </Grid>
         </Grid>
       </TableRow>

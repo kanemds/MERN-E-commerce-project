@@ -57,9 +57,7 @@ const OrdersList = () => {
                   <TableCell >Edit</TableCell>
                 </Grid>
               </Grid>
-
             </TableRow>
-
           </TableHead>
           {tableContent}
         </Table>
