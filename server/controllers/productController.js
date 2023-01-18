@@ -13,7 +13,9 @@ const getAllProducts = async (req, res) => {
 }
 
 const createProduct = async (req, res) => {
-  const { orderId, owner, details } = req.body
+  const { orderId, details } = req.body
+
+  console.log(details)
 
   // less info from frontend prevent error input
   // chose add book info to product model prevent nested mapping in the future

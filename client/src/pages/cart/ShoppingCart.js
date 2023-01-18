@@ -9,6 +9,10 @@ import { grey, red, pink } from '@mui/material/colors'
 import { useGetProductsQuery } from '../products/productApiSlice'
 import PayButton from '../payments/PayButton'
 import useAuth from '../../hooks/useAuth'
+import Grid from '@mui/material/Unstable_Grid2'
+import json2mq from 'json2mq'
+import useMediaQuery from '@mui/material/useMediaQuery'
+
 
 
 
@@ -25,13 +29,23 @@ const KEEPSHOPPING = styled(Button)(({ theme }) => ({
 
 
 const STICKY = styled(Box)(({ theme }) => ({
-  position: 'fixed'
+  [theme.breakpoints.up('md')]: {
+    position: 'fixed'
+  }
 }))
 
 
 
-
 const ShoppingCart = () => {
+
+  const matches = useMediaQuery(
+    json2mq({
+      maxWidth: 899
+    }),
+  )
+
+  let direction = matches ? 'column-reverse' : 'row'
+
 
   const navigate = useNavigate()
   const { username } = useAuth()
@@ -45,6 +59,10 @@ const ShoppingCart = () => {
     })
   })
 
+  // check current width and change row to column-reverse
+
+
+
   let content
 
   if (cartId || product?.details?.length === 0 || !product) {
@@ -53,7 +71,7 @@ const ShoppingCart = () => {
         <Typography variant='h6'>
           Your cart is currently empty.
         </Typography>
-        <Link to='/' component={RouterLink} underline='none' color='#1976d2'>Keep Shopping to K Book Shop</Link>
+        <Link to='/' component={RouterLink} underline='none' color='#1976d2' >Keep Shopping to K Book Shop</Link>
       </Box >
     )
   }
@@ -67,55 +85,56 @@ const ShoppingCart = () => {
       )
     } else {
       content = (
-        <Box sx={{ display: 'flex', flexDirection: 'column', minWidth: 650 }}>
-          <Box >
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Box sx={{ mb: 3 }}>
             <Typography variant='h5'>SHOPPING CART</Typography>
           </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'space-evenly' }} >
-            <Box sx={{ width: '500', height: '100%' }}>
-              {product.details.map(product =>
-                <CartList key={product.bookId} product={product} />
-              )}
-            </Box>
-
-            <Box sx={{ width: '150px' }}>
-              <STICKY sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Box sx={{ border: '1px solid lightGrey', borderRadius: '3%' }}>
-                  <Typography sx={{ mt: 4, ml: 2, mr: 2 }}>ORDER SUMMARY | {product.totalcounts} ITEM(S)</Typography>
-                  <Box sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    mt: 4, ml: 2, mr: 2
-                  }} >
-                    <Typography>SUBTOTAL</Typography>
-                    <Typography>CAD $ {product.totalprice.toFixed(2)}</Typography>
-                  </Box>
-                  <Box sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    mb: 4, ml: 2, mr: 2
-                  }}>
-                    <Typography variant='body2'>Estimated Tax</Typography>
-                    <Typography variant='body2'>TBD</Typography>
-                  </Box>
-
-                  <Box sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    mb: 4, ml: 2, mr: 2
-                  }}>
-                    <Typography>ORDER TOTAL</Typography>
-                    <Typography>CAD $ {product.totalprice.toFixed(2)}</Typography>
-                  </Box>
+          <Box sx={{ flexGrow: 1 }} >
+            <Grid container spacing={6} direction={direction}>
+              {/* {checkoutSm} */}
+              <Grid xs={12} sm={12} md={7}>
+                <Box sx={{ maxWidth: '300', height: '100%' }}>
+                  {product.details.map(product =>
+                    <CartList key={product.bookId} product={product} />
+                  )}
                 </Box>
-                <Box sx={{ display: 'flex', flexDirection: 'column', mt: 4 }}>
-                  <PayButton product={product} cartId={cartId} />
-                  <KEEPSHOPPING variant='contained' sx={{ mt: 2 }} onClick={() => navigate('/')}>COUTINUE SHOPPING</KEEPSHOPPING>
-                </Box>
-              </STICKY>
-
-
-            </Box>
+              </Grid>
+              <Grid xs={12} sm={12} md={5}>
+                <STICKY sx={{ display: 'flex', flexDirection: 'column', m: 2 }}>
+                  <Box sx={{ border: '1px solid lightGrey', borderRadius: '3%' }}>
+                    <Typography sx={{ mt: 4, ml: 2, mr: 2 }}>ORDER SUMMARY | {product.totalcounts} ITEM(S)</Typography>
+                    <Box sx={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      mt: 4, ml: 2, mr: 2
+                    }} >
+                      <Typography>SUBTOTAL</Typography>
+                      <Typography>CAD $ {product.totalprice.toFixed(2)}</Typography>
+                    </Box>
+                    <Box sx={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      mb: 4, ml: 2, mr: 2
+                    }}>
+                      <Typography variant='body2'>Estimated Tax</Typography>
+                      <Typography variant='body2'>TBD</Typography>
+                    </Box>
+                    <Box sx={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      mb: 4, ml: 2, mr: 2
+                    }}>
+                      <Typography>ORDER TOTAL</Typography>
+                      <Typography>CAD $ {product.totalprice.toFixed(2)}</Typography>
+                    </Box>
+                  </Box>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', mt: 4 }}>
+                    <PayButton product={product} cartId={cartId} />
+                    <KEEPSHOPPING variant='contained' sx={{ mt: 2, mb: 3 }} onClick={() => navigate('/')}>COUTINUE SHOPPING</KEEPSHOPPING>
+                  </Box>
+                </STICKY>
+              </Grid>
+            </Grid>
           </Box>
         </Box >
       )
