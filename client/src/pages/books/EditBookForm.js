@@ -48,7 +48,7 @@ const EditBookForm = ({ book }) => {
   const [description, setDescription] = useState(book.description)
   const [author, setAuthor] = useState(book.author)
   const [inStocks, setInStocks] = useState(book.instocks)
-  const [price, setPrice] = useState(book.price.toFixed(2))
+  const [price, setPrice] = useState(book.price)
   const [category, setCategory] = useState(book.category)
 
 
@@ -147,7 +147,7 @@ const EditBookForm = ({ book }) => {
     <Paper sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
       <Typography variant='h5' sx={{ p: 3 }} >Edit Book</Typography>
       {error ?
-        <Paper sx={{ width: '600px', height: '400px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <Paper sx={{ width: '300px', height: '400px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
           <Typography variant='h5' sx={{ mb: 5 }}>{error?.data?.message}</Typography>
         </Paper>
         :
