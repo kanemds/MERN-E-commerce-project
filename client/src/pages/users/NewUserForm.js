@@ -3,6 +3,8 @@ import { useAddNewUserMutation } from '../users/usersApiSlice'
 import { useNavigate, Link as RouterLink } from 'react-router-dom'
 import { ROLES } from '../../config/roles'
 import { Paper, Box, Button, TextField, Typography, Link, OutlinedInput, InputLabel, MenuItem, FormControl, Select } from '@mui/material'
+import Grid from '@mui/material/Unstable_Grid2'
+
 // included
 const USER_REGEX = /^[a-zA-Z0-9-_.]{3,24}$/
 // required type
@@ -126,9 +128,15 @@ const NewUserForm = () => {
 
           {options}
           {roles.length === 0 ? <Typography>Please select at least one position</Typography> : ""}
-          <Box sx={{ m: 3 }}>
-            <Button variant="contained" disabled={!canSave} onClick={handleSubmit} sx={{ mr: 3 }}>Submit</Button>
-            <Button variant="contained" ><Link to='/' component={RouterLink} underline="none" color='white'>Cancel</Link></Button>
+          <Box sx={{ flexGrow: 1, m: 3 }}>
+            <Grid container spacing={2}>
+              <Grid xs={6}>
+                <Button variant="contained" disabled={!canSave} onClick={handleSubmit} sx={{ mr: 3 }}>Submit</Button>
+              </Grid>
+              <Grid xs={6}>
+                <Button variant="contained" ><Link to='/' component={RouterLink} underline="none" color='white'>Cancel</Link></Button>
+              </Grid>
+            </Grid>
           </Box>
           <Typography variant='h8' >Note: Password required: one number and one "!,@,#,$,%" special charater </Typography>
         </Paper>
