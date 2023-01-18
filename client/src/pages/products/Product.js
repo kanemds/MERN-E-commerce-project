@@ -154,19 +154,24 @@ const Product = () => {
   if (book) {
     content = (
 
-      <Box sx={{ height: 900, width: '100%', minWidth: 900, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <Grid container spacing={4}>
-          <Grid xs={4} >
-            <Box
-              component="img"
-              sx={{ height: 400, width: '100%' }}
-              src={book.image}
-              alt={book.title}
-            />
-            <Typography variant='h6'>Author: {book.author}</Typography>
+          <Grid xs={12} sm={12} md={5}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+              <Box sx={{ height: 400, width: 300, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Box
+                  component="img"
+                  sx={{ width: '100%' }}
+                  src={book.image}
+                  alt={book.title}
+                />
+              </Box>
+
+              <Typography variant='h6'>Author: {book.author}</Typography>
+            </Box>
           </Grid>
 
-          <Grid xs={8} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          <Grid xs={12} sm={12} md={7}>
             <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
               <Typography variant='h4'>{book.title}</Typography>
               <br />
