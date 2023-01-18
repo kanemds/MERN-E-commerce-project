@@ -18,7 +18,7 @@ const EditOrderContentTable = ({ product }) => {
 
   return (
     <TableBody>
-      <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+      <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 }, flexGrow: 1 }}>
         <Grid container sx={{ display: 'flex', alignItems: 'center' }} >
           <Grid xs={0} sm={4}>
             <Box sx={{ display: { xs: 'none', sm: 'inline', md: 'inline' } }}>
