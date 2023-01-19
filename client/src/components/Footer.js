@@ -13,9 +13,7 @@ const Item = styled(Box)(({ theme }) => ({
   // color: theme.palette.text.secondary,
 }))
 
-const STICKY = styled(Box)(({ theme }) => ({
-  position: 'fixed'
-}))
+
 
 
 const Bottom = styled(Grid)(() => ({
@@ -37,11 +35,14 @@ const Footer = () => {
     <Box sx={{ width: '100%' }}>
       {
         username && pathname.includes('/dash') ?
-          <STICKY sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', height: '80px', width: '100%', borderTop: 3, borderColor: 'primary.main', backgroundColor: 'white' }}>
+          <Box sx={{
+            height: '80px', height: '80px',
+            width: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', borderTop: 3, borderColor: 'primary.main', backgroundColor: 'white'
+          }}>
             <Typography variant='h5' sx={{ ml: 2 }}>Status: {status} </Typography>
             <Typography sx={{ ml: 3, mr: 3 }}>|</Typography>
             <Typography variant='h5'> User Name: {username}</Typography>
-          </STICKY>
+          </Box>
           :
           pathname === '/' ?
             <Box sx={{ flexGrow: 1, height: '250px', width: '100%', borderTop: 3, borderColor: 'primary.main', backgroundColor: 'white' }}>
