@@ -12,6 +12,7 @@ import Image from './Image'
 import { styled } from '@mui/material/styles'
 import { pink, blue, orange } from '@mui/material/colors'
 import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 
 
 function SwipeableTextMobileStepper({ currentCategory }) {
@@ -21,6 +22,8 @@ function SwipeableTextMobileStepper({ currentCategory }) {
 
   const theme = useTheme()
   const [activeStep, setActiveStep] = React.useState(0)
+  const [recentlyView, setRecentlyView] = useState(JSON.parse(localStorage.getItem('recentlyView')) || null)
+
   const maxSteps = currentCategory.length
 
   const handleNext = () => {
@@ -74,8 +77,6 @@ function SwipeableTextMobileStepper({ currentCategory }) {
     buttonHover = orange[100]
   }
 
-
-
   const ColorButton = styled(Button)(({ theme }) => ({
     color: theme.palette.getContrastText(buttonContrast),
     backgroundColor: buttonBC,
@@ -83,6 +84,19 @@ function SwipeableTextMobileStepper({ currentCategory }) {
       backgroundColor: buttonHover,
     },
   }))
+
+  const hanldClick = (id, image) => {
+    console.log(id, image)
+    navigate(`/products/${id}`)
+    if (recentlyView == null) {
+      localStorage.setItem('recentlyView', JSON.stringify([{ id: id, image: image }]))
+    }
+    const exist = recentlyView.find(product => product.id === id)
+
+    if (!exist) {
+      localStorage.setItem('recentlyView', JSON.stringify([...recentlyView, { id: id, image: image }]))
+    }
+  }
 
 
   return (
@@ -103,7 +117,7 @@ function SwipeableTextMobileStepper({ currentCategory }) {
               Math.abs(activeStep - index) <= 2 ? (
                 <ColorButton
                   sx={{ height: '100%', width: '100%' }}
-                  onClick={() => navigate(`/products/${step._id}`)}
+                  onClick={() => hanldClick(step._id, step.image)}
                 >
                   <Image step={step} />
                 </ColorButton>
