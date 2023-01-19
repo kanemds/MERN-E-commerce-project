@@ -161,7 +161,7 @@ const Product = () => {
               <Box sx={{ height: 400, width: 300, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Box
                   component="img"
-                  sx={{ width: '100%' }}
+                  sx={{ width: '100%', height: '100%' }}
                   src={book.image}
                   alt={book.title}
                 />
