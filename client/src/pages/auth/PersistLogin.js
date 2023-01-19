@@ -1,4 +1,4 @@
-import { Outlet, Link as RouterLink } from 'react-router-dom'
+import { Outlet, Link as RouterLink, useLocation } from 'react-router-dom'
 import React, { useState, useEffect, useRef } from 'react'
 import { useRefreshMutation } from './authApiSlice'
 import usePersist from '../../hooks/usePersist'
@@ -7,9 +7,12 @@ import { selectCurrentToken } from './authSlice'
 import { Box, Link, Typography } from '@mui/material'
 import LoadingMessage from '../../components/LoadingMessage'
 
+const CARTS_REGEX = /^\/carts(\/)?$/
+
 const PersistLogin = () => {
 
   const [persist] = usePersist()
+  const { pathname } = useLocation()
 
   const token = useSelector(selectCurrentToken)
 
@@ -46,9 +49,11 @@ const PersistLogin = () => {
     return () => effectRan.current = true // first run to false and set(true) prevent run twice
   }, [])
 
+  console.log(CARTS_REGEX.test(pathname))
+
   let content
 
-  if (!persist) {
+  if (!persist || CARTS_REGEX.test(pathname)) {
     content = <Outlet />
   } else if (isLoading) { // persist && !token
     content = <LoadingMessage />
@@ -59,9 +64,9 @@ const PersistLogin = () => {
         <Link to='/' component={RouterLink} underline="none" >Back To Home Page</Link>
       </Box>
     )
-  } else if (isSuccess && trueSuccess) { // persist && token
+  } else if (isSuccess && trueSuccess || CARTS_REGEX.test(pathname)) { // persist && token
     content = <Outlet />
-  } else if (token && isUninitialized) { // persist && token
+  } else if (token && isUninitialized || CARTS_REGEX.test(pathname)) { // persist && token
     console.log('token and uninit')
     console.log(isUninitialized)
     content = < Outlet />

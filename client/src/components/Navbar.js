@@ -22,6 +22,10 @@ import useAuth from '../hooks/useAuth'
 
 import Grid from '@mui/material/Unstable_Grid2'
 
+// \/ means /
+// ^ match the start of the string
+// $ match the end of the string
+// match between 0 and 1 of the preceding token
 
 
 const NOTES_REGEX = /^\/dash\/notes(\/)?$/
