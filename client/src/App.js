@@ -51,12 +51,13 @@ function App() {
 
             <Route path='/about' element={<About />} />
 
-            <Route path='carts'>
-              <Route index element={<ShoppingCart />} />
-            </Route>
 
             {/* protected */}
             <Route element={<PersistLogin />}>
+
+              <Route path='carts'>
+                <Route index element={<ShoppingCart />} />
+              </Route>
 
               <Route element={<RequireAuth allowedRoles={[...Object.values(ROLES)]} />}>
 
