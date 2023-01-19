@@ -19,31 +19,42 @@ const Layout = () => {
 
   const WrapperCustomer = styled(Container)(() => ({
     marginTop: '130px',
-    height: 'calc(100% - 250px - 130px)',
+    height: 'calc(100% - 130px)',
     width: '100%',
   }))
 
   const WrapperUser = styled(Container)(() => ({
     marginTop: '130px',
-    marginBottom: '100px',
-    height: 'cale(100% - 130px - 100px)',
+    height: 'calc(100% - 130px)',
     width: '100%'
   }))
+
+  // this will have a fixed footer when scrolling
+  // footer {
+  //   position:fixed;
+  //   bottom:0;
+  //   width:100%
+  // }
 
 
   return (
     <>
       <Navbar />
-      {isEmployee && pathname.includes('/dash') || isManager && pathname.includes('/dash') || isAdmin && pathname.includes('/dash') ?
-        <WrapperUser>
-          <Outlet />
-        </WrapperUser>
-        :
-        <WrapperCustomer>
-          <Outlet />
-        </WrapperCustomer>
-      }
-      <Footer />
+      <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+        {isEmployee && pathname.includes('/dash') || isManager && pathname.includes('/dash') || isAdmin && pathname.includes('/dash') ?
+
+          <WrapperUser>
+            <Outlet />
+          </WrapperUser>
+          :
+          <WrapperCustomer>
+            <Outlet />
+          </WrapperCustomer>
+        }
+        <Box sx={{ marginTop: 'auto' }}>
+          <Footer />
+        </Box>
+      </Box>
     </>
   )
 }
