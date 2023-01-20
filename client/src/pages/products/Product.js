@@ -7,6 +7,8 @@ import LoadingMessage from '../../components/LoadingMessage'
 import { styled } from '@mui/material/styles'
 import { grey } from '@mui/material/colors'
 import { useAddNewProductMutation, useGetProductsQuery } from './productApiSlice'
+import RecentlyView from '../../components/RecentlyView'
+
 
 
 const style = {
@@ -82,7 +84,7 @@ const Product = () => {
     })
   })
 
-  const currentProduct = product?.details.find(product => product.bookId === book._id)
+  const currentProduct = product?.details.find(product => product.bookId === book?._id)
 
   let requiredQuantity
 
@@ -154,7 +156,8 @@ const Product = () => {
   if (book) {
     content = (
 
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+
+      <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
         <Grid container spacing={4}>
           <Grid xs={12} sm={12} md={5}>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
@@ -226,6 +229,10 @@ const Product = () => {
             </Box>
           </Grid>
         </Grid >
+        <Box sx={{ mt: 30 }}>
+          <RecentlyView />
+        </Box>
+
       </Box>
 
     )

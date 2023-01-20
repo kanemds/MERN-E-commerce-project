@@ -1,7 +1,11 @@
 import { Typography, Box, Paper } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
+
 
 const About = () => {
+
+
+
   return (
     <Paper sx={{ minWidth: 650, height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
       <Typography variant='h4' sx={{ m: 2 }}>

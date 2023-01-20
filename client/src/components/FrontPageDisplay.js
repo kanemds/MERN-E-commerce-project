@@ -85,16 +85,16 @@ function SwipeableTextMobileStepper({ currentCategory }) {
     },
   }))
 
-  const hanldClick = (id, image) => {
-    console.log(id, image)
+  const hanldClick = (id, title, image) => {
+
     navigate(`/products/${id}`)
     if (recentlyView == null) {
-      localStorage.setItem('recentlyView', JSON.stringify([{ id: id, image: image }]))
+      localStorage.setItem('recentlyView', JSON.stringify([{ id, title, image }]))
     }
     const exist = recentlyView.find(product => product.id === id)
 
     if (!exist) {
-      localStorage.setItem('recentlyView', JSON.stringify([...recentlyView, { id: id, image: image }]))
+      localStorage.setItem('recentlyView', JSON.stringify([...recentlyView, { id, title, image }]))
     }
   }
 
@@ -117,7 +117,7 @@ function SwipeableTextMobileStepper({ currentCategory }) {
               Math.abs(activeStep - index) <= 2 ? (
                 <ColorButton
                   sx={{ height: '100%', width: '100%' }}
-                  onClick={() => hanldClick(step._id, step.image)}
+                  onClick={() => hanldClick(step._id, step.title, step.image)}
                 >
                   <Image step={step} />
                 </ColorButton>
