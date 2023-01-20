@@ -7,7 +7,7 @@ import LoadingMessage from '../../components/LoadingMessage'
 import { styled } from '@mui/material/styles'
 import { grey } from '@mui/material/colors'
 import { useAddNewProductMutation, useGetProductsQuery } from './productApiSlice'
-import RecentlyView from '../../components/RecentlyView'
+import RecentlyView from '../../components/slider/RecentlyView'
 
 
 
@@ -174,7 +174,7 @@ const Product = () => {
             </Box>
           </Grid>
 
-          <Grid xs={12} sm={12} md={7}>
+          <Grid xs={12} sm={12} md={7} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
               <Typography variant='h4'>{book.title}</Typography>
               <br />
@@ -229,11 +229,14 @@ const Product = () => {
             </Box>
           </Grid>
         </Grid >
-        <Box sx={{ mt: 30 }}>
+        <Box sx={{ mt: 10, width: '100%', height: 280, }}>
+          <Typography variant='h5' sx={{ mb: 6 }}>
+            You may also insterted in?
+          </Typography>
           <RecentlyView />
         </Box>
 
-      </Box>
+      </Box >
 
     )
   }

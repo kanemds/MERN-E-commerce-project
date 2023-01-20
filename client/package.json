@@ -26,7 +26,9 @@
     "react-slideshow-image": "^4.1.1",
     "react-spinners": "^0.13.7",
     "react-swipeable-views": "^0.14.0",
+    "slick-carousel": "^1.8.1",
     "styled-components": "^5.3.6",
+    "swiper": "^8.4.6",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
