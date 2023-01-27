@@ -17,9 +17,9 @@ const baseQuery = fetchBaseQuery({
 })
 
 const baseQueryWithReauth = async (args, api, extraOptions) => {
-  // console.log(args)
-  // console.log(api)
-  // console.log(extraOptions)
+  console.log('arge', args)
+  console.log('api', api)
+  console.log(extraOptions)
 
   let result = await baseQuery(args, api, extraOptions)
 
@@ -34,7 +34,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
       result = await baseQuery(args, api, extraOptions)
     } else {
       if (refreshToken?.error?.status === 403) {
-        refreshToken.error.data.message = 'Login has expired.'
+        refreshToken.error.data.message = 'Login has expired. '
       }
       return refreshToken
     }

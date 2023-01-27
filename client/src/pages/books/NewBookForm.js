@@ -115,7 +115,6 @@ const NewBookForm = () => {
     setPrice(e.target.value)
   }
 
-  console.log(price)
 
   const handleSubmit = (e) => {
     e.preventDefault()

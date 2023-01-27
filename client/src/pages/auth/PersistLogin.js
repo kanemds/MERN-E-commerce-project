@@ -49,7 +49,6 @@ const PersistLogin = () => {
     return () => effectRan.current = true // first run to false and set(true) prevent run twice
   }, [])
 
-  console.log(CARTS_REGEX.test(pathname))
 
   let content
 
