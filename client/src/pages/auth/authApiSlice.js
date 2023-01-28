@@ -16,6 +16,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
         method: 'POST'
       }),
       // instead useDispatch each into component, it can dispatch here as well
+      // https://redux-toolkit.js.org/rtk-query/usage/queries
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled

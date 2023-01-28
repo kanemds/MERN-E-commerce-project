@@ -41,22 +41,24 @@ function App() {
           <Route path='*' element={< NotFound />} />
           {/* Public */}
           <Route element={<BooksPrefetch />}>
-            <Route index element={<Public />} />
+
             <Route path='login' element={<Login />} />
             <Route path='register' element={<Register />} />
-            <Route path='products' >
-              <Route index element={<Products />} />
-              <Route path=':id' element={<Product />} />
-            </Route>
-
-            <Route path='/about' element={<About />} />
-
 
             {/* protected */}
             <Route element={<PersistLogin />}>
 
+              <Route index element={<Public />} />
+
+              <Route path='/about' element={<About />} />
+
               <Route path='carts'>
                 <Route index element={<ShoppingCart />} />
+              </Route>
+
+              <Route path='products' >
+                <Route index element={<Products />} />
+                <Route path=':id' element={<Product />} />
               </Route>
 
               <Route element={<RequireAuth allowedRoles={[...Object.values(ROLES)]} />}>
