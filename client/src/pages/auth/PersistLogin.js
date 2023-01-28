@@ -8,6 +8,8 @@ import { Box, Link, Typography } from '@mui/material'
 import LoadingMessage from '../../components/LoadingMessage'
 
 const CARTS_REGEX = /^\/carts(\/)?$/
+const FRONTPAGE_REGEX = /^\/(\/)?$/
+const PRODUCTS_REGEX = /^\/products\/?/
 
 const PersistLogin = () => {
 
@@ -52,7 +54,7 @@ const PersistLogin = () => {
 
   let content
 
-  if (!persist || CARTS_REGEX.test(pathname)) {
+  if (!persist || CARTS_REGEX.test(pathname) || PRODUCTS_REGEX.test(pathname) || FRONTPAGE_REGEX.test(pathname)) {
     content = <Outlet />
   } else if (isLoading) { // persist && !token
     content = <LoadingMessage />

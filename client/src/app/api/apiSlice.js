@@ -19,7 +19,7 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithReauth = async (args, api, extraOptions) => {
   console.log('arge', args)
   console.log('api', api)
-  console.log(extraOptions)
+
 
   let result = await baseQuery(args, api, extraOptions)
 
