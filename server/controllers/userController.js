@@ -57,6 +57,8 @@ const createUser = asynceHandler(async (req, res) => {
 const updateUser = asynceHandler(async (req, res) => {
   const { id, username, email, roles, active, password } = req.body
 
+
+
   const lowerCase = email.toLowerCase()
 
   if (!username || !lowerCase || !Array.isArray(roles) || !roles.length || typeof active !== 'boolean') {
@@ -64,6 +66,7 @@ const updateUser = asynceHandler(async (req, res) => {
   }
 
   const user = await User.findById(id).exec()
+  console.log(user)
 
   if (!user) {
     return res.status(400).json({ message: 'User not Found' })
