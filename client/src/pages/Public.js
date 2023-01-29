@@ -41,6 +41,7 @@ const Public = () => {
 
     content = (
       <Box sx={{ flexGrow: 1 }}>
+
         <Grid container >
           <Grid xs={12} sm={12} md={3} sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>
             <Box position="fixed" sx={{ height: 'calc(70%)', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start', width: '360px' }}>
@@ -53,6 +54,7 @@ const Public = () => {
             </Box>
           </Grid>
           <Grid xs={12} sm={12} md={9} >
+            <Typography variant='h4'>This project is for Learning Purpose</Typography>
             {types?.map((category) => {
               let currentCategory = books.filter(book => book.category === category)
               return (
