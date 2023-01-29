@@ -11,6 +11,8 @@ const USER_REGEX = /^[a-zA-Z0-9-_.]{3,24}$/
 // required type
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%]).{4,24}$/
 
+const EMAIL_REGEX = /[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+
 
 const EditUserForm = ({ currentUser }) => {
 
@@ -34,6 +36,9 @@ const EditUserForm = ({ currentUser }) => {
 
   const [show, setShow] = useState(false)
 
+  const [email, setEmail] = useState(currentUser.email)
+  const [validEmail, setValidEmail] = useState('')
+
   const [password, setPassword] = useState('')
   const [validPassword, setValidPassword] = useState(false)
 
@@ -47,6 +52,10 @@ const EditUserForm = ({ currentUser }) => {
   useEffect(() => {
     setValidUsername(USER_REGEX.test(username))
   }, [username])
+
+  useEffect(() => {
+    setValidEmail(EMAIL_REGEX.test(email))
+  }, [email])
 
   useEffect(() => {
     setValidPassword(PWD_REGEX.test(password))
@@ -83,9 +92,9 @@ const EditUserForm = ({ currentUser }) => {
   const handleUpdate = async (e) => {
     e.preventDefault()
     if (canSave) {
-      await updateUser({ id: currentUser.id, username, password, roles, active })
+      await updateUser({ id: currentUser.id, username, email, password, roles, active })
     } else {
-      await updateUser({ id: currentUser.id, username, roles, active })
+      await updateUser({ id: currentUser.id, username, email, roles, active })
     }
   }
 
@@ -105,7 +114,7 @@ const EditUserForm = ({ currentUser }) => {
   }
 
   const options = (
-    <FormControl fullWidth >
+    <FormControl fullWidth sx={{ m: 3 }}>
       <InputLabel >Assigned Position</InputLabel>
       <Select
         input={<OutlinedInput label="Assigned Position" />}
@@ -138,6 +147,11 @@ const EditUserForm = ({ currentUser }) => {
             value={username} onChange={e => setUsername(e.target.value)}
           />
           {validUsername || username.length === 0 ? "" : <Typography>User Name must be 3 to 24 characters(Letters and Numbers only) </Typography>}
+
+          <TextField fullWidth autoComplete='off' type='email' label='Email' variant='outlined' required sx={{ m: 3 }}
+            value={email} onChange={e => setEmail(e.target.value)}
+          />
+          {validEmail || email.length === 0 ? "" : <Typography>Invalidate Email </Typography>}
 
           {options}
           {roles.length === 0 ? <Typography>Please select at least one position</Typography> : ""}
