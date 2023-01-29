@@ -1,5 +1,6 @@
 import { Typography, Box, Paper } from '@mui/material'
 import React, { useState } from 'react'
+import Grid from '@mui/material/Unstable_Grid2'
 
 
 const About = () => {
@@ -7,10 +8,8 @@ const About = () => {
 
 
   return (
-    <Paper sx={{ minWidth: 650, height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-      <Typography variant='h4' sx={{ m: 2 }}>
-        This project App is for Learning Perpose
-      </Typography>
+    <Paper sx={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+
       <Typography variant='h5' sx={{ mb: 2 }}>
         About this App:
       </Typography>
