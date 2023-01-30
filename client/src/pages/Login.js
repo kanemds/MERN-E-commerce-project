@@ -31,8 +31,10 @@ const Login = () => {
     e.preventDefault()
     try {
       if (canSave) {
+        setPersist(true)
         const { accessToken } = await login({ username, password }).unwrap()
         dispatch(setCredentials({ accessToken }))
+
         setUsername('')
         setPassword('')
         navigate('/')
@@ -48,7 +50,6 @@ const Login = () => {
         setError(error.data?.message)
       }
     }
-
   }
 
   const content = (
@@ -68,10 +69,11 @@ const Login = () => {
           <Button><Link to='/' component={RouterLink} underline="none" >Cancel</Link></Button>
         </Box>
 
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        {/* no need check box */}
+        {/* <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <Typography>Trust This Device</Typography>
           <Checkbox checked={persist} onChange={() => setPersist(prev => !prev)} />
-        </Box>
+        </Box> */}
 
       </Paper>
     </Box>
