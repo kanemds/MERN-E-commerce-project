@@ -10,8 +10,8 @@ import { styled } from '@mui/material/styles'
 
 const Gap = styled(Paper)(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
-    marginTop: 280,
-    marginBottom: 500
+    marginTop: 100,
+    marginBottom: 180
   }
 }))
 
@@ -43,22 +43,23 @@ const Public = () => {
       <Box sx={{ flexGrow: 1 }}>
 
         <Grid container >
-          <Grid xs={12} sm={12} md={3} sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>
+          {/* due to the window size different, there will be some bugs. decided not to use */}
+          {/* <Grid xs={12} sm={12} md={3} sx={{ display: { xs: 'none', sm: 'none', md: 'none' } }}>
             <Box position="fixed" sx={{ height: 'calc(70%)', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start', width: '360px' }}>
               {types?.map((category) =>
 
-                <Link key={category} to={category} activeClass="active" className='scroll' spy={true} smooth={true} offset={-410} duration={600} >
+                <Link key={category} to={category} activeClass="active" className='scroll' spy={true} smooth={true} offset={-480} duration={600} >
                   <Typography variant='h6'>{category}</Typography>
                 </Link>
               )}
             </Box>
-          </Grid>
-          <Grid xs={12} sm={12} md={9} >
+          </Grid> */}
+          <Grid xs={12} sm={12} md={12} >
             <Typography variant='h4'>This project is for Learning Purpose</Typography>
             {types?.map((category) => {
               let currentCategory = books.filter(book => book.category === category)
               return (
-                <Gap key={category} id={`${category}`}  >
+                <Gap key={category} id={`${category}`} >
                   <FrontPageDisplay currentCategory={currentCategory} />
                 </Gap>
               )

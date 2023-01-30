@@ -102,7 +102,7 @@ function SwipeableTextMobileStepper({ currentCategory }) {
   return (
     <Box >
       <Banner>
-        <Typography variant='h5' sx={{ m: 2 }}>{currentCategory[0].category}</Typography>
+        <Typography variant='h4' sx={{ m: 2 }}>{currentCategory[0].category}</Typography>
       </Banner>
 
       <SwipeableViews
