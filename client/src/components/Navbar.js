@@ -19,9 +19,7 @@ import { useNavigate, useLocation, Link as RouterLink } from 'react-router-dom'
 import { useUserLogoutMutation } from '../pages/auth/authApiSlice'
 import { useGetProductsQuery } from '../pages/products/productApiSlice'
 import { useGetOrdersQuery } from '../pages/order/ordersApiSlice'
-import { useGetUsersQuery } from '../pages/users/usersApiSlice'
 import useAuth from '../hooks/useAuth'
-
 import Grid from '@mui/material/Unstable_Grid2'
 
 // \/ means /
@@ -43,6 +41,10 @@ const ColorBadge = styled(Badge)(({ theme }) => ({
   }
 }))
 
+const WhiteColor = styled(SettingsIcon)(({ theme }) => ({
+  color: 'white'
+}))
+
 const Gap = styled(Grid)(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
     display: 'flex',
@@ -59,11 +61,13 @@ const SmallButton = styled(Button)(({ theme }) => ({
 }))
 
 
+
+
 const Navbar = () => {
 
-  const { userId, username, status, isEmployee, isManager, isAdmin } = useAuth()
+  const { userId, status, username, isEmployee, isManager, isAdmin } = useAuth()
 
-  console.log(userId)
+  console.log(status)
 
   const navigate = useNavigate()
   const { pathname } = useLocation()
@@ -89,11 +93,7 @@ const Navbar = () => {
     })
   })
 
-  const { currentUser } = useGetUsersQuery('usersList', {
-    selectFromResult: ({ data }) => ({
-      currentUser: data?.entities[userId]
-    })
-  })
+
 
   const { order } = useGetOrdersQuery('ordersList', {
     selectFromResult: ({ data }) => ({
@@ -223,6 +223,55 @@ const Navbar = () => {
     )
   }
 
+  let content = ''
+
+  if (isEmployee || isManager || isAdmin) {
+    content = (
+      <Box >
+        <SmallButton color="inherit" onClick={() => navigate('/dash')}> Dash Board</SmallButton>
+        {buttonContent}
+        <IconButton onClick={() => navigate('/carts')} sx={{ mr: 2 }}>
+          <ColorBadge badgeContent={quantity}>
+            <ShoppingCartIcon sx={{ color: 'white' }} />
+          </ColorBadge>
+        </IconButton>
+        <SmallButton color="inherit" onClick={() => userLogut()}>Logout</SmallButton>
+      </Box>
+    )
+  }
+
+  if (status === 'Customer') {
+    content = (
+      <Box>
+        <IconButton onClick={() => navigate(`/user/${userId}`)}>
+          <WhiteColor />
+        </IconButton>
+        <IconButton onClick={() => navigate('/carts')}>
+          <ColorBadge badgeContent={quantity}>
+            <ShoppingCartIcon sx={{ color: 'white' }} />
+          </ColorBadge>
+        </IconButton>
+        <SmallButton color="inherit" onClick={() => userLogut()}>Logout</SmallButton>
+      </Box>
+    )
+  }
+
+  if (!userId) {
+    content = (
+      <Box >
+        <Button color="inherit" onClick={() => navigate('/login')}>Login</Button>
+        <Button color="inherit" onClick={() => navigate('/register')}>Register</Button>
+        <IconButton onClick={() => navigate('/carts')}>
+          <ColorBadge badgeContent={quantity}>
+            <ShoppingCartIcon sx={{ color: 'white' }} />
+          </ColorBadge>
+        </IconButton>
+      </Box>
+    )
+  }
+
+
+
   return (
 
     // <AppBar position="fixed" sx={{ height: '80px', width: '100%', zindex: 9999, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', p: 3 }}>
@@ -237,41 +286,10 @@ const Navbar = () => {
           </Typography>
         </Gap>
         <Gap xs={12} sm={12} md={7} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          {!username ?
-            <Box >
-              <Button color="inherit" onClick={() => navigate('/login')}>Login</Button>
-              <Button color="inherit" onClick={() => navigate('/register')}>Register</Button>
-              <IconButton onClick={() => navigate('/carts')}>
-                <ColorBadge badgeContent={quantity}>
-                  <ShoppingCartIcon sx={{ color: 'white' }} />
-                </ColorBadge>
-              </IconButton>
-            </Box>
-            :
-            isEmployee || isManager || isAdmin ?
-              <Box >
-                <SmallButton color="inherit" onClick={() => navigate('/dash')}> Dash Board</SmallButton>
-                {buttonContent}
-                <IconButton onClick={() => navigate('/carts')} sx={{ mr: 2 }}>
-                  <ColorBadge badgeContent={quantity}>
-                    <ShoppingCartIcon sx={{ color: 'white' }} />
-                  </ColorBadge>
-                </IconButton>
-                <SmallButton color="inherit" onClick={() => userLogut()}>Logout</SmallButton>
-              </Box>
-              :
-              <Box>
-                <IconButton onClick={() => navigate(`/user/${userId}`)}>
-                  <SettingsIcon color='white' />
-                </IconButton>
-                <IconButton onClick={() => navigate('/carts')}>
-                  <ColorBadge badgeContent={quantity}>
-                    <ShoppingCartIcon sx={{ color: 'white' }} />
-                  </ColorBadge>
-                </IconButton>
-                <SmallButton color="inherit" onClick={() => userLogut()}>Logout</SmallButton>
-              </Box>
-          }
+          {content}
+
+
+
         </Gap>
       </Grid>
 
@@ -280,5 +298,6 @@ const Navbar = () => {
 
   )
 }
+
 
 export default Navbar

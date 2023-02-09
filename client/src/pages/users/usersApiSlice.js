@@ -56,6 +56,16 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         { type: 'User', id: arg.id }
       ]
     }),
+    updateCustomer: builder.mutation({
+      query: updateCustomerData => ({
+        url: '/users/customer',
+        method: 'PATCH',
+        body: updateCustomerData
+      }),
+      invalidatesTags: (result, error, arg) => [
+        { type: 'User', id: arg.id }
+      ]
+    }),
     deleteUser: builder.mutation({
       query: ({ id }) => ({
         url: '/users',
@@ -70,7 +80,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
 })
 
 
-export const { useGetUsersQuery, useAddNewUserMutation, useUpdateUserMutation, useDeleteUserMutation } = usersApiSlice
+export const { useGetUsersQuery, useAddNewUserMutation, useUpdateUserMutation, useUpdateCustomerMutation, useDeleteUserMutation } = usersApiSlice
 
 // selector function without arg api.endpoints.getPosts.select({ page: 5 })
 // then called as selector(state) or passed into useSelector(selector)

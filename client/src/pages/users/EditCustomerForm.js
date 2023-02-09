@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { useUpdateUserMutation, useDeleteUserMutation } from '../users/usersApiSlice'
-import { useNavigate, Link as RouterLink } from 'react-router-dom'
-import { ROLES } from '../../config/roles'
+import { useUpdateUserMutation, useUpdateCustomerMutation, useDeleteUserMutation, useGetUsersQuery } from './usersApiSlice'
+import { useNavigate, Link as RouterLink, useParams } from 'react-router-dom'
 import { Paper, Box, Button, TextField, Typography, Link, OutlinedInput, InputLabel, MenuItem, FormControl, Select, Switch } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
+import LoadingMessage from '../../components/LoadingMessage'
+
 
 
 // included
@@ -14,16 +15,17 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%]).{4,24}$/
 const EMAIL_REGEX = /[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 
 
-const EditUserForm = ({ currentUser }) => {
+const EditCustomerForm = ({ currentUser }) => {
 
   const navigate = useNavigate()
 
-  const [updateUser, {
+
+  const [updateCustomer, {
     isLoading,
     isSuccess,
     isError,
     error
-  }] = useUpdateUserMutation()
+  }] = useUpdateCustomerMutation()
 
   const [deleteUser, {
     isSuccess: isDeletedSuccess,
@@ -45,9 +47,9 @@ const EditUserForm = ({ currentUser }) => {
   const [comfirm, setComfirm] = useState('')
   const [isMatch, setIsMatch] = useState(false)
 
-  const [roles, setRoles] = useState(currentUser.roles)
 
-  const [active, setActive] = useState(currentUser.active)
+
+
 
   useEffect(() => {
     setValidUsername(USER_REGEX.test(username))
@@ -70,31 +72,17 @@ const EditUserForm = ({ currentUser }) => {
     if (isSuccess || isDeletedSuccess) {
       setUsername('')
       setPassword('')
-      setRoles([])
-      navigate('/dash/users')
+      navigate('/')
     }
   }, [isSuccess, isDeletedSuccess, navigate])
 
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event
-    setRoles(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    )
-  }
-
-  const handleActive = (event) => {
-    setActive(event.target.checked)
-  }
 
   const handleUpdate = async (e) => {
     e.preventDefault()
     if (canSave) {
-      await updateUser({ id: currentUser.id, username, email, password, roles, active })
+      await updateCustomer({ id: currentUser.id, username, email, password })
     } else {
-      await updateUser({ id: currentUser.id, username, email, roles, active })
+      await updateCustomer({ id: currentUser.id, username, email })
     }
   }
 
@@ -104,68 +92,43 @@ const EditUserForm = ({ currentUser }) => {
 
   const handleDelete = async () => {
     await deleteUser({ id: currentUser.id })
+    navigate('/')
   }
 
   let canSave
   if (password) {
-    canSave = [roles.length, validUsername, validPassword, isMatch].every(Boolean) && !isLoading
+    canSave = [validUsername, validPassword, isMatch].every(Boolean) && !isLoading
   } else {
-    canSave = [roles.length, validUsername].every(Boolean) && !isLoading
+    canSave = [validUsername].every(Boolean) && !isLoading
   }
 
-  const options = (
-    <FormControl fullWidth sx={{ m: 3 }}>
-      <InputLabel >Assigned Position</InputLabel>
-      <Select
-        input={<OutlinedInput label="Assigned Position" />}
-        multiple
-        value={roles}
-        onChange={handleChange}
-      >
-        {Object.values(ROLES).map((role) => (
-          <MenuItem
-            key={role}
-            value={role}
-          >
-            {role}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
-  )
+
+  let errorContent
+  if (error) errorContent = error?.data?.message
+  if (deletedError) errorContent = deletedError?.data?.message
+
+
 
   const content = (
     <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-      {error || deletedError ?
-        <Paper sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-          <Typography variant='h5' sx={{ mb: 5 }}>{error?.data?.message || deletedError?.data.message}</Typography>
-        </Paper>
+      {errorContent ?
+        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+          <Typography variant='h5' sx={{ mb: 5 }}>{errorContent}</Typography>
+          <Button onClick={() => navigate(-1)}>Back</Button>
+        </Box>
         :
-        <Paper sx={{ width: '100%', maxWidth: 600, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', p: 3 }}>
+        < Paper sx={{ width: '100%', maxWidth: 600, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', p: 3 }}>
           <Typography variant='h5' sx={{ p: 3 }} >Edit User</Typography>
+
           <TextField fullWidth autoComplete='off' type='text' label='User Name' variant='outlined' required sx={{ m: 3 }}
             value={username} onChange={e => setUsername(e.target.value)}
           />
-          {validUsername || username.length === 0 ? "" : <Typography>Require user name length between 3 to 24 characters with no space(Letters and Numbers only)</Typography>}
+          {validUsername || username.length === 0 ? "" : <Typography>Require user name length between 3 to 24 characters with no space(Letters and Numbers only) </Typography>}
 
           <TextField fullWidth autoComplete='off' type='email' label='Email' variant='outlined' required sx={{ m: 3 }}
             value={email} onChange={e => setEmail(e.target.value)}
           />
           {validEmail || email.length === 0 ? "" : <Typography>Invalidate Email </Typography>}
-
-          {options}
-          {roles.length === 0 ? <Typography>Please select at least one position</Typography> : ""}
-
-
-          <Paper sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 1, m: 2 }}>
-            <Typography >User Status:   </Typography>
-            <Typography>{active ? 'Activate' : 'Deactivate'}</Typography>
-            <Switch
-              sx={{ ml: 6 }}
-              checked={active}
-              onChange={handleActive}
-            />
-          </Paper>
 
           <Button variant="contained" onClick={handleShow} sx={{ m: 1 }}>Password Update</Button>
           {!show ? '' :
@@ -193,7 +156,7 @@ const EditUserForm = ({ currentUser }) => {
                 <Button variant="contained" onClick={handleDelete} >Delete</Button>
               </Grid>
               <Grid xs={4} sm={4} md={4}>
-                <Button variant="contained" ><Link to='/dash/users' component={RouterLink} underline="none" color='white' >Cancel</Link></Button>
+                <Button variant="contained" ><Link to='/' component={RouterLink} underline="none" color='white' >Cancel</Link></Button>
               </Grid>
             </Grid>
           </Box>
@@ -206,4 +169,4 @@ const EditUserForm = ({ currentUser }) => {
 }
 
 
-export default EditUserForm
+export default EditCustomerForm

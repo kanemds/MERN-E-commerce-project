@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { getAllUsers, updateUser, createUser, deleteUser } = require('../../controllers/userController')
+const { getAllUsers, updateUser, updateCustomer, createUser, deleteUser } = require('../../controllers/userController')
 
 const verifyJWT = require('../../middleware/verifyJWT')
 
@@ -12,5 +12,6 @@ router.route('/')
   .patch(updateUser)
   .delete(deleteUser)
 
+router.patch('/customer', updateCustomer)
 
 module.exports = router

@@ -115,7 +115,7 @@ const NewUserForm = () => {
           <TextField fullWidth autoComplete='off' type='text' label='User Name' variant='outlined' required sx={{ m: 3 }}
             onChange={e => setUsername(e.target.value)}
           />
-          {validUsername || username.length === 0 ? "" : <Typography>User Name must be 3 to 24 characters(Letters and Numbers only) </Typography>}
+          {validUsername || username.length === 0 ? "" : <Typography>Require user name length between 3 to 24 characters with no space(Letters and Numbers only) </Typography>}
           <TextField fullWidth autoComplete='off' type='password' label='Password' variant='outlined' required sx={{ m: 3 }}
             onChange={e => setPassword(e.target.value)}
           />

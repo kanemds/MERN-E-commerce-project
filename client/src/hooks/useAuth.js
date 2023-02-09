@@ -20,6 +20,7 @@ const useAuth = () => {
     isManager = roles.includes('Manager')
     isAdmin = roles.includes('Admin')
 
+
     if (isEmployee) status = 'Employee'
     if (isManager) status = 'Manager'
     if (isAdmin) status = 'Admin'
