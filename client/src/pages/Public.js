@@ -55,7 +55,7 @@ const Public = () => {
             </Box>
           </Grid> */}
           <Grid xs={12} sm={12} md={12} >
-            <Typography variant='h4'>This project is for Learning Purpose</Typography>
+            <Typography variant='h4'>This project is for Demo Purpose</Typography>
             {types?.map((category) => {
               let currentCategory = books.filter(book => book.category === category)
               return (

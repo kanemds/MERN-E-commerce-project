@@ -29,6 +29,7 @@ import OrdersList from './pages/order/OrdersList'
 import EditOrder from './pages/order/EditOrder'
 import NotFound from './components/NotFound'
 import About from './pages/About'
+import EditCustomer from './pages/users/EditCustomer'
 
 function App() {
 
@@ -64,6 +65,7 @@ function App() {
               <Route element={<RequireAuth allowedRoles={[...Object.values(ROLES)]} />}>
 
                 <Route path='payment-success/:id' element={<PaymentSuccess />} />
+                <Route path='/user/:id' element={<EditCustomer />} />
 
                 <Route element={<RequireAuth allowedRoles={[ROLES.Employee, ROLES.Manager, ROLES.Admin]} />}>
                   {/* prevent default 60s unsubscribe */}

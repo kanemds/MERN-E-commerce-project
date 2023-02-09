@@ -53,7 +53,7 @@ const Login = () => {
   }
 
   const content = (
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
       <Paper sx={{ width: '100%', maxWidth: 600, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', p: 3 }}>
         <Typography variant='h5' sx={{ p: 3 }} >Login</Typography>
         <Typography>{error}</Typography>
@@ -76,6 +76,23 @@ const Login = () => {
         </Box> */}
 
       </Paper>
+
+      <Box sx={{ width: '100%', maxWidth: 600, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', mt: 10 }}>
+
+        <Typography>For Demo purpose, here are the existing users </Typography>
+        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 4 }} >
+          <Box>
+            <Typography>Login as Admin:</Typography>
+            <Typography>user name: Admin</Typography>
+            <Typography>password: aa11!!</Typography>
+          </Box>
+          <Box>
+            <Typography>Login as customer:</Typography>
+            <Typography>user name: Customer</Typography>
+            <Typography>password: aa11!!</Typography>
+          </Box>
+        </Box>
+      </Box>
     </Box>
   )
 
