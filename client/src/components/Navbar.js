@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import AppBar from '@mui/material/AppBar'
-import { Box, Toolbar, Typography, Button, Link, IconButton, Badge } from '@mui/material'
+import { Box, Toolbar, Typography, Button, Link, IconButton, Badge } from '@mui/material/'
 import { pink, blue, orange, red } from '@mui/material/colors'
 import { styled } from '@mui/material/styles'
 // icons
@@ -12,12 +12,14 @@ import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd'
 import BookmarksIcon from '@mui/icons-material/Bookmarks'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import PaidIcon from '@mui/icons-material/Paid'
+import SettingsIcon from '@material-ui/icons/Settings'
 //
 import LoadingMessage from './LoadingMessage'
 import { useNavigate, useLocation, Link as RouterLink } from 'react-router-dom'
 import { useUserLogoutMutation } from '../pages/auth/authApiSlice'
 import { useGetProductsQuery } from '../pages/products/productApiSlice'
 import { useGetOrdersQuery } from '../pages/order/ordersApiSlice'
+import { useGetUsersQuery } from '../pages/users/usersApiSlice'
 import useAuth from '../hooks/useAuth'
 
 import Grid from '@mui/material/Unstable_Grid2'
@@ -59,7 +61,9 @@ const SmallButton = styled(Button)(({ theme }) => ({
 
 const Navbar = () => {
 
-  const { username, status, isEmployee, isManager, isAdmin } = useAuth()
+  const { userId, username, status, isEmployee, isManager, isAdmin } = useAuth()
+
+  console.log(userId)
 
   const navigate = useNavigate()
   const { pathname } = useLocation()
@@ -82,6 +86,12 @@ const Navbar = () => {
   const { product } = useGetProductsQuery('productsList', {
     selectFromResult: ({ data }) => ({
       product: data?.entities[cartId]
+    })
+  })
+
+  const { currentUser } = useGetUsersQuery('usersList', {
+    selectFromResult: ({ data }) => ({
+      currentUser: data?.entities[userId]
     })
   })
 
@@ -251,6 +261,9 @@ const Navbar = () => {
               </Box>
               :
               <Box>
+                <IconButton onClick={() => navigate(`/user/${userId}`)}>
+                  <SettingsIcon color='white' />
+                </IconButton>
                 <IconButton onClick={() => navigate('/carts')}>
                   <ColorBadge badgeContent={quantity}>
                     <ShoppingCartIcon sx={{ color: 'white' }} />
