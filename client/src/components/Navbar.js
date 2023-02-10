@@ -21,6 +21,8 @@ import { useGetProductsQuery } from '../pages/products/productApiSlice'
 import { useGetOrdersQuery } from '../pages/order/ordersApiSlice'
 import useAuth from '../hooks/useAuth'
 import Grid from '@mui/material/Unstable_Grid2'
+import { useSelector } from 'react-redux'
+import { selectCurrentToken } from '../pages/auth/authSlice'
 
 // \/ means /
 // ^ match the start of the string
@@ -68,11 +70,15 @@ const Navbar = () => {
   const { userId, status, username, isEmployee, isManager, isAdmin } = useAuth()
 
   console.log(status)
+  const token = useSelector(selectCurrentToken)
+
 
   const navigate = useNavigate()
   const { pathname } = useLocation()
 
   const [cartId, setCartId] = useState(localStorage.getItem('BookShopCartId') || null)
+  const [isReady, setIsReady] = useState(false)
+  const [exist, setExist] = useState(userId || null)
 
   const {
     data: products,
@@ -85,6 +91,15 @@ const Navbar = () => {
       setCartId(localStorage.getItem('BookShopCartId'))
     }
   }, [products])
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsReady(true)
+    }, 1000)
+  }, [])
+
+  console.log(userId)
+  console.log(isReady)
 
 
   const { product } = useGetProductsQuery('productsList', {
@@ -124,6 +139,8 @@ const Navbar = () => {
       navigate('/')
     }
   }, [isSuccess, navigate])
+
+
 
   const toNewNote = () => navigate('/dash/notes/new')
   const toNotes = () => navigate('/dash/notes')
@@ -223,9 +240,11 @@ const Navbar = () => {
     )
   }
 
-  let content = ''
+  let content
 
-  if (isEmployee || isManager || isAdmin) {
+  if (!isReady) content = ''
+
+  if (isReady && isEmployee || isReady && isManager || isReady && isAdmin) {
     content = (
       <Box >
         <SmallButton color="inherit" onClick={() => navigate('/dash')}> Dash Board</SmallButton>
@@ -240,7 +259,7 @@ const Navbar = () => {
     )
   }
 
-  if (status === 'Customer') {
+  if (isReady && status === 'Customer') {
     content = (
       <Box>
         <IconButton onClick={() => navigate(`/user/${userId}`)}>
@@ -256,7 +275,7 @@ const Navbar = () => {
     )
   }
 
-  if (!userId) {
+  if (isReady && !userId) {
     content = (
       <Box >
         <Button color="inherit" onClick={() => navigate('/login')}>Login</Button>
@@ -286,8 +305,8 @@ const Navbar = () => {
           </Typography>
         </Gap>
         <Gap xs={12} sm={12} md={7} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          {content}
 
+          {content}
 
 
         </Gap>
