@@ -19,17 +19,20 @@ connectDB()
 
 //logger needs to at the beginning
 app.use(logger)
-// app.use(cors(corsOptions))
+// for deployment
+app.use(cors(corsOptions))
 // app.use(cors(corsOptionsDelegate))
 
 
 // https://www.youtube.com/watch?v=PNtFSVU-YTI 
 // about  cors
-app.use(cors({
-  origin: 'http://localhost:3000',
-  // methods:['GET','POST'] only accept
-  credentials: true // cookies
-}))
+
+// for development
+// app.use(cors({
+//   origin: 'http://localhost:3000',
+//   // methods:['GET','POST'] only accept
+//   credentials: true // cookies
+// }))
 
 // Use JSON parser for all non-webhook routes
 app.use((req, res, next) => {
