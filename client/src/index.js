@@ -4,6 +4,7 @@ import App from './App'
 import CssBaseline from '@mui/material/CssBaseline'
 import { store } from './app/store'
 import { Provider } from 'react-redux'
+import { disableReactDevTools } from '@fvilers/disable-react-devtools'
 import {
   createTheme,
   responsiveFontSizes,
@@ -13,6 +14,8 @@ import {
 let theme = createTheme()
 theme = responsiveFontSizes(theme)
 
+//  disable the React Developer Tools addon to access the application
+if (process.env.NODE_ENV === 'production') disableReactDevTools()
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
