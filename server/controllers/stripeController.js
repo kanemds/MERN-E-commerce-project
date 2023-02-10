@@ -25,6 +25,12 @@ const payment = async (req, res) => {
   })
 
   const line_items = product.details.map(item => {
+    console.log(typeof item.price)
+    const string = item.price.toString()
+    console.log(typeof string)
+    const price = parseInt(string.replace(".", "")) // 15.99 to 1599
+    console.log(typeof price)
+    console.log(price)
     return {
       price_data: {
         currency: 'cad',
@@ -34,7 +40,7 @@ const payment = async (req, res) => {
             product_id: item.bookId
           }
         },
-        unit_amount: parseInt(item.price.replace(".", "")), // 15.99 to 1599
+        unit_amount: price,
       },
       quantity: item.quantity,
     }
@@ -56,10 +62,15 @@ const payment = async (req, res) => {
       enabled: true
     },
     mode: 'payment',
+
     // to the location when payment is successed
-    success_url: `https://k-book.onrender.com/payment-success/${product._id}`,
+    success_url: `http://localhost:3000/payment-success/${product._id}`,
     // to the location when press back or cancel the payment
-    cancel_url: `https://k-book.onrender.com/carts`,
+    cancel_url: `http://localhost:3000/carts`,
+
+    // deployment
+    // success_url: `https://k-book.onrender.com/payment-success/${product._id}`,
+    // cancel_url: `https://k-book.onrender.com/carts`,
     expires_at: unixTimestamp + 30 * 60
   }
 

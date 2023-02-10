@@ -94,10 +94,10 @@ const Product = () => {
     requiredQuantity = currentProduct?.quantity
   }
 
-  const currentStocks = currentProduct?.quantity ? book?.instocks : book?.instocks
+  const currentStocks = book?.instocks
 
 
-  const banner = currentStocks >= 6 ? 'In Stocks' : 3 >= currentStocks && currentStocks > 1 ? 'Low Stocks' : currentStocks === 1 ? 'Only 1 Left' : 'Out of Stock'
+  const banner = currentStocks >= 4 ? 'In Stocks' : 3 >= currentStocks && currentStocks > 1 ? 'Low Stocks' : currentStocks === 1 ? 'Only 1 Left' : 'Out of Stock'
 
   let amount
   // !! if we return here below code won't run and will display the amount 

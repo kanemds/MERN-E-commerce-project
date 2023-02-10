@@ -15,7 +15,7 @@ let theme = createTheme()
 theme = responsiveFontSizes(theme)
 
 //  disable the React Developer Tools addon to access the application
-if (process.env.NODE_ENV === 'production') disableReactDevTools()
+// if (process.env.NODE_ENV === 'production') disableReactDevTools()
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(

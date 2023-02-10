@@ -2,7 +2,8 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { setCredentials } from '../../pages/auth/authSlice'
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'https://k-book-backend.onrender.com',
+  // baseUrl: 'https://k-book-backend.onrender.com',
+  baseUrl: 'http://localhost:3002',
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
 
