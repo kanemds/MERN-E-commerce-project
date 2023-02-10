@@ -75,7 +75,7 @@ const PayButton = ({ product, cartId }) => {
     refetchOnMountOrArgChange: true
   })
 
-  const { ids, entities } = books
+  const { entities } = books
 
 
   // let productId = []

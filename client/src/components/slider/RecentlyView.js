@@ -14,9 +14,12 @@ import "./styles.css"
 // media query
 import json2mq from 'json2mq'
 import useMediaQuery from '@mui/material/useMediaQuery'
+import { useNavigate } from 'react-router-dom'
 
 
 const RecentlyView = () => {
+
+  const navigate = useNavigate()
 
   let recentlyView = JSON.parse(localStorage.getItem('recentlyView')) || null
 
@@ -35,6 +38,7 @@ const RecentlyView = () => {
 
   const amountOfDisaply = three ? 3 : two ? 2 : 4
 
+
   return (
 
     <Swiper
@@ -48,7 +52,7 @@ const RecentlyView = () => {
     >
       {recentlyView.map(each =>
         <SwiperSlide key={each.id} >
-          <Button sx={{ width: '100%', height: '100%' }} >
+          <Button onClick={() => navigate(`/products/${each.id}`)} sx={{ width: '100%', height: '100%' }} >
             <Paper sx={{ width: '100%', height: '100%', overflow: 'hidden' }} >
               <Box
                 key={each.id}
