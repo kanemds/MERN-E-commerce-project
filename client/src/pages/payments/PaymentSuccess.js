@@ -120,30 +120,27 @@ const PaymentSuccess = () => {
             <Table sx={{ maxWidth: 800 }} aria-label="simple table">
               <TableHead>
                 <TableRow sx={{ borderBottom: '1px solid grey', '&:last-child td, &:last-child th': { border: 0 } }}>
-                  <Box sx={{ display: { xs: 'none', sm: 'inline' } }}>
-                    <TableCell align="center">Product Image</TableCell>
-                  </Box>
+                  <TableCell align="center">Product Image</TableCell>
                   <TableCell align="center">Name</TableCell>
                   <TableCell align="center">Price</TableCell>
                   <TableCell align="center">Quantities</TableCell>
                 </TableRow>
               </TableHead>
-              {order?.products?.details?.map(product =>
-                <TableBody key={product.bookId}>
-                  <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                    <Box sx={{ display: { xs: 'none', sm: 'inline' } }}>
-                      <TableCell align="center" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <Paper sx={{ height: 100, width: 80, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                          <Container src={product.image} />
-                        </Paper>
-                      </TableCell>
-                    </Box>
+              <TableBody>
+                {order?.products?.details?.map(product =>
+                  <TableRow key={product.bookId} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                    <TableCell align="center" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      <Paper sx={{ height: 100, width: 80, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <Container src={product.image} />
+                      </Paper>
+                    </TableCell>
                     <TableCell align="center">{product.title}</TableCell>
                     <TableCell align="center" >${product.price.toFixed(2)}</TableCell>
                     <TableCell align="center">{product.quantity}</TableCell>
                   </TableRow>
-                </TableBody>
-              )}
+                )}
+              </TableBody>
+
             </Table>
           </TableContainer>
         </Paper >
