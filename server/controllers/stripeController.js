@@ -34,7 +34,7 @@ const payment = async (req, res) => {
             product_id: item.bookId
           }
         },
-        unit_amount: item.price * 100,
+        unit_amount: parseInt(item.price.replace(".", "")), // 15.99 to 1599
       },
       quantity: item.quantity,
     }
@@ -57,9 +57,9 @@ const payment = async (req, res) => {
     },
     mode: 'payment',
     // to the location when payment is successed
-    success_url: `${process.env.CLIENT_URL}/payment-success/${product._id}`,
+    success_url: `https://k-book.onrender.com/payment-success/${product._id}`,
     // to the location when press back or cancel the payment
-    cancel_url: `${process.env.CLIENT_URL}/carts`,
+    cancel_url: `https://k-book.onrender.com/carts`,
     expires_at: unixTimestamp + 30 * 60
   }
 
@@ -68,10 +68,10 @@ const payment = async (req, res) => {
 
 
   // below it's from original code "form controll"
-  // res.redirect(303, session.url)
+  res.redirect(303, session.url)
 
   // since using onClick event, we're using this
-  res.status(201).json({ url: session.url })
+  // res.status(201).json({ url: session.url })
 }
 
 

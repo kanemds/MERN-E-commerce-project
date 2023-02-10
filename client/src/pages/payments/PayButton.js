@@ -134,11 +134,11 @@ const PayButton = ({ product, cartId }) => {
 
 
   // when add data to stripe backend success go to stripe website
-  useEffect(() => {
-    if (isSuccess) {
-      window.location.href = data.url
-    }
-  }, [isSuccess])
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     window.location.href = data.url
+  //   }
+  // }, [isSuccess])
 
 
 
