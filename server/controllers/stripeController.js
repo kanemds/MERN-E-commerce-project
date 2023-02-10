@@ -68,10 +68,10 @@ const payment = async (req, res) => {
 
 
   // below it's from original code "form controll"
-  res.redirect(303, session.url)
+  // res.redirect(303, session.url)
 
   // since using onClick event, we're using this
-  // res.status(201).json({ url: session.url })
+  res.status(201).json({ url: session.url })
 }
 
 
