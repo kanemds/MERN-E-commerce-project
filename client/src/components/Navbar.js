@@ -98,9 +98,6 @@ const Navbar = () => {
     }, 1000)
   }, [])
 
-  console.log(userId)
-  console.log(isReady)
-
 
   const { product } = useGetProductsQuery('productsList', {
     selectFromResult: ({ data }) => ({
