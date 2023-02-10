@@ -34,7 +34,7 @@ const payment = async (req, res) => {
             product_id: item.bookId
           }
         },
-        unit_amount: item.price,
+        unit_amount: parseInt(item.price.replace(".", "")), // 15.99 to 1599
       },
       quantity: item.quantity,
     }
