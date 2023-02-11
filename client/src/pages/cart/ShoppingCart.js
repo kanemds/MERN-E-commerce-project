@@ -67,6 +67,8 @@ const ShoppingCart = () => {
     }, 1000)
   }, [])
 
+  console.log(cartId)
+
 
   let content
 
@@ -78,7 +80,7 @@ const ShoppingCart = () => {
     )
   }
 
-  if (isReady && cartId && product?.details?.length === 0) {
+  if (isReady && cartId == null && product?.details?.length === 0) {
     content = (
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         <Typography variant='h6'>

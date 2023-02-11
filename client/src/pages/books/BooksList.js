@@ -51,37 +51,35 @@ const BooksList = () => {
 
     content = (
 
-      <TableContainer component={Paper} sx={{ height: '100%' }} >
-        <Table aria-label="simple table">
-          <TableHead>
-            <TableRow sx={{ borderBottom: '1px solid grey', '&:last-child td, &:last-child th': { border: 0 } }}>
-              <Grid container sx={{ display: 'flex', alignItems: 'center' }} >
-                <Grid xs={4} sm={2} md={2} >
-                  <TableCell>Category</TableCell>
-                </Grid>
-                <Grid xs={0} sm={3} md={2} >
-                  <Box sx={{ display: { xs: 'none', sm: 'inline', md: 'inline' } }}>
-                    <TableCell sx={{ display: 'flex', justifyContent: 'center' }} >Product Image</TableCell>
-                  </Box>
-                </Grid>
-                <Grid xs={3.8} sm={3} md={3} >
-                  <TableCell>Name</TableCell>
-                </Grid>
-                <Grid xs={0} sm={0} md={3} >
-                  <TableCell sx={{ display: { xs: 'none', sm: 'none', md: 'inline' } }}>Author</TableCell>
-                </Grid>
-                <Grid xs={2} sm={2} md={1} >
-                  <TableCell sx={{ display: 'flex', justifyContent: 'center' }} >{Qty}</TableCell>
-                </Grid>
-                <Grid xs={2} sm={2} md={1} >
-                  <TableCell sx={{ display: 'flex', justifyContent: 'center' }} >Edit</TableCell>
-                </Grid>
-              </Grid>
-            </TableRow>
-          </TableHead>
-          {tableContent}
-        </Table>
-      </TableContainer>
+      <Paper sx={{ height: '100%', mb: 10 }} >
+
+
+        <Grid container sx={{ display: 'flex', alignItems: 'center', p: 3, borderBottom: 'solid 1px black' }} >
+          <Grid xs={4} sm={2} md={2} >
+            <Typography>Category</Typography>
+          </Grid>
+          <Grid xs={0} sm={3} md={2} >
+            <Box sx={{ display: { xs: 'none', sm: 'inline', md: 'inline' } }}>
+              <Typography sx={{ display: 'flex', justifyContent: 'center' }} >Product Image</Typography>
+            </Box>
+          </Grid>
+          <Grid xs={3.8} sm={3} md={3} >
+            <Typography>Name</Typography>
+          </Grid>
+          <Grid xs={0} sm={0} md={3} >
+            <Typography sx={{ display: { xs: 'none', sm: 'none', md: 'inline' } }}>Author</Typography>
+          </Grid>
+          <Grid xs={2} sm={2} md={1} >
+            <Typography sx={{ display: 'flex', justifyContent: 'center' }} >{Qty}</Typography>
+          </Grid>
+          <Grid xs={2} sm={2} md={1} >
+            <Typography sx={{ display: 'flex', justifyContent: 'center' }} >Edit</Typography>
+          </Grid>
+        </Grid>
+
+        {tableContent}
+
+      </Paper>
 
     )
   }
