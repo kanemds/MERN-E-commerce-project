@@ -24,9 +24,11 @@ const PaymentSuccess = () => {
 
   const { id } = useParams()
 
+  const currentId = id
+
   const { product } = useGetProductsQuery('productsList', {
     selectFromResult: ({ data }) => ({
-      product: data?.entities[id]
+      product: data?.entities[currentId]
     })
   })
 
@@ -37,10 +39,10 @@ const PaymentSuccess = () => {
   })
 
   useEffect(() => {
-    if (product && order) {
+    if (order) {
       localStorage.removeItem('BookShopCartId')
     }
-  }, [])
+  }, [order])
 
   let content
 
