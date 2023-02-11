@@ -35,8 +35,6 @@ const createOrder = async (customer, data) => {
 
   paidItems.paymentId = saveOrder._id
   paidItems.save()
-
-
 }
 
 const updateOrder = async (req, res) => {
