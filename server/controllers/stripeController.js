@@ -167,7 +167,7 @@ const webHook = async (req, res) => {
 
   await createOrder(customer, data)
 
-  res.json({ received: true })
+  res.json({ message: 'Payment Successful' })
 }
 
 
