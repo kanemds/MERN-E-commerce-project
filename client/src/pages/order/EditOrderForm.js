@@ -1,7 +1,6 @@
 import React from 'react'
 import {
-  Paper, Box, Button, TextField, Link, OutlinedInput, InputLabel, MenuItem, FormControl, Select,
-  Typography, Table, TableCell, TableContainer, TableHead, TableRow
+  Paper, Box, Button, TextField, Link, Typography
 } from '@mui/material'
 import { useDeleteOrderMutation, useUpdateOrderMutation } from './ordersApiSlice'
 import { useNavigate, Link as RouterLink } from 'react-router-dom'
@@ -142,29 +141,28 @@ const EditOrderForm = ({ order }) => {
             </Box>
           </Box>
 
-          <TableContainer component={Paper} sx={{ mt: 3 }}>
-            <Table aria-label="simple table">
-              <TableHead>
-                <TableRow sx={{ borderBottom: '1px solid grey', '&:last-child td, &:last-child th': { border: 0 } }}>
-                  <Grid container sx={{ display: 'flex', alignItems: 'center' }} >
-                    <Grid xs={0} sm={4}>
-                      <TableCell sx={{ display: { xs: 'none', sm: 'inline', md: 'inline' } }} >Product Image</TableCell>
-                    </Grid>
-                    <Grid xs={5} sm={3}>
-                      <TableCell >Name</TableCell>
-                    </Grid>
-                    <Grid xs={3} sm={2.8}>
-                      <TableCell >Price/each</TableCell>
-                    </Grid>
-                    <Grid xs={4} sm={2}>
-                      <TableCell sx={{ display: 'flex', justifyContent: 'center' }}>{Qty}</TableCell>
-                    </Grid>
-                  </Grid>
-                </TableRow>
-              </TableHead>
-              {tableContent}
-            </Table>
-          </TableContainer>
+          <Paper sx={{ mt: 3, width: '100%', maxWidth: 600, p: 4 }}>
+
+            <Grid container sx={{ display: 'flex', alignItems: 'center', borderBottom: 'solid 1px black', mb: 2 }} >
+              <Grid xs={0} sm={4}>
+                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                  <Typography sx={{ display: { xs: 'none', sm: 'inline', md: 'inline' } }} >Product Image</Typography>
+                </Box>
+              </Grid>
+              <Grid xs={5} sm={3}>
+                <Typography >Name</Typography>
+              </Grid>
+              <Grid xs={3} sm={2.8}>
+                <Typography >Price/each</Typography>
+              </Grid>
+              <Grid xs={4} sm={2}>
+                <Typography sx={{ display: 'flex', justifyContent: 'center' }}>{Qty}</Typography>
+              </Grid>
+            </Grid>
+
+            {tableContent}
+
+          </Paper>
 
 
           <Box sx={{ flexGrow: 1, mt: 5 }}>

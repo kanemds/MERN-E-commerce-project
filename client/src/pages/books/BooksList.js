@@ -53,7 +53,6 @@ const BooksList = () => {
 
       <Paper sx={{ height: '100%', mb: 10 }} >
 
-
         <Grid container sx={{ display: 'flex', alignItems: 'center', p: 3, borderBottom: 'solid 1px black' }} >
           <Grid xs={4} sm={2} md={2} >
             <Typography>Category</Typography>
