@@ -91,7 +91,9 @@ const payment = async (req, res) => {
 const webHook = (req, res) => {
 
   // This is your Stripe CLI webhook secret for testing your endpoint locally.
-  const endpointSecret = process.env.SIGNING_SECRET
+  // const endpointSecret = process.env.SIGNING_SECRET_LOCAL
+  const endpointSecret = process.env.SIGNING_SECRET_DEPLOY
+
 
   const sig = req.headers['stripe-signature']
 
