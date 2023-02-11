@@ -40,7 +40,7 @@ const PaymentSuccess = () => {
     if (product && order) {
       localStorage.removeItem('BookShopCartId')
     }
-  })
+  }, [])
 
   let content
 
