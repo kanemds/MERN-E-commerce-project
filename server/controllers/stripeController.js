@@ -87,8 +87,61 @@ const payment = async (req, res) => {
 
 
 
+// for local
+// const webHook = (req, res) => {
 
-const webHook = (req, res) => {
+//   // This is your Stripe CLI webhook secret for testing your endpoint locally.
+//   // const endpointSecret = process.env.SIGNING_SECRET_LOCAL
+//   const endpointSecret = process.env.SIGNING_SECRET_DEPLOY
+
+
+//   const sig = req.headers['stripe-signature']
+
+//   let data
+//   let eventType
+
+//   if (endpointSecret) {
+
+//     let event
+
+//     try {
+//       event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret)
+//     } catch (err) {
+//       // On error, log and return the error message
+//       // console.log(`❌ Error message: ${err.message}`)
+//       return res.status(400).send(`Webhook Error: ${err.message}`)
+//     }
+
+//     data = event.data.object
+//     eventType = event.type
+
+//   } else {
+//     data = req.body.data.object
+//     eventType = req.body.type
+//   }
+
+//   // only handle one event
+//   if (eventType === 'checkout.session.completed') {
+//     stripe.customers
+//       .retrieve(data.customer)
+//       .then(customer => {
+//         // after payment successed, save all the info to mongodb
+//         createOrder(customer, data)
+//       })
+//       .catch(error => console.log(error.message))
+//   }
+
+
+//   // Successfully constructed event
+//   // console.log('✅ Success:', event.id)
+
+//   // Return a response to acknowledge receipt of the event
+//   res.json({ received: true })
+// }
+
+// for deploy
+
+const webHook = async (req, res) => {
 
   // This is your Stripe CLI webhook secret for testing your endpoint locally.
   // const endpointSecret = process.env.SIGNING_SECRET_LOCAL
@@ -98,44 +151,22 @@ const webHook = (req, res) => {
   const sig = req.headers['stripe-signature']
 
   let data
-  let eventType
+  let event
+  let customer
 
-  if (endpointSecret) {
-
-    let event
-
-    try {
-      event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret)
-    } catch (err) {
-      // On error, log and return the error message
-      // console.log(`❌ Error message: ${err.message}`)
-      return res.status(400).send(`Webhook Error: ${err.message}`)
-    }
-
-    data = event.data.object
-    eventType = event.type
-
-  } else {
-    data = req.body.data.object
-    eventType = req.body.type
+  try {
+    event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret)
+  } catch (err) {
+    // On error, log and return the error message
+    // console.log(`❌ Error message: ${err.message}`)
+    return res.status(400).send(`Webhook Error: ${err.message}`)
   }
 
-  // only handle one event
-  if (eventType === 'checkout.session.completed') {
-    stripe.customers
-      .retrieve(data.customer)
-      .then(customer => {
-        // after payment successed, save all the info to mongodb
-        createOrder(customer, data)
-      })
-      .catch(error => console.log(error.message))
-  }
+  data = await event.data.object
+  customer = await stripe.customers.retrieve(data.customer)
 
+  await createOrder(customer, data)
 
-  // Successfully constructed event
-  // console.log('✅ Success:', event.id)
-
-  // Return a response to acknowledge receipt of the event
   res.json({ received: true })
 }
 
