@@ -21,8 +21,6 @@ import { useGetProductsQuery } from '../pages/products/productApiSlice'
 import { useGetOrdersQuery } from '../pages/order/ordersApiSlice'
 import useAuth from '../hooks/useAuth'
 import Grid from '@mui/material/Unstable_Grid2'
-import { useSelector } from 'react-redux'
-import { selectCurrentToken } from '../pages/auth/authSlice'
 
 // \/ means /
 // ^ match the start of the string
@@ -69,16 +67,15 @@ const Navbar = () => {
 
   const { userId, status, username, isEmployee, isManager, isAdmin } = useAuth()
 
-  console.log(status)
-  const token = useSelector(selectCurrentToken)
-
+  const roles = [isEmployee, isManager, isAdmin]
 
   const navigate = useNavigate()
   const { pathname } = useLocation()
 
   const [cartId, setCartId] = useState(localStorage.getItem('BookShopCartId') || null)
   const [isReady, setIsReady] = useState(false)
-  const [exist, setExist] = useState(userId || null)
+
+  console.log(cartId)
 
   const {
     data: products,
@@ -90,12 +87,15 @@ const Navbar = () => {
     if (isProductsSuccess) {
       setCartId(localStorage.getItem('BookShopCartId'))
     }
-  }, [products])
+  }, [products, isProductsSuccess])
 
   useEffect(() => {
-    setTimeout(() => {
+    const delay = setTimeout(() => {
       setIsReady(true)
+      setCartId(localStorage.getItem('BookShopCartId'))
     }, 1000)
+
+    return () => clearTimeout(delay)
   }, [])
 
 
@@ -104,8 +104,6 @@ const Navbar = () => {
       product: data?.entities[cartId]
     })
   })
-
-
 
   const { order } = useGetOrdersQuery('ordersList', {
     selectFromResult: ({ data }) => ({
@@ -119,9 +117,10 @@ const Navbar = () => {
     }
   }, [order])
 
-
-
   const quantity = product ? product?.totalcounts : 0
+
+  console.log(quantity)
+  console.log(product)
 
   const [userLogut, {
     isLoading,
@@ -241,7 +240,7 @@ const Navbar = () => {
 
   if (!isReady) content = ''
 
-  if (isReady && isEmployee || isReady && isManager || isReady && isAdmin) {
+  if (isReady && roles.includes(true)) {
     content = (
       <Box >
         <SmallButton color="inherit" onClick={() => navigate('/dash')}> Dash Board</SmallButton>

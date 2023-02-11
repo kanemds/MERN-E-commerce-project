@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { TableBody, TableCell, TableRow, Button, Paper, Box } from '@mui/material'
+import { TableBody, Typography, TableRow, Button, Paper, TableCell, Box, IconButton } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import { useGetBooksQuery } from './booksApiSlice'
 import { memo } from 'react'
@@ -13,6 +13,7 @@ const Container = styled.img`
     padding: 0;
     margin: 0;
 `
+
 
 const Book = ({ bookId }) => {
 
@@ -29,43 +30,41 @@ const Book = ({ bookId }) => {
     const handleEdit = () => navigate(`/dash/books/${bookId}`)
 
     return (
-      <TableBody>
-
-        <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 }, flexGrow: 1 }}>
-          <Grid container sx={{ display: 'flex', alignItems: 'center' }} >
-            <Grid xs={4} sm={2} md={2} >
-              <TableCell >
-                {book.category}
-              </TableCell>
-            </Grid>
-            <Grid xs={0} sm={3} md={2} >
-              <Box sx={{ display: { xs: 'none', sm: 'inline', md: 'inline' } }}>
-                <TableCell sx={{ display: 'flex', justifyContent: 'center' }}>
-                  <Paper sx={{ height: 140, width: 100, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <Container src={book.image} />
-                  </Paper>
-                </TableCell>
-              </Box>
-            </Grid>
-            <Grid xs={3.8} sm={3} md={3} >
-              <TableCell >{book.title}</TableCell>
-            </Grid>
-            <Grid xs={0} sm={0} md={3} >
-              <TableCell sx={{ display: { xs: 'none', sm: 'none', md: 'inline' } }}>{book.author}</TableCell>
-            </Grid>
-            <Grid xs={2} sm={2} md={1} >
-              <TableCell sx={{ display: 'flex', justifyContent: 'center' }} >{book.instocks}</TableCell>
-            </Grid>
-            <Grid xs={2} sm={2} md={1} >
-              <TableCell sx={{ display: 'flex', justifyContent: 'center', m: 0, p: 0, }}>
-                <Button sx={{ m: 0, p: 0, }} onClick={handleEdit}>
-                  <EditIcon />
-                </Button>
-              </TableCell>
-            </Grid>
+      <Box sx={{ p: 4 }}>
+        <Grid container sx={{ display: 'flex', alignItems: 'center' }} >
+          <Grid xs={4} sm={2} md={2} >
+            <Typography >
+              {book.category}
+            </Typography>
           </Grid>
-        </TableRow>
-      </TableBody>
+          <Grid xs={0} sm={3} md={2} sx={{ display: { xs: 'none', sm: 'inline', md: 'inline' } }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+
+              <Paper sx={{ height: 140, width: 100, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Container src={book.image} />
+              </Paper>
+
+            </Box>
+          </Grid>
+          <Grid xs={3.8} sm={3} md={3} >
+            <Typography >{book.title}</Typography>
+          </Grid>
+          <Grid xs={0} sm={0} md={3} >
+            <Typography sx={{ display: { xs: 'none', sm: 'none', md: 'inline' } }}>{book.author}</Typography>
+          </Grid>
+          <Grid xs={2} sm={2} md={1} >
+            <Typography sx={{ display: 'flex', justifyContent: 'center' }} >{book.instocks}</Typography>
+          </Grid>
+          <Grid xs={2} sm={2} md={1} sx={{ display: 'flex', justifyContent: 'center', m: 0, p: 0, }}>
+
+            <Button sx={{ m: 0, p: 0 }} onClick={handleEdit} >
+              <EditIcon />
+            </Button>
+
+          </Grid>
+        </Grid>
+
+      </Box>
     )
   } else {
     return null
