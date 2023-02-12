@@ -77,7 +77,7 @@ const ShoppingCart = () => {
     )
   }
 
-  if (isReady && product?.details?.length === 0 || cartId == null) {
+  if (isReady && product?.details?.length === 0) {
     content = (
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         <Typography variant='h6'>
@@ -94,6 +94,9 @@ const ShoppingCart = () => {
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
         <Box sx={{ mb: 3 }}>
           <Typography variant='h5'>SHOPPING CART</Typography>
+          <Typography>For demo purpose, please use: 4242 4242 4242 4242 for credit card number on the checkout page.</Typography>
+          <Typography> or visit:  <Link href='https://stripe.com/docs/testing'>https://stripe.com/docs/testing</Link> for more details. </Typography>
+
         </Box>
         <Box sx={{ flexGrow: 1 }} >
           <Grid container spacing={6} direction={direction}>

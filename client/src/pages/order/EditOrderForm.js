@@ -56,7 +56,7 @@ const EditOrderForm = ({ order }) => {
     if (isSuccess) {
       navigate('/dash/orders')
     }
-  }, [isSuccess])
+  }, [isSuccess, navigate])
 
 
   const handleUpdate = async (e) => {
@@ -75,7 +75,7 @@ const EditOrderForm = ({ order }) => {
   const tableContent = order?.products?.details?.length && order?.products?.details?.map(product => <EditOrderContentTable key={product.bookId} product={product} />)
 
   let content = (
-    <Box sx={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'column', alignItems: 'center' }}>
+    <Box sx={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'column', alignItems: 'center', mb: 10 }}>
       {error ?
         <Paper sx={{ height: '400px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
           <Typography variant='h5' sx={{ mb: 5 }}>{error?.data?.message}</Typography>
