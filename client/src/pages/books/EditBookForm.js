@@ -133,6 +133,7 @@ const EditBookForm = ({ book }) => {
 
   const handleDelete = async () => {
     await deleteBook({ id: book.id })
+    navigate('/dash/books')
   }
 
   let canSave
@@ -147,9 +148,12 @@ const EditBookForm = ({ book }) => {
     <Paper sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
       <Typography variant='h5' sx={{ p: 3 }} >Edit Book</Typography>
       {error ?
+
         <Paper sx={{ width: '300px', height: '400px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-          <Typography variant='h5' sx={{ mb: 5 }}>{error?.data?.message}</Typography>
+          <Typography variant='h6' sx={{ mb: 5 }}>{error?.data?.message}</Typography>
+          <Button onClick={() => navigate(`/dash/books/${book.id}`)}> Back </Button>
         </Paper>
+
         :
         <Box sx={{ flexGrow: 1 }} >
           <Grid container spacing={4} sx={{ p: 3 }}>

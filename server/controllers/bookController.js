@@ -162,7 +162,7 @@ const deleteBook = async (req, res) => {
   const desertRef = ref(storage, currentBook.image)
   const deleteImageFirebase = await deleteObject(desertRef)
 
-  const result = await Book.deleteOne()
+  const result = await currentBook.deleteOne()
 
   const reply = `Book: ${result.title} with ID ${result._id} deleted`
 
