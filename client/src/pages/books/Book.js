@@ -32,7 +32,7 @@ const Book = ({ bookId }) => {
     return (
       <Box sx={{ p: 4 }}>
         <Grid container sx={{ display: 'flex', alignItems: 'center' }} >
-          <Grid xs={4} sm={2} md={2}  >
+          <Grid xs={5} sm={3} md={2}  >
             <Typography >
               {book.category}
             </Typography>
@@ -46,14 +46,14 @@ const Book = ({ bookId }) => {
 
             </Box>
           </Grid>
-          <Grid xs={3.8} sm={3} md={3} >
+          <Grid xs={5} sm={4} md={3} >
             <Typography >{book.title}</Typography>
           </Grid>
-          <Grid xs={0} sm={0} md={3} >
-            <Typography sx={{ display: { xs: 'none', sm: 'none', md: 'inline' } }}>{book.author}</Typography>
+          <Grid xs={0} sm={0} md={3}  >
+            <Typography sx={{ display: { xs: 'none', sm: 'none', md: 'inline' }, p: 1 }}>{book.author}</Typography>
           </Grid>
-          <Grid xs={2} sm={2} md={1} >
-            <Typography sx={{ display: 'flex', justifyContent: 'center' }} >{book.instocks}</Typography>
+          <Grid xs={0} sm={0} md={1} >
+            <Typography sx={{ display: 'flex', justifyContent: 'center', display: { xs: 'none', sm: 'none', md: 'inline' } }} >{book.instocks}</Typography>
           </Grid>
           <Grid xs={2} sm={2} md={1} sx={{ display: 'flex', justifyContent: 'center', m: 0, p: 0, }}>
 

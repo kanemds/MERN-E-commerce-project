@@ -54,7 +54,7 @@ const BooksList = () => {
       <Paper sx={{ height: '100%', mb: 10 }} >
 
         <Grid container sx={{ display: 'flex', alignItems: 'center', p: 3, borderBottom: 'solid 1px black' }} >
-          <Grid xs={4} sm={2} md={2} >
+          <Grid xs={5} sm={3} md={2} >
             <Typography>Category</Typography>
           </Grid>
           <Grid xs={0} sm={3} md={2} >
@@ -62,14 +62,14 @@ const BooksList = () => {
               <Typography sx={{ display: 'flex', justifyContent: 'center' }} >Product Image</Typography>
             </Box>
           </Grid>
-          <Grid xs={3.8} sm={3} md={3} >
+          <Grid xs={5} sm={4} md={3} >
             <Typography>Name</Typography>
           </Grid>
           <Grid xs={0} sm={0} md={3} >
-            <Typography sx={{ display: { xs: 'none', sm: 'none', md: 'inline' } }}>Author</Typography>
+            <Typography sx={{ display: { xs: 'none', sm: 'none', md: 'inline' }, p: 1 }}>Author</Typography>
           </Grid>
-          <Grid xs={2} sm={2} md={1} >
-            <Typography sx={{ display: 'flex', justifyContent: 'center' }} >{Qty}</Typography>
+          <Grid xs={0} sm={0} md={1} >
+            <Typography sx={{ display: 'flex', justifyContent: 'center', display: { xs: 'none', sm: 'none', md: 'inline' } }} >{Qty}</Typography>
           </Grid>
           <Grid xs={2} sm={2} md={1} >
             <Typography sx={{ display: 'flex', justifyContent: 'center' }} >Edit</Typography>
@@ -78,7 +78,7 @@ const BooksList = () => {
 
         {tableContent}
 
-      </Paper>
+      </Paper >
 
     )
   }

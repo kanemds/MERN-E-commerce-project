@@ -13,7 +13,6 @@ export const EditBook = () => {
 
 
   const { isManager, isAdmin } = useAuth()
-  console.log(isAdmin)
 
   const { book } = useGetBooksQuery('booksList', {
     selectFromResult: ({ data }) => ({

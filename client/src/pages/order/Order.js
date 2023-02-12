@@ -27,13 +27,13 @@ const Order = ({ orderId }) => {
     return (
       <Box sx={{ p: 4 }}>
         <Grid container sx={{ display: 'flex', alignItems: 'center' }} >
-          <Grid xs={8} sm={6} md={4} >
+          <Grid xs={10} sm={6} md={4} >
             <Typography >{orderId}</Typography>
           </Grid>
           <Grid xs={0} sm={3} md={2} ><Typography sx={{ display: { xs: 'none', sm: 'inline', md: 'inline' } }}>{purchasedAt}</Typography></Grid>
           <Grid xs={0} sm={0} md={2} ><Typography sx={{ display: { xs: 'none', sm: 'none', md: 'inline' } }}>{order.user.username}</Typography></Grid>
           <Grid xs={0} sm={0} md={2}><Typography sx={{ display: { xs: 'none', sm: 'none', md: 'inline' } }}>{order.user.email}</Typography></Grid>
-          <Grid xs={4} sm={1} md={1} >
+          <Grid xs={2} sm={1} md={1} >
             <Typography>
               <Button sx={{
                 width: 0,
