@@ -40,7 +40,7 @@ const OrdersList = () => {
 
 
         <Grid container sx={{ display: 'flex', alignItems: 'center', p: 3, borderBottom: 'solid 1px black' }} >
-          <Grid xs={8} sm={6} md={4} >
+          <Grid xs={10} sm={6} md={4} >
             <Typography>Order Id</Typography>
           </Grid>
           <Grid xs={0} sm={3} md={2}>
@@ -52,7 +52,7 @@ const OrdersList = () => {
           <Grid xs={0} sm={0} md={2} >
             <Typography sx={{ display: { xs: 'none', sm: 'none', md: 'inline' } }}>Email</Typography>
           </Grid>
-          <Grid xs={4} sm={1} md={1} >
+          <Grid xs={2} sm={1} md={1} >
             <Typography >Edit</Typography>
           </Grid>
         </Grid>

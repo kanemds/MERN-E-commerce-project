@@ -77,76 +77,75 @@ const ShoppingCart = () => {
     )
   }
 
-  if (isReady && product?.details?.length === 0) {
-    content = (
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        <Typography variant='h6'>
-          Your cart is currently empty.
-        </Typography>
-        <Link to='/' component={RouterLink} underline='none' color='#1976d2' >Keep Shopping to K Book Shop</Link>
-      </Box >
-    )
-  }
+  if (isReady) {
+    if (cartId == null || product?.details?.length === 0) {
+      content = (
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+          <Typography variant='h6'>
+            Your cart is currently empty.
+          </Typography>
+          <Link to='/' component={RouterLink} underline='none' color='#1976d2' >Keep Shopping to K Book Shop</Link>
+        </Box >
+      )
+    } else if (product?.details?.length > 0) {
+      content = (
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Box sx={{ mb: 3 }}>
+            <Typography variant='h5'>SHOPPING CART</Typography>
+            <Typography>For demo purpose, please use: 4242 4242 4242 4242 for credit card number on the checkout page.</Typography>
+            <Typography> or visit:  <Link href='https://stripe.com/docs/testing'>https://stripe.com/docs/testing</Link> for more details. </Typography>
 
-  if (isReady && cartId && product?.details?.length > 0) {
-
-    content = (
-      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-        <Box sx={{ mb: 3 }}>
-          <Typography variant='h5'>SHOPPING CART</Typography>
-          <Typography>For demo purpose, please use: 4242 4242 4242 4242 for credit card number on the checkout page.</Typography>
-          <Typography> or visit:  <Link href='https://stripe.com/docs/testing'>https://stripe.com/docs/testing</Link> for more details. </Typography>
-
-        </Box>
-        <Box sx={{ flexGrow: 1 }} >
-          <Grid container spacing={6} direction={direction}>
-            {/* {checkoutSm} */}
-            <Grid xs={12} sm={12} md={7}>
-              <Box sx={{ maxWidth: '300', height: '100%' }}>
-                {product.details.map(product =>
-                  <CartList key={product.bookId} product={product} />
-                )}
-              </Box>
-            </Grid>
-            <Grid xs={12} sm={12} md={5}>
-              <STICKY sx={{ display: 'flex', flexDirection: 'column', m: 2 }}>
-                <Box sx={{ border: '1px solid lightGrey', borderRadius: '3%' }}>
-                  <Typography sx={{ mt: 4, ml: 2, mr: 2 }}>ORDER SUMMARY | {product.totalcounts} ITEM(S)</Typography>
-                  <Box sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    mt: 4, ml: 2, mr: 2
-                  }} >
-                    <Typography>SUBTOTAL</Typography>
-                    <Typography>CAD $ {product.totalprice.toFixed(2)}</Typography>
-                  </Box>
-                  <Box sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    mb: 4, ml: 2, mr: 2
-                  }}>
-                    <Typography variant='body2'>Estimated Tax</Typography>
-                    <Typography variant='body2'>TBD</Typography>
-                  </Box>
-                  <Box sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    mb: 4, ml: 2, mr: 2
-                  }}>
-                    <Typography>ORDER TOTAL</Typography>
-                    <Typography>CAD $ {product.totalprice.toFixed(2)}</Typography>
-                  </Box>
+          </Box>
+          <Box sx={{ flexGrow: 1 }} >
+            <Grid container spacing={6} direction={direction}>
+              {/* {checkoutSm} */}
+              <Grid xs={12} sm={12} md={7}>
+                <Box sx={{ maxWidth: '300', height: '100%' }}>
+                  {product.details.map(product =>
+                    <CartList key={product.bookId} product={product} />
+                  )}
                 </Box>
-                <Box sx={{ display: 'flex', flexDirection: 'column', mt: 4 }}>
-                  <PayButton product={product} cartId={cartId} />
-                  <KEEPSHOPPING variant='contained' sx={{ mt: 2, mb: 3 }} onClick={() => navigate('/')}>COUTINUE SHOPPING</KEEPSHOPPING>
-                </Box>
-              </STICKY>
+              </Grid>
+              <Grid xs={12} sm={12} md={5}>
+                <STICKY sx={{ display: 'flex', flexDirection: 'column', m: 2 }}>
+                  <Box sx={{ border: '1px solid lightGrey', borderRadius: '3%' }}>
+                    <Typography sx={{ mt: 4, ml: 2, mr: 2 }}>ORDER SUMMARY | {product.totalcounts} ITEM(S)</Typography>
+                    <Box sx={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      mt: 4, ml: 2, mr: 2
+                    }} >
+                      <Typography>SUBTOTAL</Typography>
+                      <Typography>CAD $ {product.totalprice.toFixed(2)}</Typography>
+                    </Box>
+                    <Box sx={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      mb: 4, ml: 2, mr: 2
+                    }}>
+                      <Typography variant='body2'>Estimated Tax</Typography>
+                      <Typography variant='body2'>TBD</Typography>
+                    </Box>
+                    <Box sx={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      mb: 4, ml: 2, mr: 2
+                    }}>
+                      <Typography>ORDER TOTAL</Typography>
+                      <Typography>CAD $ {product.totalprice.toFixed(2)}</Typography>
+                    </Box>
+                  </Box>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', mt: 4 }}>
+                    <PayButton product={product} cartId={cartId} />
+                    <KEEPSHOPPING variant='contained' sx={{ mt: 2, mb: 3 }} onClick={() => navigate('/')}>COUTINUE SHOPPING</KEEPSHOPPING>
+                  </Box>
+                </STICKY>
+              </Grid>
             </Grid>
-          </Grid>
-        </Box>
-      </Box >
-    )
+          </Box>
+        </Box >
+      )
+    }
   }
 
 

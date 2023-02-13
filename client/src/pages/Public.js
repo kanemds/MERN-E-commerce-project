@@ -8,6 +8,7 @@ import { Link } from 'react-scroll'
 import Grid from '@mui/material/Unstable_Grid2'
 import { styled } from '@mui/material/styles'
 
+
 const Gap = styled(Paper)(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
     marginTop: 100,
@@ -16,13 +17,9 @@ const Gap = styled(Paper)(({ theme }) => ({
 }))
 
 
-
 const Public = () => {
 
-
   const types = Object.values(CATEGORY)
-
-
 
   const { books } = useGetBooksQuery('booksList', {
     selectFromResult: ({ data }) => ({

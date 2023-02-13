@@ -8,25 +8,10 @@ import { styled } from '@mui/material/styles'
 import { grey } from '@mui/material/colors'
 import { useAddNewProductMutation, useGetProductsQuery } from './productApiSlice'
 import RecentlyView from '../../components/slider/RecentlyView'
+import json2mq from 'json2mq'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 
-
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  height: 200,
-  width: 500,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-  display: 'flex',
-  justifyContent: 'center',
-  flexDirection: 'column'
-
-}
 
 
 const ColorButton = styled(Button)(({ theme }) => ({
@@ -40,6 +25,37 @@ const ColorButton = styled(Button)(({ theme }) => ({
 }))
 
 const Product = () => {
+
+  const window = useMediaQuery(
+    json2mq({
+      maxWidth: 600
+    })
+  )
+
+  const modalWidth = window ? 370 : 500
+  const buttonFlex = window ?
+    { mt: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }
+    :
+    { mt: 2, display: 'flex', justifyContent: 'space-between' }
+
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    height: 200,
+    width: modalWidth,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'column'
+  }
+
+
+
 
   const navigate = useNavigate()
   const { id } = useParams()
@@ -203,7 +219,7 @@ const Product = () => {
                       <Box >
                         <LoadingMessage />
                       </Box> :
-                      <Box>
+                      <Box >
                         <Typography id="modal-modal-title" variant="h6" component="h2" >
                           {quantity} ITEMS ADDED TO YOUR COURT
                         </Typography>
@@ -217,9 +233,9 @@ const Product = () => {
                             CAD $ {product?.totalprice.toFixed(2)}
                           </Typography>
                         </Box>
-                        <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
-                          <Button variant='contained' sx={{ width: 200 }} onClick={() => navigate('/carts')} >View Cart</Button>
-                          <ColorButton variant='outlined' sx={{ width: 200 }} onClick={handleClose}>Continue Shopping</ColorButton>
+                        <Box sx={buttonFlex}>
+                          <Button variant='contained' sx={{ width: 200, mt: 1 }} onClick={() => navigate('/carts')} >View Cart</Button>
+                          <ColorButton variant='outlined' sx={{ width: 200, mt: 1 }} onClick={handleClose}>Continue Shopping</ColorButton>
                         </Box>
                       </Box>
                     }
