@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { setCredentials } from '../../pages/auth/authSlice'
 
+// https://redux-toolkit.js.org/rtk-query/api/fetchBaseQuery
 const baseQuery = fetchBaseQuery({
   // baseUrl: 'https://k-book-backend.onrender.com',
   baseUrl: 'http://localhost:3002',
@@ -17,6 +18,7 @@ const baseQuery = fetchBaseQuery({
   }
 })
 
+// https://redux-toolkit.js.org/rtk-query/usage/customizing-queries
 const baseQueryWithReauth = async (args, api, extraOptions) => {
 
   let result = await baseQuery(args, api, extraOptions)

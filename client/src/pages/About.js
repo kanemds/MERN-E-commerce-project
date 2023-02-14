@@ -29,6 +29,7 @@ const About = () => {
         <Grid xs={12} sm={12} md={6}>
           <Typography variant='h5'>
             Backend:<br />
+            MVC:An architectural pattern structure.<br />
             - nodeJs: Express <br />
             - data storage: MongoDB <br />
             - image storage: Firebase <br />

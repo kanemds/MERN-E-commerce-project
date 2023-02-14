@@ -33,7 +33,7 @@ const Login = () => {
       if (canSave) {
         setPersist(true)
         const { accessToken } = await login({ username, password }).unwrap()
-        dispatch(setCredentials({ accessToken }))
+        dispatch(setCredentials({ accessToken })) // store accessToken
 
         setUsername('')
         setPassword('')
@@ -80,7 +80,7 @@ const Login = () => {
       <Box sx={{ width: '100%', maxWidth: 600, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', mt: 10 }}>
 
         <Typography>For Demo purpose, here are the existing users </Typography>
-        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 4 }} >
+        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', pt: 3, pb: 3 }} >
           <Box>
             <Typography>Login as Admin:</Typography>
             <Typography>user name: Admin</Typography>

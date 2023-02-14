@@ -19,13 +19,8 @@ import { Outlet } from 'react-router-dom'
 
 const Prefetch = () => {
   useEffect(() => {
-
-    // store.dispatch(api.util.prefetch('endpoint', arg, options))
-    // endpoint: getNotes arg: notesList(named it) options: {force:true}, fetch again even though data exist
-    store.dispatch(notesApiSlice.util.prefetch('getNotes', 'notesList', { force: true }))
+    // store.dispatch(api.util.prefetch('endpoint', arg: notesList(named it), options: {force:true}))  fetch again even though data exist
     store.dispatch(usersApiSlice.util.prefetch('getUsers', 'usersList', { force: true }))
-    // store.dispatch(booksApiSlice.util.prefetch('getBooks', 'booksList', { force: true }))
-
   }, [])
   return <Outlet />
 }

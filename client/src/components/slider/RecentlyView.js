@@ -54,7 +54,7 @@ const RecentlyView = () => {
         <SwiperSlide key={each.id} >
           <Button onClick={() => navigate(`/products/${each.id}`)} sx={{ width: '100%', height: '100%' }} >
             <Paper sx={{ width: '100%', height: '100%', overflow: 'hidden' }} >
-              <Box
+              <Paper
                 key={each.id}
                 component="img"
                 src={each.image}

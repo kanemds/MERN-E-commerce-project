@@ -31,7 +31,7 @@ app.use(cors(corsOptions))
 // app.use(cors({
 //   origin: 'http://localhost:3000',
 //   // methods:['GET','POST'] only accept
-//   credentials: true // cookies
+//   : true // cookies
 // }))
 
 // Use JSON parser for all non-webhook routes

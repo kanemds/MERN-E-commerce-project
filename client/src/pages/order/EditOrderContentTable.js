@@ -21,7 +21,7 @@ const EditOrderContentTable = ({ product }) => {
       <Grid container sx={{ display: 'flex', alignItems: 'center' }} >
         <Grid xs={0} sm={4} sx={{ display: { xs: 'none', sm: 'inline', md: 'inline' } }}>
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Paper sx={{ height: 100, width: 80, }}>
+            <Paper sx={{ height: 100, width: 80 }}>
               <Container src={product.image} />
             </Paper>
           </Box>
