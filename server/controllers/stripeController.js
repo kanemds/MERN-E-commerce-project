@@ -65,14 +65,14 @@ const payment = async (req, res) => {
     },
     mode: 'payment',
 
-    // to the location when payment is successed
-    success_url: `http://localhost:3000/payment-success/${product._id}`,
-    // to the location when press back or cancel the payment
-    cancel_url: `http://localhost:3000/carts`,
+    // // to the location when payment is successed
+    // success_url: `http://localhost:3000/payment-success/${product._id}`,
+    // // to the location when press back or cancel the payment
+    // cancel_url: `http://localhost:3000/carts`,
 
     // deployment
-    // success_url: `https://k-book.onrender.com/payment-success/${product._id}`,
-    // cancel_url: `https://k-book.onrender.com/carts`,
+    success_url: `https://k-book.onrender.com/payment-success/${product._id}`,
+    cancel_url: `https://k-book.onrender.com/carts`,
     expires_at: unixTimestamp + 30 * 60
   }
 
