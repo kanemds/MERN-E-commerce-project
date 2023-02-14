@@ -135,7 +135,7 @@ const CartList = ({ product }) => {
           <Grid key={product.bookId} container sx={{ flexGrow: 1, borderBottom: '1px solid lightGrey', mt: 3 }} spacing={2}>
             <Grid xs={4}>
               <Button sx={{ width: '100%' }} onClick={() => navigate(`/products/${product.bookId}`)}>
-                <Box
+                <Paper
                   component="img"
                   sx={{ height: '140px', width: '100px' }}
                   src={product.image}

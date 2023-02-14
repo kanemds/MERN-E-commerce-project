@@ -32,6 +32,8 @@ const EditOrderForm = ({ order }) => {
     }),
   )
 
+  console.log(order.shipping)
+
   let Qty = matches ? 'Qty' : 'Quantities'
 
   const [name, setName] = useState(order.shipping.name)
@@ -68,6 +70,7 @@ const EditOrderForm = ({ order }) => {
 
   const handleDelete = async () => {
     await deleteOrder({ id: order._id })
+    navigate('/dash/orders')
   }
 
   const canSave = [name.length, email.length, street.length, city.length, country.length, postalCode.length, phone.length].every(Boolean) && !isLoading
@@ -96,7 +99,7 @@ const EditOrderForm = ({ order }) => {
             value={name} onChange={e => setName(e.target.value)} sx={{ mt: 3 }}
           />
           <TextField fullWidth autoComplete='off' type='text' label='Receiver Email' variant='outlined' required
-            sx={{ mt: 3 }}
+            value={email} onChange={e => setEmail(e.target.value)} sx={{ mt: 3 }} sx={{ mt: 3 }}
           />
           <Typography sx={{ mt: 3 }}>Address:</Typography>
 

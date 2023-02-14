@@ -75,8 +75,6 @@ const Navbar = () => {
   const [cartId, setCartId] = useState(localStorage.getItem('BookShopCartId') || null)
   const [isReady, setIsReady] = useState(false)
 
-  console.log(cartId)
-
   const {
     data: products,
     isSuccess: isProductsSuccess
@@ -118,9 +116,6 @@ const Navbar = () => {
   }, [order])
 
   const quantity = product ? product?.totalcounts : 0
-
-  console.log(quantity)
-  console.log(product)
 
   const [userLogut, {
     isLoading,

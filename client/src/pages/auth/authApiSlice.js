@@ -26,7 +26,6 @@ export const authApiSlice = apiSlice.injectEndpoints({
           setTimeout(() => { // take time to uninitialized all state, without it cause keep rerender which one of state still maintain
             dispatch(apiSlice.util.resetApiState())
           }, 1000)
-
         } catch (error) {
           console.log(error)
         }

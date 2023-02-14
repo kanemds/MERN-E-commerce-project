@@ -9,7 +9,7 @@ const RequireAuth = ({ allowedRoles }) => {
   const content = (
     roles.some(role => allowedRoles.includes(role))
       ? <Outlet />
-      : <Navigate to='/login' state={{ from: location }} replace /> // repalce:for login user when log out,  the back button will redirect to previous page with data, instead of login page again
+      : <Navigate to='/login' state={{ from: location }} replace /> // if existing customer go to admin page will require login and hit back button the customer user still login
   )
   return content
 }
