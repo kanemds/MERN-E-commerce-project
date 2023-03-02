@@ -33,7 +33,7 @@ const Book = ({ bookId }) => {
       <Box sx={{ p: 4 }}>
         <Grid container sx={{ display: 'flex', alignItems: 'center' }} >
           <Grid xs={5} sm={3} md={2}  >
-            <Typography >
+            <Typography>
               {book.category}
             </Typography>
           </Grid>
