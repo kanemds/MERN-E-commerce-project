@@ -33,7 +33,7 @@ const Public = () => {
   if (!books) {
     content = (
       <Box>
-        <Typography>It might take about a minute to retrive data from the hosting server for the frist render.</Typography>
+        <Typography>For the first visit to this app, it might take approximately a minute to retrieve data from the hosting server.</Typography>
         <LoadingMessage />
       </Box>
     )
