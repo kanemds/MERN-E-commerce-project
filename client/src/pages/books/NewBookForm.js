@@ -117,7 +117,7 @@ const NewBookForm = () => {
   }
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     console.log(e)
     console.log('checking1')
@@ -131,7 +131,7 @@ const NewBookForm = () => {
     formData.append('price', price)
     console.log('checking2')
     console.log(formData)
-    addNewBook(formData)
+    await addNewBook(formData)
 
     // checking if data stored in formData
     // for (const value of formData.values()) {
