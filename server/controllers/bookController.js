@@ -25,6 +25,9 @@ const createImage = async (req, res) => {
 
   const image = await req.files.file
 
+  console.log('body1', req.body)
+  console.log('files1', req.files)
+
   if (!title || !description || !author || !image || !category || !inStocks || !price) {
     return res.status(400).json({ message: 'All fields are required' })
   }
@@ -56,6 +59,10 @@ const updateBook = async (req, res) => {
   const { id, title, description, author, category, inStocks, price } = req.body
 
   const image = await req.files?.file
+
+  console.log('body2', req.body)
+  console.log('files2', req.files)
+
 
   if (!id || !title || !description || !author || !category || !inStocks || !price) {
     return res.status(400).json({ message: 'All fields are required' })
