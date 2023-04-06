@@ -26,7 +26,7 @@ const payment = async (req, res) => {
 
   const line_items = product.details.map(item => {
 
-    console.log(typeof item.price)
+
 
     const string = item.price.toString()
 
