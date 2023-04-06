@@ -100,8 +100,12 @@ const NewBookForm = () => {
   // end of presist
 
   const handleImage = async (e) => {
+    console.log(e.target.files)
+    console.log(e.target.files[0])
     const file = e.target.files[0]
     const url = await URL.createObjectURL(file)
+
+    console.log(url)
     setImage(file)
     setPreview(url)
     setImageName(file.name)
@@ -127,7 +131,7 @@ const NewBookForm = () => {
     formData.append('category', category)
     formData.append('price', price)
     addNewBook(formData)
-
+    console.log(formData)
     // checking if data stored in formData
     // for (const value of formData.values()) {
     //   console.log(value)
@@ -157,6 +161,7 @@ const NewBookForm = () => {
                     <ImageListItem >
                       <Paper sx={{ height: 400, width: 300, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <Container src={preview} />
+
                       </Paper>
                     </ImageListItem>
                     :
