@@ -116,32 +116,34 @@ const NewBookForm = () => {
     setPrice(e.target.value)
   }
 
+  const canSave = [title.length, description.length, author.length, image, category.length, inStocks, price].every(Boolean) && !isLoading
+
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log(e)
-    console.log('checking1')
-    const formData = new FormData()
-    formData.append('file', image)
-    formData.append('title', title)
-    formData.append('description', description)
-    formData.append('author', author)
-    formData.append('inStocks', inStocks)
-    formData.append('category', category)
-    formData.append('price', price)
-    console.log('checking2')
-    console.log(formData)
-    // await addNewBook(formData)
+    if (canSave) {
+      console.log(e)
+      console.log('checking1')
+      const formData = new FormData()
+      formData.append('file', image)
+      formData.append('title', title)
+      formData.append('description', description)
+      formData.append('author', author)
+      formData.append('inStocks', inStocks)
+      formData.append('category', category)
+      formData.append('price', price)
+      console.log('checking2')
+      console.log(formData)
+      // await addNewBook(formData)
 
-    // checking if data stored in formData
-    for (const value of formData.values()) {
-      console.log(value)
+      // checking if data stored in formData
+      for (const value of formData.values()) {
+        console.log(value)
+      }
+      await addNewBook(formData)
     }
-    await addNewBook(formData)
-
   }
 
-  const canSave = [title.length, description.length, author.length, image, category.length, inStocks, price].every(Boolean) && !isLoading
 
 
   const content = (
