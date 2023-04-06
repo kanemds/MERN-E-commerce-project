@@ -131,13 +131,13 @@ const NewBookForm = () => {
     formData.append('price', price)
     console.log('checking2')
     console.log(formData)
-    await addNewBook(formData)
+    // await addNewBook(formData)
 
     // checking if data stored in formData
-    // for (const value of formData.values()) {
-    //   console.log(value)
-    // }
-    // addNewBook(formData)
+    for (const value of formData.values()) {
+      console.log(value)
+    }
+    await addNewBook(formData)
 
   }
 
