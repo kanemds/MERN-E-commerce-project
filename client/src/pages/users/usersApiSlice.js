@@ -24,13 +24,11 @@ export const usersApiSlice = apiSlice.injectEndpoints({
           user.id = user._id
           return user
         })
-        console.log(usersAdapter, loadedUsers)
         return usersAdapter.setAll(initialState, loadedUsers)
       },
       //https://redux-toolkit.js.org/rtk-query/usage/automated-refetching
       providesTags: (result, error, arg) => {
         if (result?.ids) {
-          console.log(result.ids)
           return [
             { type: 'User', id: 'LIST' },
             ...result.ids.map(id => ({ type: 'User', id }))
