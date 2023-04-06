@@ -88,6 +88,13 @@ const EditBookForm = ({ book }) => {
     reader.onloadend = () => {
       setPreview(reader.result)
     }
+
+    // // this also work
+    // reader.onload = () => {
+    //   setPreview(reader.result)
+    // }
+    // onerror for handle error
+
     setImage(file)
     setImageName(file.name)
   }

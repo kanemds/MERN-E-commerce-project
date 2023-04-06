@@ -3,8 +3,13 @@ import { setCredentials } from '../../pages/auth/authSlice'
 
 // https://redux-toolkit.js.org/rtk-query/api/fetchBaseQuery
 const baseQuery = fetchBaseQuery({
+  //deploy
   baseUrl: 'https://k-book-backend.onrender.com',
+
+  // //local
   // baseUrl: 'http://localhost:3002',
+
+
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
 

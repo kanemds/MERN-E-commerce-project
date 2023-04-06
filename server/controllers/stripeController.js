@@ -9,7 +9,7 @@ const payment = async (req, res) => {
 
   const { username, product, createdAt, inventoryIds } = req.body
 
-  console.log('stripe', createdAt)
+
 
   const currentUser = await User.findOne({ username }).exec()
   if (!currentUser) return res.status(400).json({ message: 'No User Found' })
