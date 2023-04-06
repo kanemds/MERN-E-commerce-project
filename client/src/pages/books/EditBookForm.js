@@ -103,7 +103,7 @@ const EditBookForm = ({ book }) => {
     setCategory(event.target.value)
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
     const formData = new FormData()
@@ -127,7 +127,7 @@ const EditBookForm = ({ book }) => {
       formData.append('price', price)
     }
 
-    updateBook(formData)
+    await updateBook(formData)
 
   }
 
