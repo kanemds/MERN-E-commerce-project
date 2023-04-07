@@ -117,6 +117,7 @@ const EditBookForm = ({ book }) => {
       formData.append('inStocks', inStocks)
       formData.append('category', category)
       formData.append('price', price)
+      await updateBook(formData)
     } else {
       formData.append('id', book.id)
       formData.append('title', title)
@@ -125,10 +126,8 @@ const EditBookForm = ({ book }) => {
       formData.append('inStocks', inStocks)
       formData.append('category', category)
       formData.append('price', price)
+      await updateBook(formData)
     }
-
-    await updateBook(formData)
-
   }
 
   const handlePrice = (e) => {
